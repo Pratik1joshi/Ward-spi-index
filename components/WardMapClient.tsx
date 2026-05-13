@@ -59,10 +59,11 @@ function getMunicipalityAliases(municipality: Municipality) {
   const aliases: Record<string, string[]> = {
     kepilasgadhi: ['kepilasagadhi'],
     halesi: ['halesi tuwachung'],
+    gadhi: ['sunsari'],
     'hanumannagar kankalini': ['hanumannagar kankalani'],
   };
 
-  return [normalizedName, normalizeText(municipality.district), ...(aliases[normalizedName] || [])];
+  return [normalizedName, ...(aliases[normalizedName] || [])];
 }
 
 function toFeatureCollection(data: unknown): FeatureCollection<Geometry, ShapefileProperties> {
@@ -135,11 +136,15 @@ function FallbackWardMarkers({
   // Approximate coordinates for each municipality
   const municipalityCoords: Record<string, [number, number]> = {
     kepilasgadhi: [27.408, 87.367],
+    kepilasagadhi: [27.408, 87.367],
     halesi: [27.329, 87.43],
+    'halesi tuwachung': [27.329, 87.43],
     gadhi: [26.935, 87.468],
+    sunsari: [26.935, 87.468],
     sunkoshi: [27.52, 86.42],
     belaka: [26.67, 87.62],
     'hanumannagar kankalini': [26.49, 86.74],
+    'hanumannagar kankalani': [26.49, 86.74],
   };
 
   const baseCoord = municipalityCoords[normalizeText(municipality.name)] || [27.5, 87.5];
@@ -276,12 +281,7 @@ export function WardMapClient({
 
     const filtered = geoJsonData.features.filter((feature) => {
       const properties = feature.properties || {};
-      const match = searchTerms.some((term) => {
-        return (
-          matchesMunicipalityLabel(properties.PALIKA, term) ||
-          matchesMunicipalityLabel(properties.DISTRICT, term)
-        );
-      });
+      const match = searchTerms.some((term) => matchesMunicipalityLabel(properties.PALIKA, term));
       
       if (!match && geoJsonData.features.indexOf(feature) < 5) {
         console.log('[Map Filter] Feature not matched:', {

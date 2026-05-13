@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
+import { useMemo, useState } from 'react';
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from 'recharts';
 import { Card } from '@/components/ui/card';
 
 interface CompositionChartProps {
@@ -11,6 +11,7 @@ interface CompositionChartProps {
 }
 
 export function CompositionChart({ exclusion, poverty, vulnerability }: CompositionChartProps) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const data = useMemo(() => {
     const total = exclusion + poverty + vulnerability;
     if (total === 0) {
@@ -53,12 +54,19 @@ export function CompositionChart({ exclusion, poverty, vulnerability }: Composit
             outerRadius={100}
             paddingAngle={2}
             dataKey="value"
-            isAnimationActive={false}
+            isAnimationActive
+            activeIndex={activeIndex ?? undefined}
+            onMouseEnter={(_, index) => setActiveIndex(index)}
+            onMouseLeave={() => setActiveIndex(null)}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.fill} />
             ))}
           </Pie>
+          <Tooltip
+            formatter={(rawValue, name) => [`${Number(rawValue).toFixed(0)}%`, name]}
+            contentStyle={{ borderRadius: '0.75rem', borderColor: '#e2e8f0' }}
+          />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

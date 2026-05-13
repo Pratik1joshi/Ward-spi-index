@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { municipalities } from '@/lib/data';
 import { Pillar } from '@/lib/types';
-import { MunicipalitySelector, PillarSelector, WardFilterSelector } from '@/components/Selectors';
 import { KPICards } from '@/components/KPICards';
 import { SPIGaugeChart } from '@/components/SPIGaugeChart';
 import { CompositionChart } from '@/components/CompositionChart';
@@ -17,10 +16,25 @@ export default function Dashboard() {
   const [selectedWardId, setSelectedWardId] = useState<string | undefined>();
 
   const selectedMunicipality = municipalities.find((m) => m.id === selectedMunicipalityId);
+  const selectedWard = selectedWardId
+    ? selectedMunicipality?.wards.find((ward) => ward.id === selectedWardId)
+    : undefined;
+
+  const activeExclusion = selectedWard?.exclusionIndex ?? selectedMunicipality?.exclusionIndex ?? 0;
+  const activePoverty = selectedWard?.povertyIndex ?? selectedMunicipality?.povertyIndex ?? 0;
+  const activeVulnerability =
+    selectedWard?.vulnerabilityIndex ?? selectedMunicipality?.vulnerabilityIndex ?? 0;
+  const activeSpi = selectedWard?.spiScore ?? selectedMunicipality?.overallSpi ?? 0;
 
   if (!selectedMunicipality) {
     return <div className="flex items-center justify-center p-8">Loading...</div>;
   }
+
+  const handleWardDetails = (wardId: string) => {
+    setSelectedWardId(wardId);
+    const mapSection = document.getElementById('ward-map');
+    mapSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <main
@@ -39,7 +53,7 @@ export default function Dashboard() {
         {/* Main Content Grid (responsive) */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Left Column - Map (balanced on desktop) */}
-          <div className="lg:col-span-3">
+          <div id="ward-map" className="lg:col-span-3">
             <MapSection
               municipality={selectedMunicipality}
               pillar={selectedPillar}
@@ -57,15 +71,19 @@ export default function Dashboard() {
           {/* Right Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* KPI Cards */}
-            <KPICards municipality={selectedMunicipality} />
+            <KPICards
+              exclusion={activeExclusion}
+              poverty={activePoverty}
+              vulnerability={activeVulnerability}
+            />
 
             {/* Charts Row */}
             <div className="grid grid-cols-2 gap-6">
-              <SPIGaugeChart value={selectedMunicipality.overallSpi} />
+              <SPIGaugeChart value={activeSpi} />
               <CompositionChart
-                exclusion={selectedMunicipality.exclusionIndex}
-                poverty={selectedMunicipality.povertyIndex}
-                vulnerability={selectedMunicipality.vulnerabilityIndex}
+                exclusion={activeExclusion}
+                poverty={activePoverty}
+                vulnerability={activeVulnerability}
               />
             </div>
 
@@ -74,6 +92,7 @@ export default function Dashboard() {
               municipality={selectedMunicipality}
               pillar={selectedPillar}
               limit={5}
+              onWardSelect={handleWardDetails}
             />
 
             {/* Export Buttons */}

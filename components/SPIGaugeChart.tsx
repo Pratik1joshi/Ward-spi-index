@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { useMemo, useState } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Card } from '@/components/ui/card';
 
 interface SPIGaugeChartProps {
@@ -10,6 +10,7 @@ interface SPIGaugeChartProps {
 }
 
 export function SPIGaugeChart({ value, title = 'Shared Prosperity Index (SPI)' }: SPIGaugeChartProps) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const gaugeData = useMemo(
     () => [
       { name: 'Used', value: value * 100 },
@@ -42,15 +43,25 @@ export function SPIGaugeChart({ value, title = 'Shared Prosperity Index (SPI)' }
             outerRadius={100}
             paddingAngle={2}
             dataKey="value"
-            isAnimationActive={false}
+            isAnimationActive
+            activeIndex={activeIndex ?? undefined}
+            onMouseEnter={(_, index) => setActiveIndex(index)}
+            onMouseLeave={() => setActiveIndex(null)}
           >
             <Cell fill={gaugeColor} />
             <Cell fill="#e0e0e0" />
           </Pie>
+          <Tooltip
+            formatter={(rawValue, name) => [
+              `${Number(rawValue).toFixed(1)}%`,
+              name === 'Used' ? 'SPI' : 'Remaining',
+            ]}
+            contentStyle={{ borderRadius: '0.75rem', borderColor: '#e2e8f0' }}
+          />
         </PieChart>
       </ResponsiveContainer>
       <div className="mt-4 text-center">
-        <p className="text-5xl font-bold text-gray-900">{value.toFixed(2)}</p>
+        <p className="text-3xl font-bold text-gray-900">{value.toFixed(2)}</p>
       </div>
     </Card>
   );

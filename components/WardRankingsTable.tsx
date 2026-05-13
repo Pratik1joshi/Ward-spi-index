@@ -1,6 +1,6 @@
 'use client';
 
-import { Municipality, Ward, Pillar } from '@/lib/types';
+import { Municipality, Pillar } from '@/lib/types';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -12,9 +12,10 @@ interface WardRankingsTableProps {
   municipality: Municipality;
   pillar: Pillar;
   limit?: number;
+  onWardSelect?: (wardId: string) => void;
 }
 
-export function WardRankingsTable({ municipality, pillar, limit = 5 }: WardRankingsTableProps) {
+export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelect }: WardRankingsTableProps) {
   const [sortColumn, setSortColumn] = useState<'ward' | 'score'>('score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
@@ -68,6 +69,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5 }: WardRanki
               >
                 Ward {sortColumn === 'ward' && (sortDirection === 'asc' ? '↑' : '↓')}
               </TableHead>
+              <TableHead className="text-white">Palika</TableHead>
               <TableHead
                 className="cursor-pointer text-right text-white hover:bg-slate-800"
                 onClick={() => handleSort('score')}
@@ -85,6 +87,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5 }: WardRanki
                 <TableRow key={ward.id} className="border-b border-gray-200">
                   <TableCell className="font-semibold text-gray-900">{index + 1}</TableCell>
                   <TableCell className="text-gray-700">{ward.name}</TableCell>
+                  <TableCell className="text-gray-700">{municipality.name}</TableCell>
                   <TableCell className="text-right">
                     <span
                       className="inline-block rounded px-3 py-1 font-semibold text-white"
@@ -95,9 +98,11 @@ export function WardRankingsTable({ municipality, pillar, limit = 5 }: WardRanki
                   </TableCell>
                   <TableCell className="text-center">
                     <Button
+                      type="button"
                       variant="ghost"
                       size="sm"
                       className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      onClick={() => onWardSelect?.(ward.id)}
                     >
                       Details
                     </Button>

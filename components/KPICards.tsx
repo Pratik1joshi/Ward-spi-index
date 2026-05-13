@@ -1,32 +1,33 @@
 'use client';
 
-import { Municipality } from '@/lib/types';
 import { Card } from '@/components/ui/card';
 import { LinkIcon, Home, AlertTriangle } from 'lucide-react';
 
 interface KPICardsProps {
-  municipality: Municipality;
+  exclusion: number;
+  poverty: number;
+  vulnerability: number;
 }
 
-export function KPICards({ municipality }: KPICardsProps) {
+export function KPICards({ exclusion, poverty, vulnerability }: KPICardsProps) {
   const cards = [
     {
       title: 'Exclusion Index',
-      value: municipality.exclusionIndex.toFixed(2),
+      value: exclusion.toFixed(2),
       icon: LinkIcon,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
     },
     {
       title: 'Poverty Index',
-      value: municipality.povertyIndex.toFixed(2),
+      value: poverty.toFixed(2),
       icon: Home,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
     },
     {
       title: 'Vulnerability Index',
-      value: municipality.vulnerabilityIndex.toFixed(2),
+      value: vulnerability.toFixed(2),
       icon: AlertTriangle,
       color: 'text-green-600',
       bgColor: 'bg-green-50',

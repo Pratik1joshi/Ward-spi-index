@@ -51,9 +51,9 @@ function calculateMunicipalityIndices(wards: Ward[]) {
 export const municipalities: Municipality[] = [
   {
     id: '1',
-    name: 'Kepilasgadhi',
-    district: 'Khotang',
-    wards: createWards('1', 5),
+    name: 'Kepilasagadhi',
+    district: 'KHOTANG',
+    wards: createWards('1', 7),
     overallSpi: 0,
     exclusionIndex: 0,
     povertyIndex: 0,
@@ -61,9 +61,9 @@ export const municipalities: Municipality[] = [
   },
   {
     id: '2',
-    name: 'Halesi',
-    district: 'Khotang',
-    wards: createWards('2', 5),
+    name: 'Halesi Tuwachung',
+    district: 'KHOTANG',
+    wards: createWards('2', 11),
     overallSpi: 0,
     exclusionIndex: 0,
     povertyIndex: 0,
@@ -72,7 +72,7 @@ export const municipalities: Municipality[] = [
   {
     id: '3',
     name: 'Gadhi',
-    district: 'Sunsari',
+    district: 'SUNSARI',
     wards: createWards('3', 6),
     overallSpi: 0,
     exclusionIndex: 0,
@@ -82,8 +82,8 @@ export const municipalities: Municipality[] = [
   {
     id: '4',
     name: 'Sunkoshi',
-    district: 'Sindhuli',
-    wards: createWards('4', 5),
+    district: 'OKHALDHUNGA',
+    wards: createWards('4', 10),
     overallSpi: 0,
     exclusionIndex: 0,
     povertyIndex: 0,
@@ -92,8 +92,8 @@ export const municipalities: Municipality[] = [
   {
     id: '5',
     name: 'Belaka',
-    district: 'Udayapur',
-    wards: createWards('5', 4),
+    district: 'UDAYAPUR',
+    wards: createWards('5', 9),
     overallSpi: 0,
     exclusionIndex: 0,
     povertyIndex: 0,
@@ -101,9 +101,9 @@ export const municipalities: Municipality[] = [
   },
   {
     id: '6',
-    name: 'Hanumannagar Kankalini',
-    district: 'Saptari',
-    wards: createWards('6', 7),
+    name: 'Hanumannagar Kankalani',
+    district: 'SAPTARI',
+    wards: createWards('6', 14),
     overallSpi: 0,
     exclusionIndex: 0,
     povertyIndex: 0,
@@ -123,6 +123,18 @@ municipalities.forEach((municipality) => {
 // Helper function to get municipality by ID
 export function getMunicipalityById(id: string): Municipality | undefined {
   return municipalities.find((m) => m.id === id);
+}
+
+// Helper function to get municipality by district and palika name
+export function getMunicipalityByDistrictAndName(
+  district: string,
+  name: string
+): Municipality | undefined {
+  const normalizedDistrict = district.trim();
+  const normalizedName = name.trim();
+  return municipalities.find(
+    (m) => m.district === normalizedDistrict && m.name === normalizedName
+  );
 }
 
 // Helper function to get top wards

@@ -42,30 +42,6 @@ function normalizeText(value: string | undefined) {
     .trim();
 }
 
-function matchesMunicipalityLabel(featureValue: string | undefined, candidate: string) {
-  const normalizedFeatureValue = normalizeText(featureValue);
-  const normalizedCandidate = normalizeText(candidate);
-
-  return (
-    normalizedFeatureValue === normalizedCandidate ||
-    normalizedFeatureValue.includes(normalizedCandidate) ||
-    normalizedCandidate.includes(normalizedFeatureValue)
-  );
-}
-
-function getMunicipalityAliases(municipality: Municipality) {
-  const normalizedName = normalizeText(municipality.name);
-
-  const aliases: Record<string, string[]> = {
-    kepilasgadhi: ['kepilasagadhi'],
-    halesi: ['halesi tuwachung'],
-    gadhi: ['sunsari'],
-    'hanumannagar kankalini': ['hanumannagar kankalani'],
-  };
-
-  return [normalizedName, ...(aliases[normalizedName] || [])];
-}
-
 function toFeatureCollection(data: unknown): FeatureCollection<Geometry, ShapefileProperties> {
   if (
     data &&
@@ -275,20 +251,21 @@ export function WardMapClient({
       return [];
     }
 
-    const searchTerms = getMunicipalityAliases(municipality);
+    const normalizedDistrict = normalizeText(municipality.district);
+    const normalizedPalika = normalizeText(municipality.name);
     console.log('[Map Filter] Municipality:', municipality.name, 'District:', municipality.district);
-    console.log('[Map Filter] Search terms:', searchTerms);
 
     const filtered = geoJsonData.features.filter((feature) => {
       const properties = feature.properties || {};
-      const match = searchTerms.some((term) => matchesMunicipalityLabel(properties.PALIKA, term));
+      const featureDistrict = normalizeText(properties.DISTRICT);
+      const featurePalika = normalizeText(properties.PALIKA);
+      const match = featureDistrict === normalizedDistrict && featurePalika === normalizedPalika;
       
       if (!match && geoJsonData.features.indexOf(feature) < 5) {
         console.log('[Map Filter] Feature not matched:', {
           palika: properties.PALIKA,
           district: properties.DISTRICT,
           ward: properties.WARD,
-          searchTerms,
         });
       }
       

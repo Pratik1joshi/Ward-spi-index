@@ -9,18 +9,30 @@ export interface Ward {
   vulnerabilityIndex: number;
   population?: number;
   coordinates?: [number, number]; // [latitude, longitude]
+  gesi?: GesiProfile;
 }
+
+export type GesiProfile = {
+  totalHouseholds: number;
+  femaleHeaded: number;
+  maleHeaded: number;
+  religion: { name: string; value: number }[];
+  householdType: { name: string; value: number }[];
+};
 
 // Municipality data structure
 export interface Municipality {
   id: string;
   name: string;
+  /** The exact PALIKA value used to select this municipality's ward geometry. */
+  mapPalika?: string;
   district: string;
   overallSpi: number;
   exclusionIndex: number;
   povertyIndex: number;
   vulnerabilityIndex: number;
   wards: Ward[];
+  gesi: GesiProfile;
 }
 
 // Dashboard state

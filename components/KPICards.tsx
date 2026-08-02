@@ -15,22 +15,19 @@ export function KPICards({ exclusion, poverty, vulnerability }: KPICardsProps) {
       title: 'Exclusion Index',
       value: exclusion.toFixed(2),
       icon: LinkIcon,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      color: 'text-slate-600',
     },
     {
       title: 'Poverty Index',
       value: poverty.toFixed(2),
       icon: Home,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
+      color: 'text-slate-600',
     },
     {
       title: 'Vulnerability Index',
       value: vulnerability.toFixed(2),
       icon: AlertTriangle,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: 'text-slate-600',
     },
   ];
 
@@ -39,11 +36,11 @@ export function KPICards({ exclusion, poverty, vulnerability }: KPICardsProps) {
       {cards.map((card) => {
         const Icon = card.icon;
         return (
-          <Card key={card.title} className={`${card.bgColor} border-0 p-6`}>
+          <Card key={card.title} className="border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{card.value}</p>
+                <p className="mt-2 text-2xl font-semibold text-gray-900">{card.value}</p>
               </div>
               <Icon className={`${card.color} h-8 w-8`} />
             </div>

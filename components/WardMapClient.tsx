@@ -252,7 +252,7 @@ export function WardMapClient({
     }
 
     const normalizedDistrict = normalizeText(municipality.district);
-    const normalizedPalika = normalizeText(municipality.name);
+    const normalizedPalika = normalizeText(municipality.mapPalika || municipality.name);
     console.log('[Map Filter] Municipality:', municipality.name, 'District:', municipality.district);
 
     const filtered = geoJsonData.features.filter((feature) => {
@@ -294,23 +294,23 @@ export function WardMapClient({
   }, [municipalityFeatures, effectiveSelectedWardId]);
 
   return (
-    <Card className="border-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-6 text-white shadow-lg">
+    <Card className="border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold">Ward map of {municipality.name}</h2>
-          <p className="text-sm text-slate-300">
+          <h2 className="text-lg font-semibold">Ward map of {municipality.name}</h2>
+          <p className="text-sm text-slate-500">
             {municipality.district} district, {municipality.wards.length} dashboard wards
           </p>
         </div>
-        <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">
+        <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-600">
           {pillar === 'overall' ? 'Overall SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)} index`}
         </div>
       </div>
 
-      <div className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 p-4">
+      <div className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-3">
         {/* Filters bar inside the map card but outside the map canvas */}
         {(municipalities || setSelectedPillar) && (
-          <div className="relative z-20 mb-3 rounded-md bg-white/90 p-3 shadow-sm backdrop-blur-sm">
+          <div className="relative z-20 mb-3 rounded-md border border-slate-200 bg-white p-3 shadow-sm">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               {municipalities && setSelectedMunicipalityId && (
                 <MunicipalitySelector
@@ -344,8 +344,8 @@ export function WardMapClient({
             preferCanvas
           >
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             />
             {!loading && (error || municipalityFeatures.length === 0) ? (
               <FallbackWardMarkers municipality={municipality} pillar={pillar} onWardSelect={handleWardClick} />
@@ -365,9 +365,9 @@ export function WardMapClient({
                       : false;
 
                     return {
-                      color: isSelectedWard ? '#ffffff' : '#dbeafe',
+                      color: isSelectedWard ? '#254a36' : '#ffffff',
                       weight: isSelectedWard ? 3 : 1.5,
-                      fillColor: isSelectedWard ? '#f97316' : getSPIColor(score),
+                      fillColor: isSelectedWard ? '#4f735f' : getSPIColor(score),
                       fillOpacity: isSelectedWard ? 0.95 : 0.72,
                     };
                   }}
@@ -382,10 +382,10 @@ export function WardMapClient({
 
                     layer.bindTooltip(
                       `${feature.properties?.PALIKA || municipality.name} Ward ${wardNumber}<br />` +
-                        `SPI: ${spi !== undefined ? spi.toFixed(2) : 'NA'}<br />` +
-                        `Exclusion: ${exclusion !== undefined ? exclusion.toFixed(2) : 'NA'}<br />` +
-                        `Poverty: ${poverty !== undefined ? poverty.toFixed(2) : 'NA'}<br />` +
-                        `Vulnerability: ${vulnerability !== undefined ? vulnerability.toFixed(2) : 'NA'}` +
+                    `SPI: ${spi !== undefined ? spi.toFixed(1) : 'NA'}<br />` +
+                        `Exclusive: ${exclusion !== undefined ? exclusion.toFixed(1) : 'NA'}<br />` +
+                        `Poverty: ${poverty !== undefined ? poverty.toFixed(1) : 'NA'}<br />` +
+                        `Vulnerability: ${vulnerability !== undefined ? vulnerability.toFixed(1) : 'NA'}` +
                         (population ? `<br />Population: ${population.toLocaleString()}` : ''),
                       {
                         sticky: true,
@@ -403,7 +403,7 @@ export function WardMapClient({
                   <GeoJSON
                     data={selectedWardFeature as any}
                     style={{
-                      color: '#ffffff',
+                      color: '#254a36',
                       weight: 4,
                       fillOpacity: 0.15,
                     }}
@@ -417,55 +417,14 @@ export function WardMapClient({
               Loading shapefile geometry...
             </div>
           ) : null}
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-        <p className="mb-3 text-sm font-semibold text-white">SPI Scale</p>
-        <div className="flex items-center justify-between gap-2 text-xs text-white">
-          <span className="font-medium">Low</span>
-          <div className="flex gap-1">
-            {[
-              { label: '0.0', color: '#d32f2f' },
-              { label: '0.2', color: '#f57c00' },
-              { label: '0.5', color: '#ff9800' },
-              { label: '0.7', color: '#7cb342' },
-              { label: '1.0', color: '#388e3c' },
-            ].map((item) => (
-              <div key={item.label} className="flex flex-col items-center gap-1">
-                <div
-                  className="h-4 w-4 rounded border border-white"
-                  style={{ backgroundColor: item.color }}
-                />
-                <span className="text-xs">{item.label}</span>
-              </div>
-            ))}
-          </div>
-          <span className="font-medium">High</span>
-        </div>
-      </div>
-
-      {effectiveSelectedWardId && (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-sm font-semibold text-white">
-            Selected: {municipality.wards.find((w) => w.id === effectiveSelectedWardId)?.name}
-          </p>
-          <div className="mt-2 grid grid-cols-2 gap-4">
-            <div className="rounded bg-slate-900 p-2">
-              <p className="text-xs text-blue-200">SPI Score</p>
-              <p className="text-lg font-bold text-white">
-                {municipality.wards.find((w) => w.id === effectiveSelectedWardId)?.spiScore.toFixed(2)}
-              </p>
-            </div>
-            <div className="rounded bg-slate-900 p-2">
-              <p className="text-xs text-blue-200">Population</p>
-              <p className="text-lg font-bold text-white">
-                {municipality.wards.find((w) => w.id === effectiveSelectedWardId)?.population?.toLocaleString()}
-              </p>
+          <div className="pointer-events-none absolute bottom-3 left-3 z-[1000] rounded-md border border-black/5 bg-white/95 px-3 py-2 shadow-md backdrop-blur-sm">
+            <div className="mb-1.5 flex items-center justify-between text-[10px] font-medium uppercase tracking-wide text-slate-500"><span>{pillar === 'overall' ? 'SPI score' : `${pillar} index`}</span><span>Lower → higher</span></div>
+            <div className="flex items-center gap-0.5">
+              {['#eef1ef', '#d7ded9', '#aebfb5', '#7f9989', '#4f735f', '#254a36'].map((color) => <span key={color} className="h-2.5 w-5 first:rounded-l-sm last:rounded-r-sm" style={{ backgroundColor: color }} />)}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </Card>
   );
 }

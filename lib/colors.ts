@@ -1,20 +1,21 @@
 // Color scale for SPI values: Red (Low) -> Orange (Medium) -> Green (High)
 export const spiColorScale = {
-  low: '#d32f2f',      // Red
-  mediumLow: '#f57c00', // Orange-Red
-  medium: '#ff9800',   // Orange
-  mediumHigh: '#7cb342', // Light Green
-  high: '#388e3c',     // Green
-  veryHigh: '#1b5e20', // Dark Green
+  low: '#eef1ef',
+  mediumLow: '#d7ded9',
+  medium: '#aebfb5',
+  mediumHigh: '#7f9989',
+  high: '#4f735f',
+  veryHigh: '#254a36',
 };
 
 // Get color based on SPI score (0.0 to 1.0)
 export function getSPIColor(score: number): string {
-  if (score < 0.2) return spiColorScale.low;
-  if (score < 0.35) return spiColorScale.mediumLow;
-  if (score < 0.5) return spiColorScale.medium;
-  if (score < 0.65) return spiColorScale.mediumHigh;
-  if (score < 0.8) return spiColorScale.high;
+  const normalised = score > 1 ? score / 100 : score;
+  if (normalised < 0.2) return spiColorScale.low;
+  if (normalised < 0.35) return spiColorScale.mediumLow;
+  if (normalised < 0.5) return spiColorScale.medium;
+  if (normalised < 0.65) return spiColorScale.mediumHigh;
+  if (normalised < 0.8) return spiColorScale.high;
   return spiColorScale.veryHigh;
 }
 

@@ -1,139 +1,57 @@
 'use client';
 
 import { useState } from 'react';
+import { MapPinned } from 'lucide-react';
 import { municipalities } from '@/lib/data';
 import { Pillar } from '@/lib/types';
 import { KPICards } from '@/components/KPICards';
 import { SPIGaugeChart } from '@/components/SPIGaugeChart';
-import { CompositionChart } from '@/components/CompositionChart';
+import { GesiProfileChart } from '@/components/GesiProfileChart';
+import { HouseholdHeadPie } from '@/components/HouseholdHeadPie';
+import { WardComparisonChart } from '@/components/WardComparisonChart';
 import { WardRankingsTable } from '@/components/WardRankingsTable';
 import { MapSection } from '@/components/MapSection';
-import { ExportButtons } from '@/components/ExportButtons';
 
 export default function Dashboard() {
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(municipalities[0].id);
   const [selectedPillar, setSelectedPillar] = useState<Pillar>('overall');
   const [selectedWardId, setSelectedWardId] = useState<string | undefined>();
-
-  const selectedMunicipality = municipalities.find((m) => m.id === selectedMunicipalityId);
-  const selectedWard = selectedWardId
-    ? selectedMunicipality?.wards.find((ward) => ward.id === selectedWardId)
-    : undefined;
-
-  const activeExclusion = selectedWard?.exclusionIndex ?? selectedMunicipality?.exclusionIndex ?? 0;
-  const activePoverty = selectedWard?.povertyIndex ?? selectedMunicipality?.povertyIndex ?? 0;
-  const activeVulnerability =
-    selectedWard?.vulnerabilityIndex ?? selectedMunicipality?.vulnerabilityIndex ?? 0;
-  const activeSpi = selectedWard?.spiScore ?? selectedMunicipality?.overallSpi ?? 0;
-
-  if (!selectedMunicipality) {
-    return <div className="flex items-center justify-center p-8">Loading...</div>;
-  }
-
-  const handleWardDetails = (wardId: string) => {
-    setSelectedWardId(wardId);
-    const mapSection = document.getElementById('ward-map');
-    mapSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  const municipality = municipalities.find((m) => m.id === selectedMunicipalityId)!;
+  const ward = selectedWardId ? municipality.wards.find((item) => item.id === selectedWardId) : undefined;
+  const profile = ward?.gesi ?? municipality.gesi;
+  const spi = ward?.spiScore ?? municipality.overallSpi;
+  const exclusion = ward?.exclusionIndex ?? municipality.exclusionIndex;
+  const poverty = ward?.povertyIndex ?? municipality.povertyIndex;
+  const vulnerability = ward?.vulnerabilityIndex ?? municipality.vulnerabilityIndex;
+  const contextLabel = ward ? ward.name : `${municipality.name} municipality`;
 
   return (
-    <main
-      id="dashboard-container"
-      className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-2 md:px-6"
-    >
-      {/* Header */}
-      <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-gray-900">Shared Prosperity Index Dashboard</h1>
-        <p className="mt-2 text-gray-600">
-          {selectedMunicipality.name}, {selectedMunicipality.district}
-        </p>
-      </div>
-
-      <div className="mx-auto max-w-screen-2xl space-y-6">
-        {/* Main Content Grid (responsive) */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Left Column - Map (balanced on desktop) */}
-          <div id="ward-map" className="lg:col-span-3">
-            <MapSection
-              municipality={selectedMunicipality}
-              pillar={selectedPillar}
-              onWardSelect={setSelectedWardId}
-              municipalities={municipalities}
-              selectedMunicipalityId={selectedMunicipalityId}
-              setSelectedMunicipalityId={setSelectedMunicipalityId}
-              selectedPillar={selectedPillar}
-              setSelectedPillar={setSelectedPillar}
-              selectedWardId={selectedWardId}
-              setSelectedWardId={setSelectedWardId}
-            />
+    <main className="min-h-screen bg-[#f7f7f5] px-4 py-5 text-slate-900 md:px-8 md:py-7">
+      <div className="mx-auto max-w-[1600px]">
+        <header className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#87604d]">Ward-level dashboard</p>
+            <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{municipality.name} <span className="font-normal text-slate-400">at a glance</span></h1>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Shared Prosperity Index and household inclusion data, mapped ward by ward.</p>
           </div>
+          <div className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm"><MapPinned className="mr-2 inline h-4 w-4 text-[#d66a4b]" /> {municipality.name}, {municipality.district}</div>
+        </header>
 
-          {/* Right Column */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* KPI Cards */}
-            <KPICards
-              exclusion={activeExclusion}
-              poverty={activePoverty}
-              vulnerability={activeVulnerability}
-            />
+        <div className="grid gap-6 xl:grid-cols-12">
+          <section id="ward-map" className="xl:col-span-7"><MapSection municipality={municipality} pillar={selectedPillar} onWardSelect={setSelectedWardId} municipalities={municipalities} selectedMunicipalityId={selectedMunicipalityId} setSelectedMunicipalityId={(id) => { setSelectedMunicipalityId(id); setSelectedWardId(undefined); }} selectedPillar={selectedPillar} setSelectedPillar={setSelectedPillar} selectedWardId={selectedWardId} setSelectedWardId={setSelectedWardId} /></section>
 
-            {/* Charts Row */}
-            <div className="grid grid-cols-2 gap-6">
-              <SPIGaugeChart value={activeSpi} />
-              <CompositionChart
-                exclusion={activeExclusion}
-                poverty={activePoverty}
-                vulnerability={activeVulnerability}
-              />
-            </div>
-
-            {/* Rankings Table */}
-            <WardRankingsTable
-              municipality={selectedMunicipality}
-              pillar={selectedPillar}
-              limit={5}
-              onWardSelect={handleWardDetails}
-            />
-
-            {/* Export Buttons */}
-            <div className="flex justify-between gap-4 rounded-lg bg-white p-6 shadow-sm">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900">Export Data</h3>
-                <p className="text-xs text-gray-600">Download dashboard data in multiple formats</p>
-              </div>
-              <ExportButtons municipalities={municipalities} />
-            </div>
-          </div>
+          <aside className="space-y-5 xl:col-span-5">
+            <KPICards exclusion={exclusion} poverty={poverty} vulnerability={vulnerability} />
+            <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-5 flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#87604d]">Selected place</p><h2 className="mt-1 text-lg font-semibold">{contextLabel}</h2></div><span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">Household profile</span></div><div className="grid gap-3 sm:grid-cols-2"><SPIGaugeChart value={spi} title="Shared Prosperity Index" /><HouseholdHeadPie profile={profile} /></div><div className="mt-3 grid gap-3 sm:grid-cols-2"><GesiProfileChart profile={profile} metric="religion" compact /><GesiProfileChart profile={profile} metric="household" compact /></div></section>
+          </aside>
         </div>
 
-        {/* Footer Stats */}
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h3 className="mb-4 text-lg font-semibold text-gray-900">Dashboard Statistics</h3>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="rounded bg-slate-50 p-4">
-              <p className="text-sm text-gray-600">Total Municipalities</p>
-              <p className="text-2xl font-bold text-gray-900">{municipalities.length}</p>
-            </div>
-            <div className="rounded bg-slate-50 p-4">
-              <p className="text-sm text-gray-600">Total Wards</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {municipalities.reduce((sum, m) => sum + m.wards.length, 0)}
-              </p>
-            </div>
-            <div className="rounded bg-slate-50 p-4">
-              <p className="text-sm text-gray-600">Current Municipality Wards</p>
-              <p className="text-2xl font-bold text-gray-900">{selectedMunicipality.wards.length}</p>
-            </div>
-            <div className="rounded bg-slate-50 p-4">
-              <p className="text-sm text-gray-600">Avg SPI Score</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {(
-                  municipalities.reduce((sum, m) => sum + m.overallSpi, 0) / municipalities.length
-                ).toFixed(2)}
-              </p>
-            </div>
-          </div>
-        </div>
+        <section className="mt-6 grid gap-6 xl:grid-cols-12">
+          <div className="xl:col-span-6"><WardComparisonChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} /></div>
+          <div className="xl:col-span-6"><WardRankingsTable municipality={municipality} pillar={selectedPillar} limit={5} onWardSelect={(id) => { setSelectedWardId(id); document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} /></div>
+        </section>
+
+        <footer className="mt-6 flex flex-col gap-2 border-t border-slate-200 py-5 text-xs text-slate-500 sm:flex-row sm:justify-between"><span>SPI identifies geographic outcomes; GESI provides the household inclusion context.</span><span>Click any ward to explore its combined profile.</span></footer>
       </div>
     </main>
   );

@@ -1,0 +1,2638 @@
+﻿[
+    {
+        "id":  "kepilasagadhi",
+        "name":  "Kepilasagadhi",
+        "mapPalika":  "Kepilasagadhi",
+        "district":  "KHOTANG",
+        "overallSpi":  60.82,
+        "exclusionIndex":  3.01,
+        "povertyIndex":  0.43,
+        "vulnerabilityIndex":  3,
+        "wards":  [
+                      {
+                          "id":  "kepilasagadhi-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  63.34,
+                          "exclusionIndex":  2.93,
+                          "povertyIndex":  0.42,
+                          "vulnerabilityIndex":  2.85,
+                          "gesi":  {
+                                       "totalHouseholds":  67,
+                                       "femaleHeaded":  28.4,
+                                       "maleHeaded":  71.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  52.2
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  40.3
+                                                        },
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  4.5
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  79.1
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  20.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  62.57,
+                          "exclusionIndex":  2.97,
+                          "povertyIndex":  0.38,
+                          "vulnerabilityIndex":  2.93,
+                          "gesi":  {
+                                       "totalHouseholds":  37,
+                                       "femaleHeaded":  16.2,
+                                       "maleHeaded":  83.8,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  67.6
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  21.6
+                                                        },
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  8.1
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  2.7
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  86.5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  10.8
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  2.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  58.41,
+                          "exclusionIndex":  3.41,
+                          "povertyIndex":  0.2,
+                          "vulnerabilityIndex":  3.26,
+                          "gesi":  {
+                                       "totalHouseholds":  41,
+                                       "femaleHeaded":  58.5,
+                                       "maleHeaded":  41.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  46.3
+                                                        },
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  29.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  14.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  9.8
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  73.2
+                                                             },
+                                                             {
+                                                                 "name":  "Single woman",
+                                                                 "value":  9.8
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  9.8
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  4.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  61.63,
+                          "exclusionIndex":  2.88,
+                          "povertyIndex":  0.51,
+                          "vulnerabilityIndex":  2.95,
+                          "gesi":  {
+                                       "totalHouseholds":  99,
+                                       "femaleHeaded":  50.5,
+                                       "maleHeaded":  49.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  41.4
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  25.3
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  20.2
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  13.1
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  78.8
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  9.1
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  6.1
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  57.11,
+                          "exclusionIndex":  3.19,
+                          "povertyIndex":  0.38,
+                          "vulnerabilityIndex":  3.36,
+                          "gesi":  {
+                                       "totalHouseholds":  70,
+                                       "femaleHeaded":  48.6,
+                                       "maleHeaded":  51.4,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  78.6
+                                                        },
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  20
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  82.9
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  10
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5.7
+                                                             },
+                                                             {
+                                                                 "name":  "Remote/isolated",
+                                                                 "value":  1.4
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  60.74,
+                          "exclusionIndex":  2.91,
+                          "povertyIndex":  0.58,
+                          "vulnerabilityIndex":  2.76,
+                          "gesi":  {
+                                       "totalHouseholds":  19,
+                                       "femaleHeaded":  36.8,
+                                       "maleHeaded":  63.2,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  52.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  26.3
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  10.5
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  5.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  84.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  15.8
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "kepilasagadhi-ward-7",
+                          "name":  "Ward 7",
+                          "wardNumber":  7,
+                          "spiScore":  61.92,
+                          "exclusionIndex":  2.79,
+                          "povertyIndex":  0.51,
+                          "vulnerabilityIndex":  2.9,
+                          "gesi":  {
+                                       "totalHouseholds":  61,
+                                       "femaleHeaded":  24.6,
+                                       "maleHeaded":  75.4,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  57.4
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  23
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  16.4
+                                                        },
+                                                        {
+                                                            "name":  "Other: शिव धर्म",
+                                                            "value":  1.6
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  85.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  11.5
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  3.3
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  394,
+                     "femaleHeaded":  39.3,
+                     "maleHeaded":  60.7,
+                     "religion":  [
+                                      {
+                                          "name":  "Kirat",
+                                          "value":  44.4
+                                      },
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  29.9
+                                      },
+                                      {
+                                          "name":  "Christian",
+                                          "value":  16.8
+                                      },
+                                      {
+                                          "name":  "Buddhist",
+                                          "value":  8.4
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  81
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  9.9
+                                           },
+                                           {
+                                               "name":  "Chhetri",
+                                               "value":  5.8
+                                           },
+                                           {
+                                               "name":  "Brahmin",
+                                               "value":  1.5
+                                           }
+                                       ]
+                 }
+    },
+    {
+        "id":  "halesituwachung",
+        "name":  "Halesi Tuwachung",
+        "mapPalika":  "Halesi Tuwachung",
+        "district":  "KHOTANG",
+        "overallSpi":  77.67,
+        "exclusionIndex":  1.55,
+        "povertyIndex":  0.29,
+        "vulnerabilityIndex":  2.71,
+        "wards":  [
+                      {
+                          "id":  "halesituwachung-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  73.57,
+                          "exclusionIndex":  1.66,
+                          "povertyIndex":  0.47,
+                          "vulnerabilityIndex":  2.81,
+                          "gesi":  {
+                                       "totalHouseholds":  53,
+                                       "femaleHeaded":  28.3,
+                                       "maleHeaded":  71.7,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  77.4
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  11.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  11.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  67.9
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  24.5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  7.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  72.82,
+                          "exclusionIndex":  1.87,
+                          "povertyIndex":  0.28,
+                          "vulnerabilityIndex":  3.01,
+                          "gesi":  {
+                                       "totalHouseholds":  58,
+                                       "femaleHeaded":  17.2,
+                                       "maleHeaded":  82.8,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  65.5
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  13.8
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  12.1
+                                                        },
+                                                        {
+                                                            "name":  "Other: सर्बधर्म",
+                                                            "value":  8.6
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  63.8
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  27.6
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  8.6
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  72.41,
+                          "exclusionIndex":  1.5,
+                          "povertyIndex":  0.62,
+                          "vulnerabilityIndex":  2.83,
+                          "gesi":  {
+                                       "totalHouseholds":  58,
+                                       "femaleHeaded":  24.1,
+                                       "maleHeaded":  75.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  69
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  19
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  8.6
+                                                        },
+                                                        {
+                                                            "name":  "Other: Krischen",
+                                                            "value":  3.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  77.6
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  15.5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5.2
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  1.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  76.41,
+                          "exclusionIndex":  1.73,
+                          "povertyIndex":  0.15,
+                          "vulnerabilityIndex":  2.89,
+                          "gesi":  {
+                                       "totalHouseholds":  26,
+                                       "femaleHeaded":  15.4,
+                                       "maleHeaded":  84.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  92.3
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  3.8
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  3.8
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  34.6
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  34.6
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  19.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  11.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  80.36,
+                          "exclusionIndex":  1.55,
+                          "povertyIndex":  0.12,
+                          "vulnerabilityIndex":  2.64,
+                          "gesi":  {
+                                       "totalHouseholds":  67,
+                                       "femaleHeaded":  22.4,
+                                       "maleHeaded":  77.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  65.7
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  28.4
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  4.5
+                                                        },
+                                                        {
+                                                            "name":  "Other: मुन्दुम",
+                                                            "value":  1.5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  82.1
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  10.4
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  7.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  80.84,
+                          "exclusionIndex":  1.59,
+                          "povertyIndex":  0.05,
+                          "vulnerabilityIndex":  2.64,
+                          "gesi":  {
+                                       "totalHouseholds":  40,
+                                       "femaleHeaded":  25,
+                                       "maleHeaded":  75,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  85
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  7.5
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  7.5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  60
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  35
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-7",
+                          "name":  "Ward 7",
+                          "wardNumber":  7,
+                          "spiScore":  83.74,
+                          "exclusionIndex":  1.28,
+                          "povertyIndex":  0.11,
+                          "vulnerabilityIndex":  2.51,
+                          "gesi":  {
+                                       "totalHouseholds":  61,
+                                       "femaleHeaded":  31.1,
+                                       "maleHeaded":  68.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  70.5
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  18
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  6.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  3.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  77
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  16.4
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  6.6
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-8",
+                          "name":  "Ward 8",
+                          "wardNumber":  8,
+                          "spiScore":  77.31,
+                          "exclusionIndex":  1.57,
+                          "povertyIndex":  0.38,
+                          "vulnerabilityIndex":  2.61,
+                          "gesi":  {
+                                       "totalHouseholds":  42,
+                                       "femaleHeaded":  19,
+                                       "maleHeaded":  81,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  71.4
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  26.2
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  2.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  47.6
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  42.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  9.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-9",
+                          "name":  "Ward 9",
+                          "wardNumber":  9,
+                          "spiScore":  81.18,
+                          "exclusionIndex":  1.28,
+                          "povertyIndex":  0.29,
+                          "vulnerabilityIndex":  2.59,
+                          "gesi":  {
+                                       "totalHouseholds":  24,
+                                       "femaleHeaded":  8.3,
+                                       "maleHeaded":  91.7,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  70.8
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  25
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  4.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  87.5
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  12.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-10",
+                          "name":  "Ward 10",
+                          "wardNumber":  10,
+                          "spiScore":  75.79,
+                          "exclusionIndex":  1.51,
+                          "povertyIndex":  0.49,
+                          "vulnerabilityIndex":  2.72,
+                          "gesi":  {
+                                       "totalHouseholds":  55,
+                                       "femaleHeaded":  12.7,
+                                       "maleHeaded":  87.3,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  87.3
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  9.1
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  1.8
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.8
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  76.4
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  10.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  9.1
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  3.6
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "halesituwachung-ward-11",
+                          "name":  "Ward 11",
+                          "wardNumber":  11,
+                          "spiScore":  79.95,
+                          "exclusionIndex":  1.52,
+                          "povertyIndex":  0.21,
+                          "vulnerabilityIndex":  2.59,
+                          "gesi":  {
+                                       "totalHouseholds":  53,
+                                       "femaleHeaded":  15.1,
+                                       "maleHeaded":  84.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  96.2
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  1.9
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.9
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  50.9
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  34
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  9.4
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  5.7
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  537,
+                     "femaleHeaded":  20.9,
+                     "maleHeaded":  79.1,
+                     "religion":  [
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  76.4
+                                      },
+                                      {
+                                          "name":  "Kirat",
+                                          "value":  14.9
+                                      },
+                                      {
+                                          "name":  "Christian",
+                                          "value":  5.4
+                                      },
+                                      {
+                                          "name":  "Other: सर्बधर्म",
+                                          "value":  1.7
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  65.5
+                                           },
+                                           {
+                                               "name":  "Chhetri",
+                                               "value":  23.3
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  8.6
+                                           },
+                                           {
+                                               "name":  "Brahmin",
+                                               "value":  2.6
+                                           }
+                                       ]
+                 }
+    },
+    {
+        "id":  "belaka",
+        "name":  "Belaka",
+        "mapPalika":  "Belaka",
+        "district":  "UDAYAPUR",
+        "overallSpi":  69.03,
+        "exclusionIndex":  2.62,
+        "povertyIndex":  0.39,
+        "vulnerabilityIndex":  2.86,
+        "wards":  [
+                      {
+                          "id":  "belaka-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  79.43,
+                          "exclusionIndex":  2.54,
+                          "povertyIndex":  0.33,
+                          "vulnerabilityIndex":  2.79,
+                          "gesi":  {
+                                       "totalHouseholds":  86,
+                                       "femaleHeaded":  38.4,
+                                       "maleHeaded":  61.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  93
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  3.5
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  2.3
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  1.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  32.6
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  26.7
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  19.8
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  79.23,
+                          "exclusionIndex":  2.65,
+                          "povertyIndex":  0.32,
+                          "vulnerabilityIndex":  2.85,
+                          "gesi":  {
+                                       "totalHouseholds":  122,
+                                       "femaleHeaded":  45.1,
+                                       "maleHeaded":  54.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  82.8
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  9
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  5.7
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.6
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  36.1
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  33.6
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  11.5
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  9.8
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  80.18,
+                          "exclusionIndex":  2.53,
+                          "povertyIndex":  0.33,
+                          "vulnerabilityIndex":  2.71,
+                          "gesi":  {
+                                       "totalHouseholds":  119,
+                                       "femaleHeaded":  47.1,
+                                       "maleHeaded":  52.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  78.2
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  8.4
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  8.4
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  37
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  36.1
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  9.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  6.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  66.94,
+                          "exclusionIndex":  2.27,
+                          "povertyIndex":  0.49,
+                          "vulnerabilityIndex":  2.77,
+                          "gesi":  {
+                                       "totalHouseholds":  74,
+                                       "femaleHeaded":  36.5,
+                                       "maleHeaded":  63.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  81.1
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  8.1
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  8.1
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  1.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  32.4
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  24.3
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  21.6
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  18.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  62.04,
+                          "exclusionIndex":  2.64,
+                          "povertyIndex":  0.46,
+                          "vulnerabilityIndex":  2.96,
+                          "gesi":  {
+                                       "totalHouseholds":  127,
+                                       "femaleHeaded":  29.9,
+                                       "maleHeaded":  70.1,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  63.8
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  15
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  11
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  10.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  56.7
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  23.6
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  15.7
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  3.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  61.92,
+                          "exclusionIndex":  2.75,
+                          "povertyIndex":  0.43,
+                          "vulnerabilityIndex":  3.01,
+                          "gesi":  {
+                                       "totalHouseholds":  75,
+                                       "femaleHeaded":  40,
+                                       "maleHeaded":  60,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  56
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  22.7
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  20
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  1.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  96
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  2.7
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  1.3
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-7",
+                          "name":  "Ward 7",
+                          "wardNumber":  7,
+                          "spiScore":  55.56,
+                          "exclusionIndex":  3.12,
+                          "povertyIndex":  0.53,
+                          "vulnerabilityIndex":  3.19,
+                          "gesi":  {
+                                       "totalHouseholds":  51,
+                                       "femaleHeaded":  31.4,
+                                       "maleHeaded":  68.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  56.9
+                                                        },
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  37.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  3.9
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  88.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5.9
+                                                             },
+                                                             {
+                                                                 "name":  "Remote/isolated",
+                                                                 "value":  5.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-8",
+                          "name":  "Ward 8",
+                          "wardNumber":  8,
+                          "spiScore":  67.48,
+                          "exclusionIndex":  2.68,
+                          "povertyIndex":  0.25,
+                          "vulnerabilityIndex":  2.8,
+                          "gesi":  {
+                                       "totalHouseholds":  84,
+                                       "femaleHeaded":  65.5,
+                                       "maleHeaded":  34.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  81
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  14.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  3.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  1.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  60.7
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  35.7
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  2.4
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  1.2
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "belaka-ward-9",
+                          "name":  "Ward 9",
+                          "wardNumber":  9,
+                          "spiScore":  68.51,
+                          "exclusionIndex":  2.41,
+                          "povertyIndex":  0.38,
+                          "vulnerabilityIndex":  2.67,
+                          "gesi":  {
+                                       "totalHouseholds":  88,
+                                       "femaleHeaded":  51.1,
+                                       "maleHeaded":  48.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  80.7
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  8
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  5.7
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  5.7
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  43.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  23.9
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  21.6
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  8
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  826,
+                     "femaleHeaded":  43,
+                     "maleHeaded":  57,
+                     "religion":  [
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  74.5
+                                      },
+                                      {
+                                          "name":  "Kirat",
+                                          "value":  11.9
+                                      },
+                                      {
+                                          "name":  "Christian",
+                                          "value":  7
+                                      },
+                                      {
+                                          "name":  "Buddhist",
+                                          "value":  6.3
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  48.7
+                                           },
+                                           {
+                                               "name":  "Chhetri",
+                                               "value":  25.5
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  12.2
+                                           },
+                                           {
+                                               "name":  "Brahmin",
+                                               "value":  6.9
+                                           }
+                                       ]
+                 }
+    },
+    {
+        "id":  "hanumannagarkankalani",
+        "name":  "Hanumannagar Kankalani",
+        "mapPalika":  "Hanumannagar Kankalani",
+        "district":  "SAPTARI",
+        "overallSpi":  62.31,
+        "exclusionIndex":  2.41,
+        "povertyIndex":  0.5,
+        "vulnerabilityIndex":  3.24,
+        "wards":  [
+                      {
+                          "id":  "hanumannagarkankalani-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  65.54,
+                          "exclusionIndex":  1.73,
+                          "povertyIndex":  0.66,
+                          "vulnerabilityIndex":  3.09,
+                          "gesi":  {
+                                       "totalHouseholds":  95,
+                                       "femaleHeaded":  38.9,
+                                       "maleHeaded":  61.1,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  98.9
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  1.1
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  48.4
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  37.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  8.4
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  4.2
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  69.78,
+                          "exclusionIndex":  2.06,
+                          "povertyIndex":  0.53,
+                          "vulnerabilityIndex":  2.65,
+                          "gesi":  {
+                                       "totalHouseholds":  38,
+                                       "femaleHeaded":  36.8,
+                                       "maleHeaded":  63.2,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  78.9
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  21.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  67.44,
+                          "exclusionIndex":  2.53,
+                          "povertyIndex":  0.33,
+                          "vulnerabilityIndex":  2.82,
+                          "gesi":  {
+                                       "totalHouseholds":  81,
+                                       "femaleHeaded":  44.4,
+                                       "maleHeaded":  55.6,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  93.8
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  6.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  88.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  6.2
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  1.2
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  1.2
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  64.09,
+                          "exclusionIndex":  1.82,
+                          "povertyIndex":  0.71,
+                          "vulnerabilityIndex":  2.95,
+                          "gesi":  {
+                                       "totalHouseholds":  92,
+                                       "femaleHeaded":  38,
+                                       "maleHeaded":  62,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  56.5
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  26.1
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  10.9
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  5.4
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  67.85,
+                          "exclusionIndex":  2.06,
+                          "povertyIndex":  0.44,
+                          "vulnerabilityIndex":  3.09,
+                          "gesi":  {
+                                       "totalHouseholds":  36,
+                                       "femaleHeaded":  27.8,
+                                       "maleHeaded":  72.2,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  91.7
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  8.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  58.3
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  27.8
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  13.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  58.8,
+                          "exclusionIndex":  2.26,
+                          "povertyIndex":  0.56,
+                          "vulnerabilityIndex":  3.56,
+                          "gesi":  {
+                                       "totalHouseholds":  48,
+                                       "femaleHeaded":  62.5,
+                                       "maleHeaded":  37.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  62.5
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  37.5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  60.4
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  37.5
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  2.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-7",
+                          "name":  "Ward 7",
+                          "wardNumber":  7,
+                          "spiScore":  66.89,
+                          "exclusionIndex":  2.41,
+                          "povertyIndex":  0.29,
+                          "vulnerabilityIndex":  3.04,
+                          "gesi":  {
+                                       "totalHouseholds":  45,
+                                       "femaleHeaded":  37.8,
+                                       "maleHeaded":  62.2,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  95.6
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  4.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  84.4
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  13.3
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  2.2
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-8",
+                          "name":  "Ward 8",
+                          "wardNumber":  8,
+                          "spiScore":  58.45,
+                          "exclusionIndex":  2.68,
+                          "povertyIndex":  0.59,
+                          "vulnerabilityIndex":  3.37,
+                          "gesi":  {
+                                       "totalHouseholds":  29,
+                                       "femaleHeaded":  10.3,
+                                       "maleHeaded":  89.7,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  51.7
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  34.5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  13.8
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-9",
+                          "name":  "Ward 9",
+                          "wardNumber":  9,
+                          "spiScore":  70.49,
+                          "exclusionIndex":  2.09,
+                          "povertyIndex":  0.33,
+                          "vulnerabilityIndex":  2.86,
+                          "gesi":  {
+                                       "totalHouseholds":  53,
+                                       "femaleHeaded":  13.2,
+                                       "maleHeaded":  86.8,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  50.9
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  49.1
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  75.5
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  22.6
+                                                             },
+                                                             {
+                                                                 "name":  "Other (specify)",
+                                                                 "value":  1.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-10",
+                          "name":  "Ward 10",
+                          "wardNumber":  10,
+                          "spiScore":  71.18,
+                          "exclusionIndex":  2.22,
+                          "povertyIndex":  0.19,
+                          "vulnerabilityIndex":  2.97,
+                          "gesi":  {
+                                       "totalHouseholds":  37,
+                                       "femaleHeaded":  8.1,
+                                       "maleHeaded":  91.9,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  56.8
+                                                             },
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  37.8
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  5.4
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-11",
+                          "name":  "Ward 11",
+                          "wardNumber":  11,
+                          "spiScore":  58.74,
+                          "exclusionIndex":  3.36,
+                          "povertyIndex":  0.55,
+                          "vulnerabilityIndex":  3.83,
+                          "gesi":  {
+                                       "totalHouseholds":  38,
+                                       "femaleHeaded":  28.9,
+                                       "maleHeaded":  71.1,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  76.3
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  13.2
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  7.9
+                                                             },
+                                                             {
+                                                                 "name":  "Other (specify)",
+                                                                 "value":  2.6
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-12",
+                          "name":  "Ward 12",
+                          "wardNumber":  12,
+                          "spiScore":  58.61,
+                          "exclusionIndex":  2.8,
+                          "povertyIndex":  0.29,
+                          "vulnerabilityIndex":  3.61,
+                          "gesi":  {
+                                       "totalHouseholds":  38,
+                                       "femaleHeaded":  50,
+                                       "maleHeaded":  50,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  65.8
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  34.2
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  63.2
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  34.2
+                                                             },
+                                                             {
+                                                                 "name":  "Single woman",
+                                                                 "value":  2.6
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-13",
+                          "name":  "Ward 13",
+                          "wardNumber":  13,
+                          "spiScore":  35.93,
+                          "exclusionIndex":  3.51,
+                          "povertyIndex":  0.9,
+                          "vulnerabilityIndex":  4.2,
+                          "gesi":  {
+                                       "totalHouseholds":  10,
+                                       "femaleHeaded":  20,
+                                       "maleHeaded":  80,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  90
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  10
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "hanumannagarkankalani-ward-14",
+                          "name":  "Ward 14",
+                          "wardNumber":  14,
+                          "spiScore":  58.53,
+                          "exclusionIndex":  2.22,
+                          "povertyIndex":  0.69,
+                          "vulnerabilityIndex":  3.37,
+                          "gesi":  {
+                                       "totalHouseholds":  85,
+                                       "femaleHeaded":  40,
+                                       "maleHeaded":  60,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  96.5
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  3.5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  60
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  24.7
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  11.8
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  3.5
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  725,
+                     "femaleHeaded":  35.6,
+                     "maleHeaded":  64.4,
+                     "religion":  [
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  90.2
+                                      },
+                                      {
+                                          "name":  "Muslim",
+                                          "value":  9.8
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Madhesi",
+                                               "value":  56.4
+                                           },
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  29.9
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  6.1
+                                           },
+                                           {
+                                               "name":  "Muslim",
+                                               "value":  5.1
+                                           }
+                                       ]
+                 }
+    },
+    {
+        "id":  "gadhi",
+        "name":  "Gadhi",
+        "mapPalika":  "Gadhi",
+        "district":  "SUNSARI",
+        "overallSpi":  61.92,
+        "exclusionIndex":  2.91,
+        "povertyIndex":  0.47,
+        "vulnerabilityIndex":  2.84,
+        "wards":  [
+                      {
+                          "id":  "gadhi-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  61.68,
+                          "exclusionIndex":  3.36,
+                          "povertyIndex":  0.15,
+                          "vulnerabilityIndex":  3.03,
+                          "gesi":  {
+                                       "totalHouseholds":  84,
+                                       "femaleHeaded":  31,
+                                       "maleHeaded":  69,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  92.9
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  7.1
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  47.6
+                                                             },
+                                                             {
+                                                                 "name":  "Tharu",
+                                                                 "value":  27.4
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  14.3
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  7.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "gadhi-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  59.86,
+                          "exclusionIndex":  3.16,
+                          "povertyIndex":  0.5,
+                          "vulnerabilityIndex":  2.91,
+                          "gesi":  {
+                                       "totalHouseholds":  107,
+                                       "femaleHeaded":  61.7,
+                                       "maleHeaded":  38.3,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  91.6
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  8.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  48.6
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  21.5
+                                                             },
+                                                             {
+                                                                 "name":  "Tharu",
+                                                                 "value":  13.1
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  8.4
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "gadhi-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  64.02,
+                          "exclusionIndex":  2.83,
+                          "povertyIndex":  0.41,
+                          "vulnerabilityIndex":  2.72,
+                          "gesi":  {
+                                       "totalHouseholds":  59,
+                                       "femaleHeaded":  35.6,
+                                       "maleHeaded":  64.4,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  94.9
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  3.4
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.7
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  49.2
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  47.5
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  3.4
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "gadhi-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  57.37,
+                          "exclusionIndex":  3.11,
+                          "povertyIndex":  0.6,
+                          "vulnerabilityIndex":  2.84,
+                          "gesi":  {
+                                       "totalHouseholds":  60,
+                                       "femaleHeaded":  30,
+                                       "maleHeaded":  70,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  93.3
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  5
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  1.7
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  58.3
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  33.3
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  1.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "gadhi-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  62.78,
+                          "exclusionIndex":  2.71,
+                          "povertyIndex":  0.58,
+                          "vulnerabilityIndex":  2.78,
+                          "gesi":  {
+                                       "totalHouseholds":  62,
+                                       "femaleHeaded":  16.1,
+                                       "maleHeaded":  83.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  83.9
+                                                        },
+                                                        {
+                                                            "name":  "Muslim",
+                                                            "value":  14.5
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  1.6
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  61.3
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  16.1
+                                                             },
+                                                             {
+                                                                 "name":  "Muslim",
+                                                                 "value":  14.5
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  8.1
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "gadhi-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  65.82,
+                          "exclusionIndex":  2.27,
+                          "povertyIndex":  0.6,
+                          "vulnerabilityIndex":  2.78,
+                          "gesi":  {
+                                       "totalHouseholds":  62,
+                                       "femaleHeaded":  1.6,
+                                       "maleHeaded":  98.4,
+                                       "religion":  {
+                                                        "name":  "Hindu",
+                                                        "value":  100
+                                                    },
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Madhesi",
+                                                                 "value":  64.5
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  16.1
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  12.9
+                                                             },
+                                                             {
+                                                                 "name":  "Tharu",
+                                                                 "value":  6.5
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  434,
+                     "femaleHeaded":  32.7,
+                     "maleHeaded":  67.3,
+                     "religion":  [
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  92.6
+                                      },
+                                      {
+                                          "name":  "Muslim",
+                                          "value":  6.7
+                                      },
+                                      {
+                                          "name":  "Kirat",
+                                          "value":  0.2
+                                      },
+                                      {
+                                          "name":  "Buddhist",
+                                          "value":  0.2
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Madhesi",
+                                               "value":  34.8
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  26
+                                           },
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  22.1
+                                           },
+                                           {
+                                               "name":  "Tharu",
+                                               "value":  9.4
+                                           }
+                                       ]
+                 }
+    },
+    {
+        "id":  "sunkoshi",
+        "name":  "Sunkoshi",
+        "mapPalika":  "Sunkoshi",
+        "district":  "SINDHULI",
+        "overallSpi":  77.5,
+        "exclusionIndex":  1.89,
+        "povertyIndex":  0.12,
+        "vulnerabilityIndex":  2.64,
+        "wards":  [
+                      {
+                          "id":  "sunkoshi-ward-1",
+                          "name":  "Ward 1",
+                          "wardNumber":  1,
+                          "spiScore":  74.66,
+                          "exclusionIndex":  2.39,
+                          "povertyIndex":  0.13,
+                          "vulnerabilityIndex":  2.46,
+                          "gesi":  {
+                                       "totalHouseholds":  52,
+                                       "femaleHeaded":  13.5,
+                                       "maleHeaded":  86.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  69.2
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  28.8
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  1.9
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  51.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  28.8
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  9.6
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  7.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-2",
+                          "name":  "Ward 2",
+                          "wardNumber":  2,
+                          "spiScore":  71.66,
+                          "exclusionIndex":  2.57,
+                          "povertyIndex":  0.17,
+                          "vulnerabilityIndex":  2.58,
+                          "gesi":  {
+                                       "totalHouseholds":  30,
+                                       "femaleHeaded":  20,
+                                       "maleHeaded":  80,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  50
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  43.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  6.7
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  93.3
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  6.7
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-3",
+                          "name":  "Ward 3",
+                          "wardNumber":  3,
+                          "spiScore":  74.95,
+                          "exclusionIndex":  1.7,
+                          "povertyIndex":  0.23,
+                          "vulnerabilityIndex":  2.95,
+                          "gesi":  {
+                                       "totalHouseholds":  47,
+                                       "femaleHeaded":  25.5,
+                                       "maleHeaded":  74.5,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  93.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  6.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  38.3
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  27.7
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  21.3
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  8.5
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-4",
+                          "name":  "Ward 4",
+                          "wardNumber":  4,
+                          "spiScore":  74.91,
+                          "exclusionIndex":  1.89,
+                          "povertyIndex":  0.03,
+                          "vulnerabilityIndex":  3.08,
+                          "gesi":  {
+                                       "totalHouseholds":  33,
+                                       "femaleHeaded":  12.1,
+                                       "maleHeaded":  87.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  66.7
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  27.3
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  3
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  48.5
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  21.2
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  15.2
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  15.2
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-5",
+                          "name":  "Ward 5",
+                          "wardNumber":  5,
+                          "spiScore":  73.53,
+                          "exclusionIndex":  1.81,
+                          "povertyIndex":  0.19,
+                          "vulnerabilityIndex":  3.1,
+                          "gesi":  {
+                                       "totalHouseholds":  75,
+                                       "femaleHeaded":  12,
+                                       "maleHeaded":  88,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  86.7
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  12
+                                                        },
+                                                        {
+                                                            "name":  "Kirat",
+                                                            "value":  1.3
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  44
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  21.3
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  18.7
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  13.3
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-6",
+                          "name":  "Ward 6",
+                          "wardNumber":  6,
+                          "spiScore":  85.69,
+                          "exclusionIndex":  1.41,
+                          "povertyIndex":  0.04,
+                          "vulnerabilityIndex":  2.24,
+                          "gesi":  {
+                                       "totalHouseholds":  67,
+                                       "femaleHeaded":  9,
+                                       "maleHeaded":  91,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  95.5
+                                                        },
+                                                        {
+                                                            "name":  "Christian",
+                                                            "value":  4.5
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  40.3
+                                                             },
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  23.9
+                                                             },
+                                                             {
+                                                                 "name":  "Dalit",
+                                                                 "value":  20.9
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  11.9
+                                                             }
+                                                         ]
+                                   }
+                      },
+                      {
+                          "id":  "sunkoshi-ward-7",
+                          "name":  "Ward 7",
+                          "wardNumber":  7,
+                          "spiScore":  87.11,
+                          "exclusionIndex":  1.48,
+                          "povertyIndex":  0.02,
+                          "vulnerabilityIndex":  2.04,
+                          "gesi":  {
+                                       "totalHouseholds":  44,
+                                       "femaleHeaded":  9.1,
+                                       "maleHeaded":  90.9,
+                                       "religion":  [
+                                                        {
+                                                            "name":  "Hindu",
+                                                            "value":  63.6
+                                                        },
+                                                        {
+                                                            "name":  "Buddhist",
+                                                            "value":  36.4
+                                                        }
+                                                    ],
+                                       "householdType":  [
+                                                             {
+                                                                 "name":  "Janajati",
+                                                                 "value":  45.5
+                                                             },
+                                                             {
+                                                                 "name":  "Chhetri",
+                                                                 "value":  31.8
+                                                             },
+                                                             {
+                                                                 "name":  "Brahmin",
+                                                                 "value":  13.6
+                                                             },
+                                                             {
+                                                                 "name":  "Other (specify)",
+                                                                 "value":  4.5
+                                                             }
+                                                         ]
+                                   }
+                      }
+                  ],
+        "gesi":  {
+                     "totalHouseholds":  348,
+                     "femaleHeaded":  13.8,
+                     "maleHeaded":  86.2,
+                     "religion":  [
+                                      {
+                                          "name":  "Hindu",
+                                          "value":  78.7
+                                      },
+                                      {
+                                          "name":  "Buddhist",
+                                          "value":  18.7
+                                      },
+                                      {
+                                          "name":  "Christian",
+                                          "value":  2
+                                      },
+                                      {
+                                          "name":  "Kirat",
+                                          "value":  0.6
+                                      }
+                                  ],
+                     "householdType":  [
+                                           {
+                                               "name":  "Janajati",
+                                               "value":  45.4
+                                           },
+                                           {
+                                               "name":  "Chhetri",
+                                               "value":  21.8
+                                           },
+                                           {
+                                               "name":  "Dalit",
+                                               "value":  19.3
+                                           },
+                                           {
+                                               "name":  "Brahmin",
+                                               "value":  10.9
+                                           }
+                                       ]
+                 }
+    }
+]

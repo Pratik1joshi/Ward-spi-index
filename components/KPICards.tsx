@@ -9,41 +9,43 @@ interface KPICardsProps {
   vulnerability: number;
 }
 
-export function KPICards({ exclusion, poverty, vulnerability }: KPICardsProps) {
+export function KPICards({
+  exclusion,
+  poverty,
+  vulnerability,
+}: KPICardsProps) {
   const cards = [
     {
       title: 'Exclusion Index',
       value: exclusion.toFixed(2),
       icon: LinkIcon,
-      color: 'text-slate-600',
+      color: '#3f6f9e',
     },
     {
-      title: 'Poverty Index',
-      value: poverty.toFixed(2),
+      title: 'Poverty Index (MPI)',
+      value: poverty.toFixed(3),
       icon: Home,
-      color: 'text-slate-600',
+      color: '#d97706',
     },
     {
       title: 'Vulnerability Index',
       value: vulnerability.toFixed(2),
       icon: AlertTriangle,
-      color: 'text-slate-600',
+      color: '#4caf50',
     },
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-3">
       {cards.map((card) => {
         const Icon = card.icon;
         return (
           <Card key={card.title} className="border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                <p className="mt-2 text-2xl font-semibold text-gray-900">{card.value}</p>
-              </div>
-              <Icon className={`${card.color} h-8 w-8`} />
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-xs font-medium leading-tight text-slate-500">{card.title}</p>
+              <Icon className="h-4 w-4 shrink-0" style={{ color: card.color }} />
             </div>
+            <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">{card.value}</p>
           </Card>
         );
       })}

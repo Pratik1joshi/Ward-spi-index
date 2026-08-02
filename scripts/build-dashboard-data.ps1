@@ -95,7 +95,7 @@ function New-Distribution($rows, [string]$field) {
   $distribution = @($counts.GetEnumerator() | ForEach-Object {
     [ordered]@{ name = $_.Key; value = [Math]::Round(100 * $_.Value / $rows.Count, 1) }
   })
-  return @($distribution | Sort-Object -Property @{ Expression = { [double]$_.value }; Descending = $true } | Select-Object -First 4)
+  return @($distribution | Sort-Object -Property @{ Expression = { [double]$_.value }; Descending = $true })
 }
 
 function New-Profile($rows) {
@@ -131,7 +131,69 @@ function Resolve-ShapefileMunicipality($name, $shapefileRows) {
   return [pscustomobject]@{ palika = $match.PALIKA; district = $match.DISTRICT }
 }
 
-$spiRows = Read-XlsxColumns $SpiWorkbook @('Municipality', 'Ward', 'SPI', 'EI', 'H', 'VI')
+$spiFields = @(
+  'Municipality', 'Ward', 'SPI',
+  'Socio-economic', 'Institutional', 'Political', 'Cultural', 'Spatial', 'EI', 'EI%',
+  'H', 'A', 'MPI', 'MPI%',
+  'Contribution % 1.1', 'Contribution % 1.2', 'Contribution % 2.1', 'Contribution % 2.2',
+  'Contribution % 3.1', 'Contribution % 3.2', 'Contribution % 3.3', 'Contribution % 3.4', 'Contribution % 3.5', 'Contribution % 3.6',
+  'E', 'S', 'C', 'VI', 'VI%'
+)
+$spiRows = Read-XlsxColumns $SpiWorkbook $spiFields
+function Get-Num($row, [string]$field) { if ($row.$field) { [double]$row.$field } else { 0 } }
+function New-ExclusionComponents($row) {
+  [ordered]@{
+    socioEconomic = [Math]::Round((Get-Num $row 'Socio-economic'), 2)
+    institutional = [Math]::Round((Get-Num $row 'Institutional'), 2)
+    political = [Math]::Round((Get-Num $row 'Political'), 2)
+    cultural = [Math]::Round((Get-Num $row 'Cultural'), 2)
+    spatial = [Math]::Round((Get-Num $row 'Spatial'), 2)
+  }
+}
+function New-PovertyComponents($row) {
+  [ordered]@{
+    headcountRatio = [Math]::Round((Get-Num $row 'H'), 3)
+    intensity = [Math]::Round((Get-Num $row 'A'), 3)
+    health = @(
+      [ordered]@{ name = 'Nutrition'; value = [Math]::Round((Get-Num $row 'Contribution % 1.1'), 2) }
+      [ordered]@{ name = 'Child mortality'; value = [Math]::Round((Get-Num $row 'Contribution % 1.2'), 2) }
+    )
+    education = @(
+      [ordered]@{ name = 'Years of schooling'; value = [Math]::Round((Get-Num $row 'Contribution % 2.1'), 2) }
+      [ordered]@{ name = 'School attendance'; value = [Math]::Round((Get-Num $row 'Contribution % 2.2'), 2) }
+    )
+    livingStandards = @(
+      [ordered]@{ name = 'Cooking fuel'; value = [Math]::Round((Get-Num $row 'Contribution % 3.1'), 2) }
+      [ordered]@{ name = 'Sanitation'; value = [Math]::Round((Get-Num $row 'Contribution % 3.2'), 2) }
+      [ordered]@{ name = 'Drinking water'; value = [Math]::Round((Get-Num $row 'Contribution % 3.3'), 2) }
+      [ordered]@{ name = 'Electricity'; value = [Math]::Round((Get-Num $row 'Contribution % 3.4'), 2) }
+      [ordered]@{ name = 'Housing'; value = [Math]::Round((Get-Num $row 'Contribution % 3.5'), 2) }
+      [ordered]@{ name = 'Assets'; value = [Math]::Round((Get-Num $row 'Contribution % 3.6'), 2) }
+    )
+  }
+}
+function New-VulnerabilityComponents($row) {
+  [ordered]@{
+    environmental = [Math]::Round((Get-Num $row 'E'), 2)
+    social = [Math]::Round((Get-Num $row 'S'), 2)
+    climate = [Math]::Round((Get-Num $row 'C'), 2)
+  }
+}
+function Get-AverageComponents($componentsList, [string[]]$keys) {
+  $result = [ordered]@{}
+  foreach ($key in $keys) {
+    $result[$key] = [Math]::Round((($componentsList | ForEach-Object { $_.$key }) | Measure-Object -Average).Average, 2)
+  }
+  return $result
+}
+function Get-AverageContribution($componentsList, [string]$group, [string[]]$names) {
+  $indicators = @()
+  foreach ($name in $names) {
+    $avg = (($componentsList | ForEach-Object { ($_.$group | Where-Object { $_.name -eq $name }).value }) | Measure-Object -Average).Average
+    $indicators += [ordered]@{ name = $name; value = [Math]::Round($avg, 2) }
+  }
+  return $indicators
+}
 $gesiRows = Read-XlsxColumns $GesiWorkbook @('hh_municipality', 'hh_ward', 'b1_head_sex', 'b2_religion', 'b2_religion_other', 'b3_hh_type')
 $shapefileRows = Import-Csv $ShapefileCsv
 $spiRows | ForEach-Object { $_.Municipality = Get-CanonicalMunicipalityName $_.Municipality }
@@ -160,12 +222,20 @@ $municipalities = @($spiRows | Group-Object Municipality | ForEach-Object {
       name = "Ward $($_.Ward)"
       wardNumber = [int]$_.Ward
       spiScore = [Math]::Round([double]$_.SPI, 2)
-      exclusionIndex = [Math]::Round([double]$_.EI, 2)
-      povertyIndex = [Math]::Round([double]$_.H, 2)
-      vulnerabilityIndex = [Math]::Round([double]$_.VI, 2)
+      exclusionIndex = [Math]::Round((Get-Num $_ 'EI'), 2)
+      exclusionPercent = [Math]::Round((Get-Num $_ 'EI%'), 2)
+      exclusionComponents = New-ExclusionComponents $_
+      povertyIndex = [Math]::Round((Get-Num $_ 'MPI'), 3)
+      povertyPercent = [Math]::Round((Get-Num $_ 'MPI%'), 2)
+      povertyComponents = New-PovertyComponents $_
+      vulnerabilityIndex = [Math]::Round((Get-Num $_ 'VI'), 2)
+      vulnerabilityPercent = [Math]::Round((Get-Num $_ 'VI%'), 2)
+      vulnerabilityComponents = New-VulnerabilityComponents $_
       gesi = New-Profile $wardHouseholds
     }
   })
+  $exclusionKeys = @('socioEconomic', 'institutional', 'political', 'cultural', 'spatial')
+  $vulnerabilityKeys = @('environmental', 'social', 'climate')
   [pscustomobject][ordered]@{
     id = $municipalityKey
     name = $name
@@ -174,8 +244,20 @@ $municipalities = @($spiRows | Group-Object Municipality | ForEach-Object {
     district = if ($null -ne $shapefileMunicipality) { $shapefileMunicipality.district } else { 'Unknown' }
     overallSpi = [Math]::Round((($wards | Measure-Object spiScore -Average).Average), 2)
     exclusionIndex = [Math]::Round((($wards | Measure-Object exclusionIndex -Average).Average), 2)
-    povertyIndex = [Math]::Round((($wards | Measure-Object povertyIndex -Average).Average), 2)
+    exclusionPercent = [Math]::Round((($wards | Measure-Object exclusionPercent -Average).Average), 2)
+    exclusionComponents = Get-AverageComponents ($wards | ForEach-Object { $_.exclusionComponents }) $exclusionKeys
+    povertyIndex = [Math]::Round((($wards | Measure-Object povertyIndex -Average).Average), 3)
+    povertyPercent = [Math]::Round((($wards | Measure-Object povertyPercent -Average).Average), 2)
+    povertyComponents = [ordered]@{
+      headcountRatio = [Math]::Round((($wards | ForEach-Object { $_.povertyComponents.headcountRatio } | Measure-Object -Average).Average), 3)
+      intensity = [Math]::Round((($wards | ForEach-Object { $_.povertyComponents.intensity } | Measure-Object -Average).Average), 3)
+      health = Get-AverageContribution ($wards | ForEach-Object { $_.povertyComponents }) 'health' @('Nutrition', 'Child mortality')
+      education = Get-AverageContribution ($wards | ForEach-Object { $_.povertyComponents }) 'education' @('Years of schooling', 'School attendance')
+      livingStandards = Get-AverageContribution ($wards | ForEach-Object { $_.povertyComponents }) 'livingStandards' @('Cooking fuel', 'Sanitation', 'Drinking water', 'Electricity', 'Housing', 'Assets')
+    }
     vulnerabilityIndex = [Math]::Round((($wards | Measure-Object vulnerabilityIndex -Average).Average), 2)
+    vulnerabilityPercent = [Math]::Round((($wards | Measure-Object vulnerabilityPercent -Average).Average), 2)
+    vulnerabilityComponents = Get-AverageComponents ($wards | ForEach-Object { $_.vulnerabilityComponents }) $vulnerabilityKeys
     wards = $wards
     gesi = New-Profile $households
   }

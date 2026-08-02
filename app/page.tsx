@@ -11,6 +11,7 @@ import { HouseholdHeadPie } from '@/components/HouseholdHeadPie';
 import { WardComparisonChart } from '@/components/WardComparisonChart';
 import { WardRankingsTable } from '@/components/WardRankingsTable';
 import { MapSection } from '@/components/MapSection';
+import { ExclusionRadarChart, VulnerabilityRadarChart, PovertyContributionChart } from '@/components/PillarBreakdownCharts';
 
 export default function Dashboard() {
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(municipalities[0].id);
@@ -21,8 +22,11 @@ export default function Dashboard() {
   const profile = ward?.gesi ?? municipality.gesi;
   const spi = ward?.spiScore ?? municipality.overallSpi;
   const exclusion = ward?.exclusionIndex ?? municipality.exclusionIndex;
+  const exclusionComponents = ward?.exclusionComponents ?? municipality.exclusionComponents;
   const poverty = ward?.povertyIndex ?? municipality.povertyIndex;
+  const povertyComponents = ward?.povertyComponents ?? municipality.povertyComponents;
   const vulnerability = ward?.vulnerabilityIndex ?? municipality.vulnerabilityIndex;
+  const vulnerabilityComponents = ward?.vulnerabilityComponents ?? municipality.vulnerabilityComponents;
   const contextLabel = ward ? ward.name : `${municipality.name} municipality`;
 
   return (
@@ -38,18 +42,29 @@ export default function Dashboard() {
         </header>
 
         <div className="grid gap-6 xl:grid-cols-12">
-          <section id="ward-map" className="xl:col-span-7"><MapSection municipality={municipality} pillar={selectedPillar} onWardSelect={setSelectedWardId} municipalities={municipalities} selectedMunicipalityId={selectedMunicipalityId} setSelectedMunicipalityId={(id) => { setSelectedMunicipalityId(id); setSelectedWardId(undefined); }} selectedPillar={selectedPillar} setSelectedPillar={setSelectedPillar} selectedWardId={selectedWardId} setSelectedWardId={setSelectedWardId} /></section>
+          <section id="ward-map" className="space-y-6 xl:col-span-7"><MapSection municipality={municipality} pillar={selectedPillar} onWardSelect={setSelectedWardId} municipalities={municipalities} selectedMunicipalityId={selectedMunicipalityId} setSelectedMunicipalityId={(id) => { setSelectedMunicipalityId(id); setSelectedWardId(undefined); }} selectedPillar={selectedPillar} setSelectedPillar={setSelectedPillar} selectedWardId={selectedWardId} setSelectedWardId={setSelectedWardId} /><WardRankingsTable municipality={municipality} pillar={selectedPillar} limit={5} onWardSelect={(id) => { setSelectedWardId(id); document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} /></section>
 
           <aside className="space-y-5 xl:col-span-5">
-            <KPICards exclusion={exclusion} poverty={poverty} vulnerability={vulnerability} />
-            <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-5 flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#87604d]">Selected place</p><h2 className="mt-1 text-lg font-semibold">{contextLabel}</h2></div><span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">Household profile</span></div><div className="grid gap-3 sm:grid-cols-2"><SPIGaugeChart value={spi} title="Shared Prosperity Index" /><HouseholdHeadPie profile={profile} /></div><div className="mt-3 grid gap-3 sm:grid-cols-2"><GesiProfileChart profile={profile} metric="religion" compact /><GesiProfileChart profile={profile} metric="household" compact /></div></section>
+            <KPICards
+              exclusion={exclusion}
+              poverty={poverty}
+              vulnerability={vulnerability}
+            />
+            <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-5 flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#87604d]">Selected place</p><h2 className="mt-1 text-lg font-semibold">{contextLabel}</h2></div><span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">Household profile</span></div><div className="grid gap-3 sm:grid-cols-2"><SPIGaugeChart value={spi} title="Shared Prosperity Index" /><HouseholdHeadPie profile={profile} /></div><div className="mt-3 grid gap-4"><GesiProfileChart profile={profile} metric="religion" compact /><GesiProfileChart profile={profile} metric="household" compact /></div></section>
           </aside>
         </div>
 
-        <section className="mt-6 grid gap-6 xl:grid-cols-12">
-          <div className="xl:col-span-6"><WardComparisonChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} /></div>
-          <div className="xl:col-span-6"><WardRankingsTable municipality={municipality} pillar={selectedPillar} limit={5} onWardSelect={(id) => { setSelectedWardId(id); document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} /></div>
-        </section>
+        {exclusionComponents && vulnerabilityComponents && povertyComponents ? (
+          <section className="mt-6 grid gap-6 xl:grid-cols-12">
+            <div className="xl:col-span-4"><ExclusionRadarChart components={exclusionComponents} /></div>
+            <div className="xl:col-span-4"><VulnerabilityRadarChart components={vulnerabilityComponents} /></div>
+            <div className="xl:col-span-4"><PovertyContributionChart components={povertyComponents} /></div>
+          </section>
+        ) : null}
+
+        {/* <section className="mt-6 grid gap-6 xl:grid-cols-12">
+          <div className="xl:col-span-12"><WardComparisonChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} /></div>
+        </section> */}
 
         <footer className="mt-6 flex flex-col gap-2 border-t border-slate-200 py-5 text-xs text-slate-500 sm:flex-row sm:justify-between"><span>SPI identifies geographic outcomes; GESI provides the household inclusion context.</span><span>Click any ward to explore its combined profile.</span></footer>
       </div>

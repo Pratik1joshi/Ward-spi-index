@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import shp from 'shpjs';
 import * as L from 'leaflet';
-import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMap } from 'react-leaflet';
+import { CircleMarker, GeoJSON, MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { Card } from '@/components/ui/card';
-import { MunicipalitySelector, PillarSelector, WardFilterSelector } from '@/components/Selectors';
-import { getSPIColor } from '@/lib/colors';
+import { MunicipalitySelector, PillarSelector, WardFilterSelector, GesiCategorySelector } from '@/components/Selectors';
+import { getSPIColor, getGesiCategoryColor, buildGesiConicGradient } from '@/lib/colors';
 import { getScoreByPillar } from '@/lib/data';
 import { Municipality, Pillar } from '@/lib/types';
 
@@ -186,6 +186,16 @@ export function WardMapClient({
   const [geoJsonData, setGeoJsonData] = useState<FeatureCollection<Geometry, ShapefileProperties> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedGesiCategories, setSelectedGesiCategories] = useState<string[]>([]);
+
+  const gesiCategories = useMemo(
+    () => municipality.gesi.householdType.map((item) => item.name),
+    [municipality]
+  );
+
+  useEffect(() => {
+    setSelectedGesiCategories([]);
+  }, [municipality.id]);
 
   const handleWardClick = (wardId: string) => {
     setSelectedWardLocalId(wardId);
@@ -293,6 +303,39 @@ export function WardMapClient({
     return municipalityFeatures.find((feature) => String(feature.properties?.WARD) === selectedWardNumber) || null;
   }, [municipalityFeatures, effectiveSelectedWardId]);
 
+  type GesiMarker = {
+    ward: Municipality['wards'][number];
+    center: L.LatLng;
+    segments: { name: string; value: number }[];
+    total: number;
+  };
+
+  const gesiMarkers = useMemo<GesiMarker[]>(() => {
+    if (selectedGesiCategories.length === 0 || municipalityFeatures.length === 0) {
+      return [];
+    }
+
+    return municipalityFeatures
+      .map((feature: Feature<Geometry, ShapefileProperties>): GesiMarker | null => {
+        const wardNumber = String(feature.properties?.WARD || '');
+        const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+        if (!ward?.gesi) return null;
+
+        const bounds = L.geoJSON(feature as any).getBounds();
+        if (!bounds.isValid()) return null;
+        const center = bounds.getCenter();
+
+        const segments = selectedGesiCategories.map((name) => ({
+          name,
+          value: ward.gesi!.householdType.find((item) => item.name === name)?.value ?? 0,
+        }));
+        const total = segments.reduce((sum, item) => sum + item.value, 0);
+
+        return { ward, center, segments, total };
+      })
+      .filter((item: GesiMarker | null): item is GesiMarker => item !== null);
+  }, [municipalityFeatures, municipality, selectedGesiCategories]);
+
   return (
     <Card className="border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
       <div className="mb-4 flex items-end justify-between gap-4">
@@ -311,7 +354,7 @@ export function WardMapClient({
         {/* Filters bar inside the map card but outside the map canvas */}
         {(municipalities || setSelectedPillar) && (
           <div className="relative z-20 mb-3 rounded-md border border-slate-200 bg-white p-3 shadow-sm">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 2xl:grid-cols-4">
               {municipalities && setSelectedMunicipalityId && (
                 <MunicipalitySelector
                   municipalities={municipalities}
@@ -331,6 +374,12 @@ export function WardMapClient({
                   onSelect={setSelectedWardId}
                 />
               )}
+
+              <GesiCategorySelector
+                categories={gesiCategories}
+                selected={selectedGesiCategories}
+                onChange={setSelectedGesiCategories}
+              />
             </div>
           </div>
         )}
@@ -364,11 +413,13 @@ export function WardMapClient({
                       ? wardNumber === String(effectiveSelectedWardId).split('-').pop()
                       : false;
 
+                    const dimmed = selectedGesiCategories.length > 0;
+
                     return {
                       color: isSelectedWard ? '#254a36' : '#ffffff',
                       weight: isSelectedWard ? 3 : 1.5,
                       fillColor: isSelectedWard ? '#4f735f' : getSPIColor(score),
-                      fillOpacity: isSelectedWard ? 0.95 : 0.72,
+                      fillOpacity: isSelectedWard ? 0.95 : dimmed ? 0.25 : 0.72,
                     };
                   }}
                   onEachFeature={(feature, layer) => {
@@ -409,6 +460,41 @@ export function WardMapClient({
                     }}
                   />
                 ) : null}
+                {gesiMarkers.map(({ ward, center, segments, total }: GesiMarker) => {
+                  const size = Math.round(26 + Math.min(total, 100) * 0.3);
+                  const icon = L.divIcon({
+                    className: '',
+                    iconSize: [size, size],
+                    iconAnchor: [size / 2, size / 2],
+                    html: `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:${buildGesiConicGradient(segments)};border:2px solid white;box-shadow:0 1px 5px rgba(15,23,42,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;">` +
+                      `<div style="width:${Math.round(size * 0.44)}px;height:${Math.round(size * 0.44)}px;border-radius:9999px;background:white;display:flex;align-items:center;justify-content:center;font:600 ${Math.max(9, Math.round(size * 0.22))}px system-ui;color:#334155;">${Math.round(total)}%</div>` +
+                      `</div>`,
+                  });
+
+                  return (
+                    <Marker
+                      key={`gesi-${ward.id}`}
+                      position={[center.lat, center.lng]}
+                      icon={icon}
+                      eventHandlers={{ click: () => handleWardClick(ward.id) }}
+                    >
+                      <Popup>
+                        <div className="text-xs">
+                          <p className="mb-1 font-bold">{ward.name}</p>
+                          {segments.map((segment: { name: string; value: number }) => (
+                            <p key={segment.name} className="flex items-center gap-1.5">
+                              <span
+                                className="inline-block h-2 w-2 rounded-full"
+                                style={{ backgroundColor: getGesiCategoryColor(segment.name) }}
+                              />
+                              {segment.name}: {segment.value}%
+                            </p>
+                          ))}
+                        </div>
+                      </Popup>
+                    </Marker>
+                  );
+                })}
               </>
             ) : null}
           </MapContainer>
@@ -417,12 +503,27 @@ export function WardMapClient({
               Loading shapefile geometry...
             </div>
           ) : null}
-          <div className="pointer-events-none absolute bottom-3 left-3 z-[1000] rounded-md border border-black/5 bg-white/95 px-3 py-2 shadow-md backdrop-blur-sm">
-            <div className="mb-1.5 flex items-center justify-between text-[10px] font-medium uppercase tracking-wide text-slate-500"><span>{pillar === 'overall' ? 'SPI score' : `${pillar} index`}</span><span>Lower → higher</span></div>
-            <div className="flex items-center gap-0.5">
-              {['#eef1ef', '#d7ded9', '#aebfb5', '#7f9989', '#4f735f', '#254a36'].map((color) => <span key={color} className="h-2.5 w-5 first:rounded-l-sm last:rounded-r-sm" style={{ backgroundColor: color }} />)}
+          {selectedGesiCategories.length > 0 ? (
+            <div className="pointer-events-none absolute bottom-3 left-3 z-[1000] max-w-[220px] rounded-md border border-black/5 bg-white/95 px-3 py-2 shadow-md backdrop-blur-sm">
+              <div className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500">Household share by category</div>
+              <div className="flex flex-col gap-1">
+                {selectedGesiCategories.map((name) => (
+                  <span key={name} className="flex items-center gap-1.5 text-[11px] text-slate-700">
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: getGesiCategoryColor(name) }} />
+                    {name}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-1.5 text-[10px] leading-tight text-slate-400">Donut size = combined household share</p>
             </div>
-          </div>
+          ) : (
+            <div className="pointer-events-none absolute bottom-3 left-3 z-[1000] rounded-md border border-black/5 bg-white/95 px-3 py-2 shadow-md backdrop-blur-sm">
+              <div className="mb-1.5 flex items-center justify-between text-[10px] font-medium uppercase tracking-wide text-slate-500"><span>{pillar === 'overall' ? 'SPI score' : `${pillar} index`}</span><span>Lower → higher</span></div>
+              <div className="flex items-center gap-0.5">
+                {['#eef1ef', '#d7ded9', '#aebfb5', '#7f9989', '#4f735f', '#254a36'].map((color) => <span key={color} className="h-2.5 w-5 first:rounded-l-sm last:rounded-r-sm" style={{ backgroundColor: color }} />)}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>

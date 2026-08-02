@@ -8,6 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
+import { getGesiCategoryColor } from '@/lib/colors';
+import { Users2, ChevronDown } from 'lucide-react';
 
 interface MunicipalitySelectorProps {
   municipalities: Municipality[];
@@ -26,7 +31,7 @@ export function MunicipalitySelector({
   onSelect,
 }: MunicipalitySelectorProps) {
   return (
-    <div className="flex min-w-[200px] flex-col gap-2">
+    <div className="flex w-full min-w-0 flex-col gap-2">
       <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">
         Select Municipality
       </label>
@@ -55,7 +60,7 @@ export function PillarSelector({ selectedPillar, onSelect }: PillarSelectorProps
   ];
 
   return (
-    <div className="flex min-w-[180px] flex-col gap-2">
+    <div className="flex w-full min-w-0 flex-col gap-2">
       <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">
         Pillar
       </label>
@@ -85,7 +90,7 @@ export function WardFilterSelector({
   onSelect: (id?: string) => void;
 }) {
   return (
-    <div className="flex min-w-[180px] flex-col gap-2">
+    <div className="flex w-full min-w-0 flex-col gap-2">
       <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">
         Filter by Ward
       </label>
@@ -102,6 +107,64 @@ export function WardFilterSelector({
           ))}
         </SelectContent>
       </Select>
+    </div>
+  );
+}
+
+export function GesiCategorySelector({
+  categories,
+  selected,
+  onChange,
+}: {
+  categories: string[];
+  selected: string[];
+  onChange: (categories: string[]) => void;
+}) {
+  const toggle = (name: string) => {
+    onChange(selected.includes(name) ? selected.filter((item) => item !== name) : [...selected, name]);
+  };
+
+  return (
+    <div className="flex w-full min-w-0 flex-col gap-2">
+      <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">GESI overlay</label>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full justify-between border-slate-300 bg-white font-normal text-slate-900 hover:bg-white"
+          >
+            <span className="flex items-center gap-2 truncate">
+              <Users2 className="h-4 w-4 shrink-0 text-slate-500" />
+              {selected.length === 0 ? 'None selected' : `${selected.length} categor${selected.length === 1 ? 'y' : 'ies'}`}
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[min(16rem,calc(100vw-2rem))] bg-white p-2" align="start">
+          <div className="max-h-64 space-y-0.5 overflow-y-auto">
+            {categories.map((name) => (
+              <label
+                key={name}
+                className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+              >
+                <Checkbox checked={selected.includes(name)} onCheckedChange={() => toggle(name)} />
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: getGesiCategoryColor(name) }} />
+                <span className="truncate">{name}</span>
+              </label>
+            ))}
+          </div>
+          {selected.length > 0 && (
+            <button
+              type="button"
+              onClick={() => onChange([])}
+              className="mt-1 w-full rounded-md px-2 py-1.5 text-left text-xs font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+            >
+              Clear selection
+            </button>
+          )}
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

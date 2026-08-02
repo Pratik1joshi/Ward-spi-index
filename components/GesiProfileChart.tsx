@@ -1,36 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Sector, Tooltip, type PieSectorDataItem } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { GesiProfile } from '@/lib/types';
 
 const chartColors = ['#0f766e', '#2563eb', '#d97706', '#db2777'];
-
-function renderActiveShape({ cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value }: PieSectorDataItem) {
-  const radians = Math.PI / 180;
-  const sin = Math.sin(-radians * (midAngle ?? 0));
-  const cos = Math.cos(-radians * (midAngle ?? 0));
-  const startX = (cx ?? 0) + ((outerRadius ?? 0) + 8) * cos;
-  const startY = (cy ?? 0) + ((outerRadius ?? 0) + 8) * sin;
-  const middleX = (cx ?? 0) + ((outerRadius ?? 0) + 23) * cos;
-  const middleY = (cy ?? 0) + ((outerRadius ?? 0) + 23) * sin;
-  const endX = middleX + (cos >= 0 ? 1 : -1) * 18;
-  const textAnchor = cos >= 0 ? 'start' : 'end';
-  const labelX = endX + (cos >= 0 ? 1 : -1) * 7;
-
-  return (
-    <g>
-      <Sector cx={cx} cy={cy} innerRadius={innerRadius} outerRadius={outerRadius} startAngle={startAngle} endAngle={endAngle} fill={fill} />
-      <Sector cx={cx} cy={cy} innerRadius={(outerRadius ?? 0) + 4} outerRadius={(outerRadius ?? 0) + 8} startAngle={startAngle} endAngle={endAngle} fill={fill} />
-      <path d={`M${startX},${startY}L${middleX},${middleY}L${endX},${middleY}`} stroke={fill} fill="none" />
-      <circle cx={endX} cy={middleY} r={2} fill={fill} />
-      <text x={cx} y={cy} dy={-2} textAnchor="middle" className="fill-slate-800 text-[10px] font-semibold">{payload.name}</text>
-      <text x={cx} y={cy} dy={13} textAnchor="middle" className="fill-slate-500 text-[9px]">{`${value}% of households`}</text>
-      <text x={labelX} y={middleY} textAnchor={textAnchor} className="fill-slate-700 text-[10px] font-semibold">{payload.name}</text>
-      <text x={labelX} y={middleY} dy={13} textAnchor={textAnchor} className="fill-slate-500 text-[9px]">{`${((percent ?? 0) * 100).toFixed(1)}%`}</text>
-    </g>
-  );
-}
 
 export function GesiProfileChart({ profile, metric, compact = false }: { profile: GesiProfile; metric: 'sex' | 'religion' | 'household'; compact?: boolean }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,22 +12,34 @@ export function GesiProfileChart({ profile, metric, compact = false }: { profile
     ? [{ name: 'Female-headed', value: profile.femaleHeaded }, { name: 'Male-headed', value: profile.maleHeaded }]
     : metric === 'religion' ? profile.religion : profile.householdType;
   const title = metric === 'sex' ? 'Household head sex' : metric === 'religion' ? 'Religion' : 'Household type';
+  const activeItem = data[activeIndex] ?? data[0];
 
   return (
-    <section className={`rounded-lg border border-slate-200 bg-white ${compact ? 'p-3' : 'p-5'} shadow-sm`}>
-      <div className="mb-2 flex items-baseline justify-between">
+    <section className={`rounded-lg border border-slate-200 bg-white ${compact ? 'p-4' : 'p-5'} shadow-sm`}>
+      <div className="mb-3 flex items-baseline justify-between gap-3">
         <div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">GESI profile</p><h3 className={`${compact ? 'text-sm' : 'text-base'} mt-1 font-semibold text-slate-900`}>{title}</h3></div>
-        <span className="text-xs text-slate-500">% of households</span>
+        <span className="shrink-0 text-xs text-slate-500">% of households</span>
       </div>
-      <ResponsiveContainer width="100%" height={compact ? 200 : 260}>
-        <PieChart margin={{ top: 20, right: 52, bottom: 10, left: 52 }}>
-          <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="47%" innerRadius={compact ? 34 : 44} outerRadius={compact ? 58 : 72} paddingAngle={3} activeIndex={activeIndex} activeShape={renderActiveShape} onMouseEnter={(_, index) => setActiveIndex(index)}>
-            {data.map((entry, index) => <Cell key={`${entry.name}-${index}`} fill={chartColors[index % chartColors.length]} stroke="white" strokeWidth={2} />)}
-          </Pie>
-          <Tooltip formatter={(value, name) => [`${value}%`, name]} contentStyle={{ borderRadius: 10, borderColor: '#cbd5e1' }} />
-          <Legend verticalAlign="bottom" iconType="circle" iconSize={8} formatter={(value: string) => <span className="text-[10px] font-medium text-slate-600">{value.length > 18 ? `${value.slice(0, 18)}…` : value}</span>} />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="grid items-center gap-2 sm:grid-cols-[minmax(210px,0.8fr)_minmax(0,1fr)] sm:gap-5">
+        <ResponsiveContainer width="100%" height={compact ? 240 : 270}>
+          <PieChart>
+            <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={compact ? 52 : 62} outerRadius={compact ? 88 : 104} paddingAngle={3} activeIndex={activeIndex} onMouseEnter={(_, index) => setActiveIndex(index)}>
+              {data.map((entry, index) => <Cell key={`${entry.name}-${index}`} fill={chartColors[index % chartColors.length]} stroke="white" strokeWidth={2} />)}
+            </Pie>
+            <text x="50%" y="47%" textAnchor="middle" className="fill-slate-900 text-[13px] font-semibold">{activeItem?.name}</text>
+            <text x="50%" y="55%" textAnchor="middle" className="fill-slate-500 text-[11px]">{`${activeItem?.value.toFixed(1) ?? '0.0'}% of households`}</text>
+            <Tooltip formatter={(value, name) => [`${value}%`, name]} contentStyle={{ borderRadius: 10, borderColor: '#cbd5e1' }} />
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="grid gap-2">
+          {data.map((entry, index) => (
+            <button key={entry.name} type="button" onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} className={`flex w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-left transition-colors ${activeIndex === index ? 'bg-slate-100' : 'hover:bg-slate-50'}`}>
+              <span className="flex min-w-0 items-center gap-2 text-sm text-slate-700"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: chartColors[index % chartColors.length] }} /><span className="truncate">{entry.name}</span></span>
+              <span className="shrink-0 text-sm font-semibold tabular-nums text-slate-900">{entry.value.toFixed(1)}%</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

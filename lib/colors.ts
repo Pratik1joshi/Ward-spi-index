@@ -54,3 +54,40 @@ export const pieChartData = [
   { name: 'Poverty', value: 35, fill: chartColors.poverty },
   { name: 'Vulnerability', value: 35, fill: chartColors.vulnerability },
 ];
+
+// Fixed palette for GESI household categories, used on the map's donut markers and legend
+const gesiPalette = ['#d66a4b', '#3f6f9e', '#c9a227', '#7a4fa3', '#2f9e6f', '#3fb0b0', '#e0668a', '#8a8a5c', '#b5533f', '#5c6bc0', '#94a3b8'];
+const gesiCategoryColors: Record<string, string> = {
+  Janajati: gesiPalette[0],
+  Chhetri: gesiPalette[1],
+  Madhesi: gesiPalette[2],
+  Dalit: gesiPalette[3],
+  Brahmin: gesiPalette[4],
+  Muslim: gesiPalette[5],
+  'Single woman': gesiPalette[6],
+  Landless: gesiPalette[7],
+  'Household with PWD': gesiPalette[8],
+  'Remote/isolated': gesiPalette[9],
+};
+
+export function getGesiCategoryColor(name: string): string {
+  if (gesiCategoryColors[name]) return gesiCategoryColors[name];
+  let hash = 0;
+  for (let i = 0; i < name.length; i += 1) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  return gesiPalette[hash % gesiPalette.length];
+}
+
+// Builds a CSS conic-gradient() stop list for a donut marker from named shares (0-100 scale, need not sum to 100)
+export function buildGesiConicGradient(segments: { name: string; value: number }[]): string {
+  const total = segments.reduce((sum, item) => sum + item.value, 0);
+  if (total <= 0) return `conic-gradient(#e2e8f0 0deg 360deg)`;
+  let angle = 0;
+  const stops = segments
+    .filter((item) => item.value > 0)
+    .map((item) => {
+      const start = angle;
+      angle += (item.value / total) * 360;
+      return `${getGesiCategoryColor(item.name)} ${start.toFixed(1)}deg ${angle.toFixed(1)}deg`;
+    });
+  return `conic-gradient(${stops.join(', ')})`;
+}

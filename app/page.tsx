@@ -1,33 +1,55 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MapPinned } from 'lucide-react';
-import { municipalities } from '@/lib/data';
+import { municipalities, households } from '@/lib/data';
 import { Pillar } from '@/lib/types';
 import { KPICards } from '@/components/KPICards';
 import { SPIGaugeChart } from '@/components/SPIGaugeChart';
 import { GesiProfileChart } from '@/components/GesiProfileChart';
 import { HouseholdHeadPie } from '@/components/HouseholdHeadPie';
 import { WardComparisonChart } from '@/components/WardComparisonChart';
+import { WardAverageChart } from '@/components/WardAverageChart';
 import { WardRankingsTable } from '@/components/WardRankingsTable';
 import { MapSection } from '@/components/MapSection';
 import { ExclusionRadarChart, VulnerabilityRadarChart, PovertyContributionChart } from '@/components/PillarBreakdownCharts';
+import { HouseholdSex, filterHouseholds, summarizeHouseholds } from '@/lib/households';
 
 export default function Dashboard() {
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(municipalities[0].id);
   const [selectedPillar, setSelectedPillar] = useState<Pillar>('overall');
   const [selectedWardId, setSelectedWardId] = useState<string | undefined>();
+  const [selectedSex, setSelectedSex] = useState<HouseholdSex>('all');
+  const [selectedHouseholdTypes, setSelectedHouseholdTypes] = useState<string[]>([]);
+  const [selectedReligions, setSelectedReligions] = useState<string[]>([]);
   const municipality = municipalities.find((m) => m.id === selectedMunicipalityId)!;
   const ward = selectedWardId ? municipality.wards.find((item) => item.id === selectedWardId) : undefined;
-  const profile = ward?.gesi ?? municipality.gesi;
-  const spi = ward?.spiScore ?? municipality.overallSpi;
-  const exclusion = ward?.exclusionIndex ?? municipality.exclusionIndex;
-  const exclusionComponents = ward?.exclusionComponents ?? municipality.exclusionComponents;
-  const poverty = ward?.povertyIndex ?? municipality.povertyIndex;
-  const povertyComponents = ward?.povertyComponents ?? municipality.povertyComponents;
-  const vulnerability = ward?.vulnerabilityIndex ?? municipality.vulnerabilityIndex;
-  const vulnerabilityComponents = ward?.vulnerabilityComponents ?? municipality.vulnerabilityComponents;
   const contextLabel = ward ? ward.name : `${municipality.name} municipality`;
+
+  // Every option list (household type / religion overlays) is drawn from all of this
+  // municipality's households, independent of the current filter selection, so choices
+  // never disappear as filters narrow the dataset.
+  const municipalityHouseholds = useMemo(
+    () => households.filter((household) => household.municipalityId === municipality.id),
+    [municipality.id]
+  );
+
+  // Single source of truth: every chart, KPI, index, percentage, map layer and tooltip
+  // below is derived from this one filtered array. AND across filter groups, OR within
+  // the household type / religion multi-selects.
+  const filteredHouseholds = useMemo(
+    () =>
+      filterHouseholds(households, {
+        municipalityId: municipality.id,
+        wardId: selectedWardId,
+        sex: selectedSex,
+        householdTypes: selectedHouseholdTypes,
+        religions: selectedReligions,
+      }),
+    [municipality.id, selectedWardId, selectedSex, selectedHouseholdTypes, selectedReligions]
+  );
+
+  const summary = useMemo(() => summarizeHouseholds(filteredHouseholds), [filteredHouseholds]);
 
   return (
     <main className="min-h-screen bg-[#f7f7f5] px-4 py-5 text-slate-900 md:px-8 md:py-7">
@@ -42,23 +64,104 @@ export default function Dashboard() {
         </header>
 
         <div className="grid gap-6 xl:grid-cols-12">
-          <section id="ward-map" className="space-y-6 xl:col-span-7"><MapSection municipality={municipality} pillar={selectedPillar} onWardSelect={setSelectedWardId} municipalities={municipalities} selectedMunicipalityId={selectedMunicipalityId} setSelectedMunicipalityId={(id) => { setSelectedMunicipalityId(id); setSelectedWardId(undefined); }} selectedPillar={selectedPillar} setSelectedPillar={setSelectedPillar} selectedWardId={selectedWardId} setSelectedWardId={setSelectedWardId} /><WardRankingsTable municipality={municipality} pillar={selectedPillar} limit={5} onWardSelect={(id) => { setSelectedWardId(id); document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} /></section>
+          <section id="ward-map" className="space-y-6 xl:col-span-7">
+            <MapSection
+              municipality={municipality}
+              pillar={selectedPillar}
+              onWardSelect={setSelectedWardId}
+              municipalities={municipalities}
+              selectedMunicipalityId={selectedMunicipalityId}
+              setSelectedMunicipalityId={(id) => {
+                setSelectedMunicipalityId(id);
+                setSelectedWardId(undefined);
+                setSelectedSex('all');
+                setSelectedHouseholdTypes([]);
+                setSelectedReligions([]);
+              }}
+              selectedPillar={selectedPillar}
+              setSelectedPillar={setSelectedPillar}
+              selectedWardId={selectedWardId}
+              setSelectedWardId={setSelectedWardId}
+              selectedSex={selectedSex}
+              setSelectedSex={setSelectedSex}
+              selectedHouseholdTypes={selectedHouseholdTypes}
+              setSelectedHouseholdTypes={setSelectedHouseholdTypes}
+              selectedReligions={selectedReligions}
+              setSelectedReligions={setSelectedReligions}
+              filteredHouseholds={filteredHouseholds}
+              municipalityHouseholds={municipalityHouseholds}
+            />
+            <WardAverageChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} />
+            <WardRankingsTable municipality={municipality} pillar={selectedPillar} limit={5} onWardSelect={(id) => { setSelectedWardId(id); document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
+          </section>
 
           <aside className="space-y-5 xl:col-span-5">
-            <KPICards
-              exclusion={exclusion}
-              poverty={poverty}
-              vulnerability={vulnerability}
-            />
-            <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-5 flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#87604d]">Selected place</p><h2 className="mt-1 text-lg font-semibold">{contextLabel}</h2></div><span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">Household profile</span></div><div className="grid gap-3 sm:grid-cols-2"><SPIGaugeChart value={spi} title="Shared Prosperity Index" /><HouseholdHeadPie profile={profile} /></div><div className="mt-3 grid gap-4"><GesiProfileChart profile={profile} metric="religion" compact /><GesiProfileChart profile={profile} metric="household" compact /></div></section>
+            {summary === null ? (
+              <section className="flex h-64 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+                <p className="text-sm font-medium text-slate-600">No households match the selected filters.</p>
+                <p className="mt-1 max-w-xs text-xs text-slate-400">
+                  This often happens when sex, household type, religion, and ward are combined too tightly.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedWardId(undefined);
+                    setSelectedSex('all');
+                    setSelectedHouseholdTypes([]);
+                    setSelectedReligions([]);
+                  }}
+                  className="mt-4 rounded-md bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-700"
+                >
+                  Clear all filters
+                </button>
+              </section>
+            ) : (
+              <>
+                <KPICards
+                  exclusion={summary.exclusionPercent}
+                  poverty={summary.povertyPercent}
+                  vulnerability={summary.vulnerabilityPercent}
+                />
+                <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className="mb-5 flex items-end justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#87604d]">Selected place</p>
+                      <h2 className="mt-1 text-lg font-semibold">{contextLabel}</h2>
+                    </div>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                      {summary.totalHouseholds.toLocaleString()} households
+                    </span>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <SPIGaugeChart value={summary.spi} title="Shared Prosperity Index" />
+                    <HouseholdHeadPie
+                      femaleHeaded={summary.femaleHeaded}
+                      maleHeaded={summary.maleHeaded}
+                    />
+                  </div>
+                  <div className="mt-3 grid gap-4">
+                    <GesiProfileChart data={summary.religion} metric="religion" compact />
+                    <GesiProfileChart data={summary.householdType} metric="household" compact />
+                  </div>
+                </section>
+              </>
+            )}
           </aside>
         </div>
 
-        {exclusionComponents && vulnerabilityComponents && povertyComponents ? (
+        {summary ? (
           <section className="mt-6 grid gap-6 xl:grid-cols-12">
-            <div className="xl:col-span-4"><ExclusionRadarChart components={exclusionComponents} /></div>
-            <div className="xl:col-span-4"><VulnerabilityRadarChart components={vulnerabilityComponents} /></div>
-            <div className="xl:col-span-4"><PovertyContributionChart components={povertyComponents} /></div>
+            <div className={summary.povertyComponents.headcountRatio > 0 ? 'xl:col-span-4' : 'xl:col-span-6'}>
+              <ExclusionRadarChart components={summary.exclusionComponents} />
+            </div>
+            <div className={summary.povertyComponents.headcountRatio > 0 ? 'xl:col-span-4' : 'xl:col-span-6'}>
+              <VulnerabilityRadarChart components={summary.vulnerabilityComponents} />
+            </div>
+            {summary.povertyComponents.headcountRatio > 0 ? (
+              <div className="xl:col-span-4">
+                <PovertyContributionChart components={summary.povertyComponents} />
+              </div>
+            ) : null}
           </section>
         ) : null}
 

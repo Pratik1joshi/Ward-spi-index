@@ -2,8 +2,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Municipality, Pillar } from '@/lib/types';
-import { Municipality as MunicipalityType } from '@/lib/types';
+import { Household, Municipality, Pillar } from '@/lib/types';
+import { HouseholdSex } from '@/lib/households';
 
 const WardMapClient = dynamic(
   () => import('@/components/WardMapClient').then((module) => module.WardMapClient),
@@ -30,6 +30,16 @@ interface MapSectionProps {
   setSelectedPillar?: (p: Pillar) => void;
   selectedWardId?: string | undefined;
   setSelectedWardId?: (id?: string) => void;
+
+  selectedSex?: HouseholdSex;
+  setSelectedSex?: (sex: HouseholdSex) => void;
+  selectedHouseholdTypes?: string[];
+  setSelectedHouseholdTypes?: (categories: string[]) => void;
+  selectedReligions?: string[];
+  setSelectedReligions?: (categories: string[]) => void;
+
+  filteredHouseholds: Household[];
+  municipalityHouseholds: Household[];
 }
 
 export function MapSection({
@@ -43,6 +53,14 @@ export function MapSection({
   setSelectedPillar,
   selectedWardId,
   setSelectedWardId,
+  selectedSex,
+  setSelectedSex,
+  selectedHouseholdTypes,
+  setSelectedHouseholdTypes,
+  selectedReligions,
+  setSelectedReligions,
+  filteredHouseholds,
+  municipalityHouseholds,
 }: MapSectionProps) {
   return (
     <WardMapClient
@@ -56,6 +74,14 @@ export function MapSection({
       setSelectedPillar={setSelectedPillar}
       selectedWardId={selectedWardId}
       setSelectedWardId={setSelectedWardId}
+      selectedSex={selectedSex}
+      setSelectedSex={setSelectedSex}
+      selectedHouseholdTypes={selectedHouseholdTypes}
+      setSelectedHouseholdTypes={setSelectedHouseholdTypes}
+      selectedReligions={selectedReligions}
+      setSelectedReligions={setSelectedReligions}
+      filteredHouseholds={filteredHouseholds}
+      municipalityHouseholds={municipalityHouseholds}
     />
   );
 }

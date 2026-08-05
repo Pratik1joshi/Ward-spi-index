@@ -40,16 +40,27 @@ export interface Ward {
   vulnerabilityComponents?: VulnerabilityComponents;
   population?: number;
   coordinates?: [number, number]; // [latitude, longitude]
-  gesi?: GesiProfile;
 }
 
-export type GesiProfile = {
-  totalHouseholds: number;
-  femaleHeaded: number;
-  maleHeaded: number;
-  religion: { name: string; value: number }[];
-  householdType: { name: string; value: number }[];
-};
+// One real surveyed household, joined from the GESI/EI/VI/MPI source workbook.
+export interface Household {
+  municipalityId: string;
+  wardId: string;
+  settlement: string;
+  headSex: 'female' | 'male';
+  religion: string;
+  householdType: string;
+  /** Weighted deprivation score (Sum column). */
+  deprivationSum: number;
+  /** 1 when deprivationSum >= 0.33, else 0 ("if exceeds 0.33" column). */
+  ifExceeds033: number;
+  exclusionPercent: number;
+  vulnerabilityPercent: number;
+  exclusionComponents: ExclusionComponents;
+  /** Per-indicator MPI contribution %; aggregated at summary time among poor households. */
+  povertyContributions: Pick<PovertyComponents, 'health' | 'education' | 'livingStandards'>;
+  vulnerabilityComponents: VulnerabilityComponents;
+}
 
 // Municipality data structure
 export interface Municipality {
@@ -69,7 +80,6 @@ export interface Municipality {
   vulnerabilityPercent?: number;
   vulnerabilityComponents?: VulnerabilityComponents;
   wards: Ward[];
-  gesi: GesiProfile;
 }
 
 // Dashboard state

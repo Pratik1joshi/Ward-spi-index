@@ -115,10 +115,12 @@ export function GesiCategorySelector({
   categories,
   selected,
   onChange,
+  label = 'GESI overlay',
 }: {
   categories: string[];
   selected: string[];
   onChange: (categories: string[]) => void;
+  label?: string;
 }) {
   const toggle = (name: string) => {
     onChange(selected.includes(name) ? selected.filter((item) => item !== name) : [...selected, name]);
@@ -126,7 +128,7 @@ export function GesiCategorySelector({
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-2">
-      <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">GESI overlay</label>
+      <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">{label}</label>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -165,6 +167,30 @@ export function GesiCategorySelector({
           )}
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+export function HouseholdSexSelector({
+  selected,
+  onSelect,
+}: {
+  selected: 'all' | 'female' | 'male';
+  onSelect: (value: 'all' | 'female' | 'male') => void;
+}) {
+  return (
+    <div className="flex w-full min-w-0 flex-col gap-2">
+      <label className="text-xs font-semibold uppercase tracking-wide text-slate-600">Household head sex</label>
+      <Select value={selected} onValueChange={(value) => onSelect(value as 'all' | 'female' | 'male')}>
+        <SelectTrigger className="w-full border-slate-300 bg-white text-slate-900 data-[placeholder]:text-slate-500">
+          <SelectValue placeholder="All households" />
+        </SelectTrigger>
+        <SelectContent className="bg-white">
+          <SelectItem value="all">All households</SelectItem>
+          <SelectItem value="female">Female-headed</SelectItem>
+          <SelectItem value="male">Male-headed</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   );
 }

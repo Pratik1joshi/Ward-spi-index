@@ -17,19 +17,19 @@ export function KPICards({
   const cards = [
     {
       title: 'Exclusion Index',
-      value: exclusion.toFixed(2),
+      value: `${exclusion.toFixed(1)}%`,
       icon: LinkIcon,
       color: '#3f6f9e',
     },
     {
-      title: 'Poverty Index (MPI)',
-      value: poverty.toFixed(3),
+      title: 'Poverty Index',
+      value: `${poverty.toFixed(1)}%`,
       icon: Home,
       color: '#d97706',
     },
     {
       title: 'Vulnerability Index',
-      value: vulnerability.toFixed(2),
+      value: `${vulnerability.toFixed(1)}%`,
       icon: AlertTriangle,
       color: '#4caf50',
     },

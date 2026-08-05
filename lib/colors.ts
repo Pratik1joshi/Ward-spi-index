@@ -29,6 +29,29 @@ export function getSPIColorWithOpacity(score: number, opacity: number = 0.7): st
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
+// Red -> Yellow -> Green scale used on the map. `higherIsBetter` flips which
+// end is red: SPI is higher-is-better (green high); exclusion/poverty/
+// vulnerability are higher-is-worse (red high), so we invert the ratio there.
+// Pass min/max to stretch colors across the current municipality's ward range.
+export function getPillarColor(
+  percentValue: number,
+  higherIsBetter: boolean,
+  range?: { min: number; max: number }
+): string {
+  let ratio: number;
+  if (range && range.max > range.min) {
+    ratio = (percentValue - range.min) / (range.max - range.min);
+  } else if (range && range.max === range.min) {
+    ratio = 0.5;
+  } else {
+    ratio = percentValue / 100;
+  }
+  ratio = Math.min(1, Math.max(0, ratio));
+  const score = higherIsBetter ? ratio : 1 - ratio;
+  const hue = score * 120; // 0 = red, 60 = yellow, 120 = green
+  return `hsl(${hue.toFixed(0)}, 72%, 45%)`;
+}
+
 // Color scheme for dashboard theme
 export const themeColors = {
   background: '#0f1f2e',

@@ -79,34 +79,40 @@ function Read-XlsxColumns([string]$file, [string[]]$fields) {
   } finally { $archive.Dispose() }
 }
 
-function New-Distribution($rows, [string]$field) {
-  if ($rows.Count -eq 0) { return @() }
-  $counts = @{}
-  $labelsByRawValue = @{}
-  foreach ($row in $rows) {
-    $rawValue = [string]$row.$field
-    if (-not $labelsByRawValue.ContainsKey($rawValue)) {
-      $labelsByRawValue[$rawValue] = if ($field -eq 'b3_hh_type') { Get-HouseholdLabel $rawValue } elseif ($rawValue -eq 'Other (specify)' -and -not [string]::IsNullOrWhiteSpace($row.b2_religion_other)) { "Other: $($row.b2_religion_other.Trim())" } else { $rawValue }
-    }
-    $label = $labelsByRawValue[$rawValue]
-    if (-not $counts.ContainsKey($label)) { $counts[$label] = 0 }
-    $counts[$label]++
-  }
-  $distribution = @($counts.GetEnumerator() | ForEach-Object {
-    [ordered]@{ name = $_.Key; value = [Math]::Round(100 * $_.Value / $rows.Count, 1) }
-  })
-  return @($distribution | Sort-Object -Property @{ Expression = { [double]$_.value }; Descending = $true })
+function Get-ReligionLabel($row) {
+  $rawValue = [string]$row.'b2_religion'
+  if ($rawValue -eq 'Other (specify)' -and -not [string]::IsNullOrWhiteSpace($row.b2_religion_other)) { return "Other: $($row.b2_religion_other.Trim())" }
+  return $rawValue
 }
 
-function New-Profile($rows) {
-  if ($rows.Count -eq 0) { return [ordered]@{ totalHouseholds = 0; femaleHeaded = 0; maleHeaded = 0; religion = @(); householdType = @() } }
-  $female = @($rows | Where-Object { $_.'b1_head_sex' -match 'Female' }).Count
-  return [ordered]@{
-    totalHouseholds = $rows.Count
-    femaleHeaded = [Math]::Round(100 * $female / $rows.Count, 1)
-    maleHeaded = [Math]::Round(100 - (100 * $female / $rows.Count), 1)
-    religion = New-Distribution $rows 'b2_religion'
-    householdType = New-Distribution $rows 'b3_hh_type'
+function New-HouseholdExclusionComponents($row) {
+  [ordered]@{
+    socioEconomic = [Math]::Round((Get-Num $row 'Socioecomonic'), 2)
+    institutional = [Math]::Round((Get-Num $row 'Institutional'), 2)
+    political = [Math]::Round((Get-Num $row 'Political'), 2)
+    cultural = [Math]::Round((Get-Num $row 'Cultural'), 2)
+    spatial = [Math]::Round((Get-Num $row 'Spatial'), 2)
+  }
+}
+
+function New-HouseholdPovertyContributions($row) {
+  [ordered]@{
+    health = @(
+      [ordered]@{ name = 'Nutrition'; value = [Math]::Round((Get-Num $row 'Contribution % 1.1'), 2) }
+      [ordered]@{ name = 'Child mortality'; value = [Math]::Round((Get-Num $row 'Contribution % 1.2'), 2) }
+    )
+    education = @(
+      [ordered]@{ name = 'Years of schooling'; value = [Math]::Round((Get-Num $row 'Contribution % 2.1'), 2) }
+      [ordered]@{ name = 'School attendance'; value = [Math]::Round((Get-Num $row 'Contribution % 2.2'), 2) }
+    )
+    livingStandards = @(
+      [ordered]@{ name = 'Cooking fuel'; value = [Math]::Round((Get-Num $row 'Contribution % 3.1'), 2) }
+      [ordered]@{ name = 'Sanitation'; value = [Math]::Round((Get-Num $row 'Contribution % 3.2'), 2) }
+      [ordered]@{ name = 'Drinking water'; value = [Math]::Round((Get-Num $row 'Contribution % 3.3'), 2) }
+      [ordered]@{ name = 'Electricity'; value = [Math]::Round((Get-Num $row 'Contribution % 3.4'), 2) }
+      [ordered]@{ name = 'Housing'; value = [Math]::Round((Get-Num $row 'Contribution % 3.5'), 2) }
+      [ordered]@{ name = 'Assets'; value = [Math]::Round((Get-Num $row 'Contribution % 3.6'), 2) }
+    )
   }
 }
 
@@ -194,7 +200,15 @@ function Get-AverageContribution($componentsList, [string]$group, [string[]]$nam
   }
   return $indicators
 }
-$gesiRows = Read-XlsxColumns $GesiWorkbook @('hh_municipality', 'hh_ward', 'b1_head_sex', 'b2_religion', 'b2_religion_other', 'b3_hh_type')
+$gesiFields = @(
+  'hh_municipality', 'hh_ward', 'hh_settlement', 'b1_head_sex', 'b2_religion', 'b2_religion_other', 'b3_hh_type',
+  'Socioecomonic', 'Institutional', 'Political', 'Cultural', 'Spatial', 'EI%',
+  'Sum', 'if exceeds 0.33',
+  'Contribution % 1.1', 'Contribution % 1.2', 'Contribution % 2.1', 'Contribution % 2.2',
+  'Contribution % 3.1', 'Contribution % 3.2', 'Contribution % 3.3', 'Contribution % 3.4', 'Contribution % 3.5', 'Contribution % 3.6',
+  'E', 'S', 'C', 'VI%'
+)
+$gesiRows = Read-XlsxColumns $GesiWorkbook $gesiFields
 $shapefileRows = Import-Csv $ShapefileCsv
 $spiRows | ForEach-Object { $_.Municipality = Get-CanonicalMunicipalityName $_.Municipality }
 $gesiRows | ForEach-Object { $_.hh_municipality = Get-CanonicalMunicipalityName $_.hh_municipality }
@@ -231,7 +245,6 @@ $municipalities = @($spiRows | Group-Object Municipality | ForEach-Object {
       vulnerabilityIndex = [Math]::Round((Get-Num $_ 'VI'), 2)
       vulnerabilityPercent = [Math]::Round((Get-Num $_ 'VI%'), 2)
       vulnerabilityComponents = New-VulnerabilityComponents $_
-      gesi = New-Profile $wardHouseholds
     }
   })
   $exclusionKeys = @('socioEconomic', 'institutional', 'political', 'cultural', 'spatial')
@@ -259,11 +272,36 @@ $municipalities = @($spiRows | Group-Object Municipality | ForEach-Object {
     vulnerabilityPercent = [Math]::Round((($wards | Measure-Object vulnerabilityPercent -Average).Average), 2)
     vulnerabilityComponents = Get-AverageComponents ($wards | ForEach-Object { $_.vulnerabilityComponents }) $vulnerabilityKeys
     wards = $wards
-    gesi = New-Profile $households
   }
 })
 
+$households = @($gesiRows | ForEach-Object {
+  $municipalityKey = Get-Key $_.hh_municipality
+  $exclusionPercent = [Math]::Round((Get-Num $_ 'EI%'), 2)
+  $vulnerabilityPercent = [Math]::Round((Get-Num $_ 'VI%'), 2)
+  [pscustomobject][ordered]@{
+    municipalityId = $municipalityKey
+    wardId = "$municipalityKey-ward-$($_.hh_ward)"
+    settlement = $_.hh_settlement
+    headSex = if ($_.'b1_head_sex' -match 'Female') { 'female' } else { 'male' }
+    religion = Get-ReligionLabel $_
+    householdType = Get-HouseholdLabel $_.b3_hh_type
+    deprivationSum = [Math]::Round((Get-Num $_ 'Sum'), 6)
+    ifExceeds033 = [Math]::Round((Get-Num $_ 'if exceeds 0.33'), 0)
+    exclusionPercent = $exclusionPercent
+    vulnerabilityPercent = $vulnerabilityPercent
+    exclusionComponents = New-HouseholdExclusionComponents $_
+    povertyContributions = New-HouseholdPovertyContributions $_
+    vulnerabilityComponents = New-VulnerabilityComponents $_
+  }
+})
+
+$outputData = [ordered]@{
+  municipalities = $municipalities
+  households = $households
+}
+
 $folder = Split-Path -Parent $Output
 if ($folder) { New-Item -ItemType Directory -Force -Path $folder | Out-Null }
-@($municipalities) | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 $Output
-Write-Host "Wrote $($municipalities.Count) municipalities to $Output"
+$outputData | ConvertTo-Json -Depth 10 | Set-Content -Encoding utf8 $Output
+Write-Host "Wrote $($municipalities.Count) municipalities and $($households.Count) households to $Output"

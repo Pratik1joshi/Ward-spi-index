@@ -29,9 +29,28 @@ export function filterHouseholds(households: Household[], filters: HouseholdFilt
     if (household.municipalityId !== filters.municipalityId) return false;
     if (filters.wardId && household.wardId !== filters.wardId) return false;
     if (filters.sex !== 'all' && household.headSex !== filters.sex) return false;
-    if (filters.householdTypes.length > 0 && !filters.householdTypes.includes(household.householdType)) return false;
-    if (filters.religions.length > 0 && !filters.religions.includes(household.religion)) return false;
+    if (filters.householdTypes.length > 0) {
+      const selected = new Set(filters.householdTypes.map(collapseOtherLabel));
+      if (!selected.has(collapseOtherLabel(household.householdType))) return false;
+    }
+    if (filters.religions.length > 0) {
+      const selected = new Set(filters.religions.map(collapseOtherLabel));
+      if (!selected.has(collapseOtherLabel(household.religion))) return false;
+    }
     return true;
+  });
+}
+
+function collapseOtherLabel(name: string): string {
+  return /^other\b/i.test(name.trim()) ? 'Other' : name;
+}
+
+/** Unique labels for filter dropdowns, with all "Other: …" values collapsed to one Other. */
+export function uniqueCollapsedLabels(values: string[]): string[] {
+  return [...new Set(values.map(collapseOtherLabel))].sort((a, b) => {
+    if (a === 'Other') return 1;
+    if (b === 'Other') return -1;
+    return a.localeCompare(b);
   });
 }
 
@@ -42,7 +61,7 @@ function average(households: Household[], pick: (household: Household) => number
 function distribution(households: Household[], pick: (household: Household) => string): { name: string; value: number }[] {
   const counts = new Map<string, number>();
   for (const household of households) {
-    const key = pick(household);
+    const key = collapseOtherLabel(pick(household));
     counts.set(key, (counts.get(key) ?? 0) + 1);
   }
   return [...counts.entries()]

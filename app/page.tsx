@@ -43,6 +43,7 @@ export default function Dashboard() {
   );
 
   const summary = useMemo(() => summarizeHouseholds(filteredHouseholds), [filteredHouseholds]);
+  const showPoverty = Boolean(summary && summary.povertyComponents.headcountRatio > 0);
 
   return (
     <main className="min-h-screen bg-[#f7f7f5] px-3 py-4 text-slate-900 sm:px-4 sm:py-5 md:px-8 md:py-7">
@@ -97,15 +98,6 @@ export default function Dashboard() {
               municipalityHouseholds={municipalityHouseholds}
             />
             <WardAverageChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} />
-            <WardRankingsTable
-              municipality={municipality}
-              pillar={selectedPillar}
-              limit={5}
-              onWardSelect={(id) => {
-                setSelectedWardId(id);
-                document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }}
-            />
           </section>
 
           <aside className="min-w-0 space-y-4 sm:space-y-5 xl:col-span-5">
@@ -159,19 +151,33 @@ export default function Dashboard() {
           </aside>
         </div>
 
+        <section className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 xl:grid-cols-12">
+          <div className={showPoverty ? 'min-w-0 xl:col-span-7' : 'min-w-0 xl:col-span-12'}>
+            <WardRankingsTable
+              municipality={municipality}
+              pillar={selectedPillar}
+              limit={5}
+              onWardSelect={(id) => {
+                setSelectedWardId(id);
+                document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+            />
+          </div>
+          {summary && showPoverty ? (
+            <div className="min-w-0 xl:col-span-5">
+              <PovertyContributionChart components={summary.povertyComponents} />
+            </div>
+          ) : null}
+        </section>
+
         {summary ? (
-          <section className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 md:grid-cols-2 xl:grid-cols-12">
-            <div className={summary.povertyComponents.headcountRatio > 0 ? 'min-w-0 xl:col-span-4' : 'min-w-0 md:col-span-1 xl:col-span-6'}>
+          <section className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 md:grid-cols-2">
+            <div className="min-w-0">
               <ExclusionRadarChart components={summary.exclusionComponents} />
             </div>
-            <div className={summary.povertyComponents.headcountRatio > 0 ? 'min-w-0 xl:col-span-4' : 'min-w-0 md:col-span-1 xl:col-span-6'}>
+            <div className="min-w-0">
               <VulnerabilityRadarChart components={summary.vulnerabilityComponents} />
             </div>
-            {summary.povertyComponents.headcountRatio > 0 ? (
-              <div className="min-w-0 md:col-span-2 xl:col-span-4">
-                <PovertyContributionChart components={summary.povertyComponents} />
-              </div>
-            ) : null}
           </section>
         ) : null}
 

@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { MunicipalitySelector, PillarSelector, WardFilterSelector, GesiCategorySelector, HouseholdSexSelector } from '@/components/Selectors';
 import { getGesiCategoryColor, buildGesiConicGradient, getPillarColor } from '@/lib/colors';
 import { getPercentByPillar, isHigherBetter } from '@/lib/data';
-import { HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds } from '@/lib/households';
+import { HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds, uniqueCollapsedLabels } from '@/lib/households';
 import { Household, Municipality, Pillar } from '@/lib/types';
 
 function pillarPercent(summary: HouseholdSummary, pillar: Pillar): number {
@@ -321,11 +321,11 @@ export function WardMapClient({
   const onSelectedSexChange = setSelectedSex ?? setSelectedSexLocal;
 
   const gesiCategories = useMemo(
-    () => [...new Set(municipalityHouseholds.map((household) => household.householdType))],
+    () => uniqueCollapsedLabels(municipalityHouseholds.map((household) => household.householdType)),
     [municipalityHouseholds]
   );
   const religionCategories = useMemo(
-    () => [...new Set(municipalityHouseholds.map((household) => household.religion))],
+    () => uniqueCollapsedLabels(municipalityHouseholds.map((household) => household.religion)),
     [municipalityHouseholds]
   );
 

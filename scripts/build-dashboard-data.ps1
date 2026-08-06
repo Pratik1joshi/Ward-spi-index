@@ -95,23 +95,23 @@ function New-HouseholdExclusionComponents($row) {
   }
 }
 
-function New-HouseholdPovertyContributions($row) {
+function New-HouseholdPovertyWeights($row) {
   [ordered]@{
     health = @(
-      [ordered]@{ name = 'Nutrition'; value = [Math]::Round((Get-Num $row 'Contribution % 1.1'), 2) }
-      [ordered]@{ name = 'Child mortality'; value = [Math]::Round((Get-Num $row 'Contribution % 1.2'), 2) }
+      [ordered]@{ name = 'Nutrition'; value = [Math]::Round((Get-Num $row 'W1.1'), 6) }
+      [ordered]@{ name = 'Child Mortality'; value = [Math]::Round((Get-Num $row 'W1.2'), 6) }
     )
     education = @(
-      [ordered]@{ name = 'Years of schooling'; value = [Math]::Round((Get-Num $row 'Contribution % 2.1'), 2) }
-      [ordered]@{ name = 'School attendance'; value = [Math]::Round((Get-Num $row 'Contribution % 2.2'), 2) }
+      [ordered]@{ name = 'Years of Schooling'; value = [Math]::Round((Get-Num $row 'W2.1'), 6) }
+      [ordered]@{ name = 'School Attendance'; value = [Math]::Round((Get-Num $row 'W2.2'), 6) }
     )
     livingStandards = @(
-      [ordered]@{ name = 'Cooking fuel'; value = [Math]::Round((Get-Num $row 'Contribution % 3.1'), 2) }
-      [ordered]@{ name = 'Sanitation'; value = [Math]::Round((Get-Num $row 'Contribution % 3.2'), 2) }
-      [ordered]@{ name = 'Drinking water'; value = [Math]::Round((Get-Num $row 'Contribution % 3.3'), 2) }
-      [ordered]@{ name = 'Electricity'; value = [Math]::Round((Get-Num $row 'Contribution % 3.4'), 2) }
-      [ordered]@{ name = 'Housing'; value = [Math]::Round((Get-Num $row 'Contribution % 3.5'), 2) }
-      [ordered]@{ name = 'Assets'; value = [Math]::Round((Get-Num $row 'Contribution % 3.6'), 2) }
+      [ordered]@{ name = 'Cooking Fuel'; value = [Math]::Round((Get-Num $row 'W3.1'), 6) }
+      [ordered]@{ name = 'Sanitation'; value = [Math]::Round((Get-Num $row 'W3.2'), 6) }
+      [ordered]@{ name = 'Drinking Water'; value = [Math]::Round((Get-Num $row 'W3.3'), 6) }
+      [ordered]@{ name = 'Electricity'; value = [Math]::Round((Get-Num $row 'W3.4'), 6) }
+      [ordered]@{ name = 'Housing'; value = [Math]::Round((Get-Num $row 'W3.5'), 6) }
+      [ordered]@{ name = 'Assets'; value = [Math]::Round((Get-Num $row 'W3.6'), 6) }
     )
   }
 }
@@ -162,16 +162,16 @@ function New-PovertyComponents($row) {
     intensity = [Math]::Round((Get-Num $row 'A'), 3)
     health = @(
       [ordered]@{ name = 'Nutrition'; value = [Math]::Round((Get-Num $row 'Contribution % 1.1'), 2) }
-      [ordered]@{ name = 'Child mortality'; value = [Math]::Round((Get-Num $row 'Contribution % 1.2'), 2) }
+      [ordered]@{ name = 'Child Mortality'; value = [Math]::Round((Get-Num $row 'Contribution % 1.2'), 2) }
     )
     education = @(
-      [ordered]@{ name = 'Years of schooling'; value = [Math]::Round((Get-Num $row 'Contribution % 2.1'), 2) }
-      [ordered]@{ name = 'School attendance'; value = [Math]::Round((Get-Num $row 'Contribution % 2.2'), 2) }
+      [ordered]@{ name = 'Years of Schooling'; value = [Math]::Round((Get-Num $row 'Contribution % 2.1'), 2) }
+      [ordered]@{ name = 'School Attendance'; value = [Math]::Round((Get-Num $row 'Contribution % 2.2'), 2) }
     )
     livingStandards = @(
-      [ordered]@{ name = 'Cooking fuel'; value = [Math]::Round((Get-Num $row 'Contribution % 3.1'), 2) }
+      [ordered]@{ name = 'Cooking Fuel'; value = [Math]::Round((Get-Num $row 'Contribution % 3.1'), 2) }
       [ordered]@{ name = 'Sanitation'; value = [Math]::Round((Get-Num $row 'Contribution % 3.2'), 2) }
-      [ordered]@{ name = 'Drinking water'; value = [Math]::Round((Get-Num $row 'Contribution % 3.3'), 2) }
+      [ordered]@{ name = 'Drinking Water'; value = [Math]::Round((Get-Num $row 'Contribution % 3.3'), 2) }
       [ordered]@{ name = 'Electricity'; value = [Math]::Round((Get-Num $row 'Contribution % 3.4'), 2) }
       [ordered]@{ name = 'Housing'; value = [Math]::Round((Get-Num $row 'Contribution % 3.5'), 2) }
       [ordered]@{ name = 'Assets'; value = [Math]::Round((Get-Num $row 'Contribution % 3.6'), 2) }
@@ -204,8 +204,7 @@ $gesiFields = @(
   'hh_municipality', 'hh_ward', 'hh_settlement', 'b1_head_sex', 'b2_religion', 'b2_religion_other', 'b3_hh_type',
   'Socioecomonic', 'Institutional', 'Political', 'Cultural', 'Spatial', 'EI%',
   'Sum', 'if exceeds 0.33',
-  'Contribution % 1.1', 'Contribution % 1.2', 'Contribution % 2.1', 'Contribution % 2.2',
-  'Contribution % 3.1', 'Contribution % 3.2', 'Contribution % 3.3', 'Contribution % 3.4', 'Contribution % 3.5', 'Contribution % 3.6',
+  'W1.1', 'W1.2', 'W2.1', 'W2.2', 'W3.1', 'W3.2', 'W3.3', 'W3.4', 'W3.5', 'W3.6',
   'E', 'S', 'C', 'VI%'
 )
 $gesiRows = Read-XlsxColumns $GesiWorkbook $gesiFields
@@ -291,7 +290,7 @@ $households = @($gesiRows | ForEach-Object {
     exclusionPercent = $exclusionPercent
     vulnerabilityPercent = $vulnerabilityPercent
     exclusionComponents = New-HouseholdExclusionComponents $_
-    povertyContributions = New-HouseholdPovertyContributions $_
+    povertyWeights = New-HouseholdPovertyWeights $_
     vulnerabilityComponents = New-VulnerabilityComponents $_
   }
 })

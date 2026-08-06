@@ -149,7 +149,7 @@ export default function Dashboard() {
           </aside>
         </div>
 
-        {/* {summary ? (
+        {summary ? (
           <section className="mt-6 grid gap-6 xl:grid-cols-12">
             <div className={summary.povertyComponents.headcountRatio > 0 ? 'xl:col-span-4' : 'xl:col-span-6'}>
               <ExclusionRadarChart components={summary.exclusionComponents} />
@@ -163,7 +163,7 @@ export default function Dashboard() {
               </div>
             ) : null}
           </section>
-        ) : null} */}
+        ) : null}
 
         {/* <section className="mt-6 grid gap-6 xl:grid-cols-12">
           <div className="xl:col-span-12"><WardComparisonChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} /></div>

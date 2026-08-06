@@ -58,18 +58,21 @@ function averageComponents<T extends Record<string, number>>(items: T[], keys: (
   return result;
 }
 
-function averageContributions(componentsList: { name: string; value: number }[][]): { name: string; value: number }[] {
-  if (componentsList.length === 0) return [];
-  const names = componentsList[0]?.map((item) => item.name) ?? [];
-  return names.map((name) => ({
-    name,
-    value: Number(
-      (
-        componentsList.reduce((sum, items) => sum + (items.find((item) => item.name === name)?.value ?? 0), 0) /
-        componentsList.length
-      ).toFixed(2)
-    ),
-  }));
+function contributionPercents(
+  poor: Household[],
+  pick: (household: Household) => { name: string; value: number }[]
+): { name: string; value: number }[] {
+  if (poor.length === 0) return [];
+  const intensity = poor.reduce((sum, household) => sum + household.deprivationSum, 0) / poor.length;
+  if (intensity <= 0) return pick(poor[0]).map((item) => ({ name: item.name, value: 0 }));
+
+  const names = pick(poor[0]).map((item) => item.name);
+  return names.map((name) => {
+    const avgWeight =
+      poor.reduce((sum, household) => sum + (pick(household).find((item) => item.name === name)?.value ?? 0), 0) /
+      poor.length;
+    return { name, value: Number(((avgWeight / intensity) * 100).toFixed(1)) };
+  });
 }
 
 export function computePovertyMetrics(households: Household[]): {
@@ -98,9 +101,9 @@ export function computePovertyMetrics(households: Household[]): {
     intensity: Number(intensity.toFixed(3)),
     povertyPercent: Number(povertyPercent.toFixed(1)),
     contributions: {
-      health: averageContributions(poor.map((household) => household.povertyContributions.health)),
-      education: averageContributions(poor.map((household) => household.povertyContributions.education)),
-      livingStandards: averageContributions(poor.map((household) => household.povertyContributions.livingStandards)),
+      health: contributionPercents(poor, (household) => household.povertyWeights.health),
+      education: contributionPercents(poor, (household) => household.povertyWeights.education),
+      livingStandards: contributionPercents(poor, (household) => household.povertyWeights.livingStandards),
     },
   };
 }

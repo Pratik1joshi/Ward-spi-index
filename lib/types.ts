@@ -57,8 +57,8 @@ export interface Household {
   exclusionPercent: number;
   vulnerabilityPercent: number;
   exclusionComponents: ExclusionComponents;
-  /** Per-indicator MPI contribution %; aggregated at summary time among poor households. */
-  povertyContributions: Pick<PovertyComponents, 'health' | 'education' | 'livingStandards'>;
+  /** Weighted deprivation per indicator (W1.1–W3.6); converted to contribution % among the poor at summary time. */
+  povertyWeights: Pick<PovertyComponents, 'health' | 'education' | 'livingStandards'>;
   vulnerabilityComponents: VulnerabilityComponents;
 }
 

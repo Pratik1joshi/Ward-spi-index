@@ -5,8 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { getScoreByPillar } from '@/lib/data';
-import { getSPIColor } from '@/lib/colors';
+import { getPercentByPillar, isHigherBetter } from '@/lib/data';
+import { getPillarColor } from '@/lib/colors';
 
 interface WardRankingsTableProps {
   municipality: Municipality;
@@ -19,18 +19,18 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
   const [sortColumn, setSortColumn] = useState<'ward' | 'score'>('score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
-  // Sort wards
-  let sortedWards = [...municipality.wards].sort((a, b) => {
-    const scoreA = getScoreByPillar(a, pillar);
-    const scoreB = getScoreByPillar(b, pillar);
+  const colorRange = (() => {
+    const values = municipality.wards.map((ward) => getPercentByPillar(ward, pillar));
+    if (values.length === 0) return { min: 0, max: 100 };
+    return { min: Math.min(...values), max: Math.max(...values) };
+  })();
 
-    if (sortDirection === 'desc') {
-      return scoreB - scoreA;
-    }
-    return scoreA - scoreB;
+  let sortedWards = [...municipality.wards].sort((a, b) => {
+    const scoreA = getPercentByPillar(a, pillar);
+    const scoreB = getPercentByPillar(b, pillar);
+    return sortDirection === 'desc' ? scoreB - scoreA : scoreA - scoreB;
   });
 
-  // Limit to top N
   sortedWards = sortedWards.slice(0, limit);
 
   const handleSort = (column: 'ward' | 'score') => {
@@ -54,6 +54,9 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
         return 'SPI Score';
     }
   };
+
+  const formatScore = (percent: number) =>
+    pillar === 'overall' ? percent.toFixed(2) : `${percent.toFixed(1)}%`;
 
   return (
     <Card className="border-0 bg-white p-6">
@@ -81,19 +84,17 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
           </TableHeader>
           <TableBody>
             {sortedWards.map((ward, index) => {
-              const score = getScoreByPillar(ward, pillar);
-              const color = getSPIColor(score);
+              const percent = getPercentByPillar(ward, pillar);
+              const color = getPillarColor(percent, isHigherBetter(pillar), colorRange);
               return (
                 <TableRow key={ward.id} className="border-b border-gray-200">
                   <TableCell className="font-semibold text-gray-900">{index + 1}</TableCell>
                   <TableCell className="text-gray-700">{ward.name}</TableCell>
                   <TableCell className="text-gray-700">{municipality.name}</TableCell>
                   <TableCell className="text-right">
-                    <span
-                      className="inline-block rounded px-3 py-1 font-semibold text-white"
-                      style={{ backgroundColor: color }}
-                    >
-                      {score.toFixed(2)}
+                    <span className="inline-flex items-center justify-end gap-2 font-semibold tabular-nums text-slate-900">
+                      <i className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+                      {formatScore(percent)}
                     </span>
                   </TableCell>
                   <TableCell className="text-center">
@@ -101,7 +102,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      className="text-blue-600 hover:bg-blue-50 hover:text-blue-700"
                       onClick={() => onWardSelect?.(ward.id)}
                     >
                       Details

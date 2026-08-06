@@ -15,8 +15,8 @@ import {
 } from 'recharts';
 import { ExclusionComponents, PovertyComponents, VulnerabilityComponents } from '@/lib/types';
 
-const cardClass = 'rounded-lg border border-slate-200 bg-white p-4 shadow-sm';
-const headerClass = 'mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500';
+const cardClass = 'rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4';
+const headerClass = 'mb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 sm:text-xs';
 const titleClass = 'text-sm font-semibold text-slate-900';
 
 export function ExclusionRadarChart({ components }: { components: ExclusionComponents }) {
@@ -32,10 +32,10 @@ export function ExclusionRadarChart({ components }: { components: ExclusionCompo
     <section className={cardClass}>
       <p className={headerClass}>Exclusion Components</p>
       <h3 className={titleClass}>Dimensions driving exclusion</h3>
-      <ResponsiveContainer width="100%" height={240}>
-        <RadarChart data={data} outerRadius="68%">
+      <ResponsiveContainer width="100%" height={220}>
+        <RadarChart data={data} outerRadius="65%">
           <PolarGrid stroke="#e2e8f0" />
-          <PolarAngleAxis dataKey="dimension" tick={{ fill: '#64748b', fontSize: 10 }} />
+          <PolarAngleAxis dataKey="dimension" tick={{ fill: '#64748b', fontSize: 9 }} />
           <Radar dataKey="value" stroke="#3f6f9e" fill="#3f6f9e" fillOpacity={0.35} />
           <Tooltip
             formatter={(value: number, _name, item) => [value.toFixed(2), `${item?.payload?.dimension} Exclusion`]}
@@ -58,10 +58,10 @@ export function VulnerabilityRadarChart({ components }: { components: Vulnerabil
     <section className={cardClass}>
       <p className={headerClass}>Vulnerability Index Components</p>
       <h3 className={titleClass}>Sources of vulnerability</h3>
-      <ResponsiveContainer width="100%" height={240}>
-        <RadarChart data={data} outerRadius="68%">
+      <ResponsiveContainer width="100%" height={220}>
+        <RadarChart data={data} outerRadius="65%">
           <PolarGrid stroke="#e2e8f0" />
-          <PolarAngleAxis dataKey="dimension" tick={{ fill: '#64748b', fontSize: 10 }} />
+          <PolarAngleAxis dataKey="dimension" tick={{ fill: '#64748b', fontSize: 9 }} />
           <Radar dataKey="value" stroke="#4caf50" fill="#4caf50" fillOpacity={0.35} />
           <Tooltip formatter={(value: number) => value.toFixed(2)} contentStyle={{ borderRadius: 8, borderColor: '#e2e8f0', fontSize: 12 }} />
         </RadarChart>
@@ -93,29 +93,33 @@ export function PovertyContributionChart({ components }: { components: PovertyCo
   return (
     <section className={cardClass}>
       <p className={headerClass}>Poverty Index Components</p>
-      <div className="mb-1 flex items-end justify-between gap-3">
+      <div className="mb-2 flex flex-col gap-2 sm:mb-1 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
         <h3 className={titleClass}>What drives poverty here</h3>
-        <div className="flex gap-2 text-[10px] text-slate-500">
+        <div className="flex flex-wrap gap-2 text-[10px] text-slate-500">
           <span className="flex items-center gap-1"><i className="h-1.5 w-1.5 rounded-full" style={{ background: '#d97706' }} />Health</span>
           <span className="flex items-center gap-1"><i className="h-1.5 w-1.5 rounded-full" style={{ background: '#2563eb' }} />Education</span>
           <span className="flex items-center gap-1"><i className="h-1.5 w-1.5 rounded-full" style={{ background: '#0f766e' }} />Living standard</span>
         </div>
       </div>
       {!hasSignal ? (
-        <div className="flex h-[240px] items-center justify-center text-sm text-slate-400">
+        <div className="flex h-[220px] items-center justify-center text-sm text-slate-400">
           No poor households in this selection.
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={240}>
-          <BarChart data={data} layout="vertical" margin={{ left: 4, right: 28 }} barSize={13}>
-            <XAxis type="number" hide domain={[0, 'dataMax']} />
-            <YAxis type="category" dataKey="name" width={118} axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
-            <Tooltip cursor={{ fill: '#f1f5f9' }} formatter={(value: number) => [`${value}%`, 'Contribution']} contentStyle={{ borderRadius: 8, borderColor: '#e2e8f0', fontSize: 12 }} />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} label={{ position: 'right', fill: '#64748b', fontSize: 10, formatter: (v: number) => `${v}%` }}>
-              {data.map((entry) => <Cell key={entry.name} fill={mpiGroupColor[entry.name] ?? '#94a3b8'} />)}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[300px]">
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart data={data} layout="vertical" margin={{ left: 0, right: 28 }} barSize={12}>
+                <XAxis type="number" hide domain={[0, 'dataMax']} />
+                <YAxis type="category" dataKey="name" width={100} axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} />
+                <Tooltip cursor={{ fill: '#f1f5f9' }} formatter={(value: number) => [`${value}%`, 'Contribution']} contentStyle={{ borderRadius: 8, borderColor: '#e2e8f0', fontSize: 12 }} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]} label={{ position: 'right', fill: '#64748b', fontSize: 10, formatter: (v: number) => `${v}%` }}>
+                  {data.map((entry) => <Cell key={entry.name} fill={mpiGroupColor[entry.name] ?? '#94a3b8'} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       )}
     </section>
   );

@@ -59,9 +59,41 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
     pillar === 'overall' ? percent.toFixed(2) : `${percent.toFixed(1)}%`;
 
   return (
-    <Card className="border-0 bg-white p-6">
-      <h3 className="mb-4 text-lg font-semibold text-gray-900">Top {limit} Wards - {getPillarLabel(pillar)}</h3>
-      <div className="overflow-x-auto">
+    <Card className="border border-slate-200 bg-white p-4 shadow-sm sm:border-0 sm:p-6">
+      <h3 className="mb-3 text-base font-semibold text-gray-900 sm:mb-4 sm:text-lg">
+        Top {limit} Wards - {getPillarLabel(pillar)}
+      </h3>
+
+      {/* Mobile card list */}
+      <div className="space-y-2 sm:hidden">
+        {sortedWards.map((ward, index) => {
+          const percent = getPercentByPillar(ward, pillar);
+          const color = getPillarColor(percent, isHigherBetter(pillar), colorRange);
+          return (
+            <button
+              key={ward.id}
+              type="button"
+              onClick={() => onWardSelect?.(ward.id)}
+              className="flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-left"
+            >
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                {index + 1}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-slate-900">{ward.name}</p>
+                <p className="truncate text-[11px] text-slate-500">{municipality.name}</p>
+              </div>
+              <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold tabular-nums text-slate-900">
+                <i className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+                {formatScore(percent)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-x-auto sm:block">
         <Table>
           <TableHeader className="bg-slate-900">
             <TableRow className="hover:bg-slate-900">
@@ -72,7 +104,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
               >
                 Ward {sortColumn === 'ward' && (sortDirection === 'asc' ? '↑' : '↓')}
               </TableHead>
-              <TableHead className="text-white">Palika</TableHead>
+              <TableHead className="hidden text-white md:table-cell">Palika</TableHead>
               <TableHead
                 className="cursor-pointer text-right text-white hover:bg-slate-800"
                 onClick={() => handleSort('score')}
@@ -90,7 +122,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
                 <TableRow key={ward.id} className="border-b border-gray-200">
                   <TableCell className="font-semibold text-gray-900">{index + 1}</TableCell>
                   <TableCell className="text-gray-700">{ward.name}</TableCell>
-                  <TableCell className="text-gray-700">{municipality.name}</TableCell>
+                  <TableCell className="hidden text-gray-700 md:table-cell">{municipality.name}</TableCell>
                   <TableCell className="text-right">
                     <span className="inline-flex items-center justify-end gap-2 font-semibold tabular-nums text-slate-900">
                       <i className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />

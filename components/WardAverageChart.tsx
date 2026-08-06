@@ -24,35 +24,39 @@ export function WardAverageChart({ municipality, pillar, selectedWardId }: { mun
     .sort((a, b) => a.diff - b.diff);
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-end justify-between gap-3">
-        <div>
+    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
+      <div className="mb-3 flex flex-col gap-1 sm:mb-4 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Average comparison</p>
-          <h3 className="mt-1 text-base font-semibold text-slate-900">{labels[pillar]} vs. municipality average</h3>
+          <h3 className="mt-1 text-sm font-semibold text-slate-900 sm:text-base">{labels[pillar]} vs. municipality average</h3>
         </div>
         <span className="text-xs text-slate-500">Avg: {average.toFixed(1)}%</span>
       </div>
-      <ResponsiveContainer width="100%" height={260}>
-        <BarChart data={data} margin={{ left: 4, right: 8, top: 8, bottom: 0 }} barSize={22}>
-          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} interval={0} angle={-35} textAnchor="end" height={50} />
-          <YAxis hide />
-          <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="4 3" />
-          <Tooltip
-            cursor={{ fill: '#f1f5f9' }}
-            formatter={(_, __, item: any) => [`${item.payload.value}%`, labels[pillar]]}
-            labelFormatter={(name) => name}
-          />
-          <Bar dataKey="diff" radius={[4, 4, 4, 4]}>
-            {data.map((entry) => (
-              <Cell
-                key={entry.id}
-                fill={entry.id === selectedWardId ? '#d66a4b' : entry.aboveAverage === higherIsBetter ? '#2f9e6f' : '#c0483a'}
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[280px]">
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={data} margin={{ left: 0, right: 4, top: 8, bottom: 0 }} barSize={18}>
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} interval={0} angle={-35} textAnchor="end" height={48} />
+              <YAxis hide />
+              <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="4 3" />
+              <Tooltip
+                cursor={{ fill: '#f1f5f9' }}
+                formatter={(_, __, item: any) => [`${item.payload.value}%`, labels[pillar]]}
+                labelFormatter={(name) => name}
               />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-      <p className="mt-2 text-[11px] text-slate-400">Bars above the line beat the municipality average; below the line trail it. {higherIsBetter ? 'Higher is better for SPI.' : 'Lower is better for this index.'}</p>
+              <Bar dataKey="diff" radius={[4, 4, 4, 4]}>
+                {data.map((entry) => (
+                  <Cell
+                    key={entry.id}
+                    fill={entry.id === selectedWardId ? '#d66a4b' : entry.aboveAverage === higherIsBetter ? '#2f9e6f' : '#c0483a'}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      <p className="mt-2 text-[11px] leading-relaxed text-slate-400">Bars above the line beat the municipality average; below the line trail it. {higherIsBetter ? 'Higher is better for SPI.' : 'Lower is better for this index.'}</p>
     </section>
   );
 }

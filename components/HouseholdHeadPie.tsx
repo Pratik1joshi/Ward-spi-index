@@ -26,19 +26,19 @@ export function HouseholdHeadPie({
       : segments[activeIndex];
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-[#fcfaf8] p-4">
+    <section className="rounded-lg border border-slate-200 bg-[#fcfaf8] p-3 sm:p-4">
       <h3 className="text-sm font-semibold text-slate-900">Household head sex</h3>
 
-      <div className="mt-2 flex flex-col items-center gap-3">
+      <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 md:flex-col">
         <DonutChart
           segments={segments}
-          size={148}
+          size={132}
           innerRatio={0.68}
           defaultActiveIndex={Math.max(0, defaultIndex)}
           onActiveChange={setActiveIndex}
           center={
             <div className="flex flex-col items-center px-2 text-center">
-              <span className="text-2xl font-semibold tabular-nums text-slate-900">{active.value.toFixed(1)}%</span>
+              <span className="text-xl font-semibold tabular-nums text-slate-900 sm:text-2xl">{active.value.toFixed(1)}%</span>
               <span className="mt-0.5 max-w-[72px] text-[10px] leading-tight text-slate-500">{active.name}</span>
             </div>
           }

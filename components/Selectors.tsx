@@ -57,6 +57,7 @@ export function PillarSelector({ selectedPillar, onSelect }: PillarSelectorProps
     { value: 'exclusion', label: 'Exclusion Index' },
     { value: 'poverty', label: 'Poverty Index' },
     { value: 'vulnerability', label: 'Vulnerability Index' },
+    { value: 'none', label: 'None (no colour)' },
   ];
 
   return (

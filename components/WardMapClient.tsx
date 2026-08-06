@@ -51,6 +51,7 @@ type ShapefileProperties = {
   TYPE?: string;
   WARD?: string | number;
   area?: string | number;
+  AREA?: string | number;
 };
 
 function normalizeText(value: string | undefined) {
@@ -118,6 +119,40 @@ function MapBounds({ data }: { data: FeatureCollection<Geometry, ShapefileProper
   return null;
 }
 
+function formatWardArea(area: string | number | undefined): string | null {
+  const value = typeof area === 'number' ? area : Number(area);
+  if (!Number.isFinite(value) || value <= 0) return null;
+  return `${value.toFixed(2)} km²`;
+}
+
+function wardAreaFromProps(properties?: ShapefileProperties): string | number | undefined {
+  return properties?.area ?? properties?.AREA;
+}
+
+function wardTooltipHtml({
+  title,
+  summary,
+  area,
+}: {
+  title: string;
+  summary?: HouseholdSummary;
+  area?: string | number;
+}): string {
+  const areaLabel = formatWardArea(area);
+  if (!summary) {
+    return `${title}<br />No households match the selected filters.${areaLabel ? `<br />Area: ${areaLabel}` : ''}`;
+  }
+  return (
+    `${title}<br />` +
+    `SPI: ${summary.spi.toFixed(1)}<br />` +
+    `Exclusion: ${summary.exclusionPercent.toFixed(1)}<br />` +
+    `Poverty: ${summary.povertyPercent.toFixed(1)}<br />` +
+    `Vulnerability: ${summary.vulnerabilityPercent.toFixed(1)}<br />` +
+    `Households: ${summary.totalHouseholds.toLocaleString()}` +
+    (areaLabel ? `<br />Area: ${areaLabel}` : '')
+  );
+}
+
 function WardGeoJSONLayer({
   data,
   municipality,
@@ -139,6 +174,7 @@ function WardGeoJSONLayer({
 }) {
   const layerRef = useRef<L.GeoJSON | null>(null);
   const selectedWardNumber = selectedWardId ? String(selectedWardId).split('-').pop() : null;
+  const uncoloured = pillar === 'none';
 
   const getStyle = useCallback(
     (feature?: Feature<Geometry, ShapefileProperties>) => {
@@ -146,22 +182,22 @@ function WardGeoJSONLayer({
       const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
       const summary = ward ? wardSummaries.get(ward.id) : undefined;
       const isSelected = selectedWardNumber !== null && wardNumber === selectedWardNumber;
-      // Always color from official municipality ward scores against the municipality min→max range.
-      // Filters only affect dimming / gray-out when a ward has no matching households.
       const fillColor = !ward
         ? '#e2e8f0'
         : !summary
           ? '#e2e8f0'
-          : getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange);
+          : uncoloured
+            ? '#94a3b8'
+            : getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange);
 
       return {
         color: isSelected ? '#254a36' : '#ffffff',
         weight: isSelected ? 3.5 : 1.5,
         fillColor,
-        fillOpacity: isSelected ? 0.92 : dimmed ? 0.25 : 0.72,
+        fillOpacity: isSelected ? 0.92 : dimmed ? 0.25 : uncoloured ? 0.45 : 0.72,
       };
     },
-    [colorRange, dimmed, municipality.wards, pillar, selectedWardNumber, wardSummaries]
+    [colorRange, dimmed, municipality.wards, pillar, selectedWardNumber, uncoloured, wardSummaries]
   );
 
   useEffect(() => {
@@ -170,8 +206,17 @@ function WardGeoJSONLayer({
     layer.eachLayer((leafletLayer) => {
       const feature = (leafletLayer as L.Layer & { feature?: Feature<Geometry, ShapefileProperties> }).feature;
       (leafletLayer as L.Path).setStyle(getStyle(feature));
+
+      const wardNumber = String(feature?.properties?.WARD || '');
+      const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+      const summary = ward ? wardSummaries.get(ward.id) : undefined;
+      const title = `${feature?.properties?.PALIKA || municipality.name} Ward ${wardNumber}`;
+      (leafletLayer as L.Layer).bindTooltip(
+        wardTooltipHtml({ title, summary, area: wardAreaFromProps(feature?.properties) }),
+        { sticky: true }
+      );
     });
-  }, [getStyle]);
+  }, [getStyle, municipality.name, municipality.wards, wardSummaries]);
 
   return (
     <GeoJSON
@@ -182,18 +227,9 @@ function WardGeoJSONLayer({
         const wardNumber = String(feature.properties?.WARD || '');
         const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
         const summary = ward ? wardSummaries.get(ward.id) : undefined;
+        const title = `${feature.properties?.PALIKA || municipality.name} Ward ${wardNumber}`;
 
-        layer.bindTooltip(
-          summary
-            ? `${feature.properties?.PALIKA || municipality.name} Ward ${wardNumber}<br />` +
-                `SPI: ${summary.spi.toFixed(1)}<br />` +
-                `Exclusion: ${summary.exclusionPercent.toFixed(1)}%<br />` +
-                `Poverty: ${summary.povertyPercent.toFixed(1)}%<br />` +
-                `Vulnerability: ${summary.vulnerabilityPercent.toFixed(1)}%<br />` +
-                `Households: ${summary.totalHouseholds.toLocaleString()}`
-            : `${feature.properties?.PALIKA || municipality.name} Ward ${wardNumber}<br />No households match the selected filters.`,
-          { sticky: true }
-        );
+        layer.bindTooltip(wardTooltipHtml({ title, summary, area: wardAreaFromProps(feature.properties) }), { sticky: true });
 
         layer.on('click', () => {
           if (ward) onWardClick(ward.id);
@@ -245,9 +281,8 @@ function FallbackWardMarkers({
     <>
       {wards.map(({ ward, lat, lng }) => {
         const summary = wardSummaries.get(ward.id);
-        const color = summary
-          ? getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange)
-          : '#e2e8f0';
+        const color =
+          !summary ? '#e2e8f0' : pillar === 'none' ? '#94a3b8' : getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange);
         return (
           <CircleMarker
             key={ward.id}
@@ -257,7 +292,7 @@ function FallbackWardMarkers({
             color="#ffffff"
             weight={1.5}
             opacity={1}
-            fillOpacity={0.85}
+            fillOpacity={pillar === 'none' ? 0.45 : 0.85}
             eventHandlers={{
               click: () => onWardSelect(ward.id),
             }}
@@ -268,9 +303,9 @@ function FallbackWardMarkers({
                 {summary ? (
                   <>
                     <p>SPI: {summary.spi.toFixed(2)}</p>
-                    <p>Exclusion: {summary.exclusionPercent.toFixed(1)}%</p>
-                    <p>Poverty: {summary.povertyPercent.toFixed(1)}%</p>
-                    <p>Vulnerability: {summary.vulnerabilityPercent.toFixed(1)}%</p>
+                    <p>Exclusion: {summary.exclusionPercent.toFixed(1)}</p>
+                    <p>Poverty: {summary.povertyPercent.toFixed(1)}</p>
+                    <p>Vulnerability: {summary.vulnerabilityPercent.toFixed(1)}</p>
                     <p>Households: {summary.totalHouseholds.toLocaleString()}</p>
                   </>
                 ) : (
@@ -498,7 +533,7 @@ export function WardMapClient({
           </p>
         </div>
         <div className="w-fit rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-600">
-          {pillar === 'overall' ? 'Overall SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)} index`}
+          {pillar === 'none' ? 'No colour' : pillar === 'overall' ? 'Overall SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)} index`}
         </div>
       </div>
 
@@ -626,25 +661,27 @@ export function WardMapClient({
             </div>
           ) : null}
           <div className="pointer-events-none absolute bottom-2 left-2 z-[1000] flex max-h-[42%] max-w-[min(200px,calc(100%-1rem))] flex-col gap-1.5 sm:bottom-3 sm:left-3 sm:max-h-[45%] sm:max-w-[min(240px,calc(100%-1.5rem))] sm:gap-2">
-            <div className="rounded-md border border-black/5 bg-white/95 px-2 py-1.5 shadow-md backdrop-blur-sm sm:px-3 sm:py-2">
-              <div className="mb-1 flex items-center justify-between gap-2 text-[9px] font-medium uppercase tracking-wide text-slate-500 sm:mb-1.5 sm:text-[10px]">
-                <span className="truncate">{pillar === 'overall' ? 'SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)}`} range</span>
-                <span className="shrink-0">{isHigherBetter(pillar) ? 'Low→High' : 'Better→Worse'}</span>
+            {pillar !== 'none' ? (
+              <div className="rounded-md border border-black/5 bg-white/95 px-2 py-1.5 shadow-md backdrop-blur-sm sm:px-3 sm:py-2">
+                <div className="mb-1 flex items-center justify-between gap-2 text-[9px] font-medium uppercase tracking-wide text-slate-500 sm:mb-1.5 sm:text-[10px]">
+                  <span className="truncate">{pillar === 'overall' ? 'SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)}`} range</span>
+                  <span className="shrink-0">{isHigherBetter(pillar) ? 'Low→High' : 'Better→Worse'}</span>
+                </div>
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 6 }, (_, i) => {
+                    const t = i / 5;
+                    const value = colorRange.min + t * (colorRange.max - colorRange.min || 1);
+                    return getPillarColor(value, isHigherBetter(pillar), colorRange);
+                  }).map((color, i) => (
+                    <span key={i} className="h-2 w-3.5 first:rounded-l-sm last:rounded-r-sm sm:h-2.5 sm:w-5" style={{ backgroundColor: color }} />
+                  ))}
+                </div>
+                <div className="mt-1 flex justify-between text-[9px] tabular-nums text-slate-500 sm:text-[10px]">
+                  <span>{colorRange.min.toFixed(1)}</span>
+                  <span>{colorRange.max.toFixed(1)}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: 6 }, (_, i) => {
-                  const t = i / 5;
-                  const value = colorRange.min + t * (colorRange.max - colorRange.min || 1);
-                  return getPillarColor(value, isHigherBetter(pillar), colorRange);
-                }).map((color, i) => (
-                  <span key={i} className="h-2 w-3.5 first:rounded-l-sm last:rounded-r-sm sm:h-2.5 sm:w-5" style={{ backgroundColor: color }} />
-                ))}
-              </div>
-              <div className="mt-1 flex justify-between text-[9px] tabular-nums text-slate-500 sm:text-[10px]">
-                <span>{colorRange.min.toFixed(1)}</span>
-                <span>{colorRange.max.toFixed(1)}</span>
-              </div>
-            </div>
+            ) : null}
 
             {hasGesiOverlay ? (
               <div className="overflow-y-auto rounded-md border border-black/5 bg-white/95 px-2 py-1.5 shadow-md backdrop-blur-sm sm:px-3 sm:py-2">

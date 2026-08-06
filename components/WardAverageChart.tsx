@@ -2,16 +2,20 @@
 
 import { Bar, BarChart, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Municipality, Pillar } from '@/lib/types';
-import { getPercentByPillar, isHigherBetter } from '@/lib/data';
+import { getPercentByPillar, isHigherBetter, resolvePillar } from '@/lib/data';
 
-const labels: Record<Pillar, string> = {
-  overall: 'SPI', exclusion: 'Exclusion Index', poverty: 'Poverty Index', vulnerability: 'Vulnerability Index',
+const labels: Record<Exclude<Pillar, 'none'>, string> = {
+  overall: 'SPI',
+  exclusion: 'Exclusion Index',
+  poverty: 'Poverty Index',
+  vulnerability: 'Vulnerability Index',
 };
 
 export function WardAverageChart({ municipality, pillar, selectedWardId }: { municipality: Municipality; pillar: Pillar; selectedWardId?: string }) {
-  const scores = municipality.wards.map((ward) => ({ ward, value: getPercentByPillar(ward, pillar) }));
+  const activePillar = resolvePillar(pillar);
+  const scores = municipality.wards.map((ward) => ({ ward, value: getPercentByPillar(ward, activePillar) }));
   const average = scores.reduce((sum, item) => sum + item.value, 0) / (scores.length || 1);
-  const higherIsBetter = isHigherBetter(pillar);
+  const higherIsBetter = isHigherBetter(activePillar);
 
   const data = scores
     .map(({ ward, value }) => ({
@@ -28,9 +32,9 @@ export function WardAverageChart({ municipality, pillar, selectedWardId }: { mun
       <div className="mb-3 flex flex-col gap-1 sm:mb-4 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Average comparison</p>
-          <h3 className="mt-1 text-sm font-semibold text-slate-900 sm:text-base">{labels[pillar]} vs. municipality average</h3>
+          <h3 className="mt-1 text-sm font-semibold text-slate-900 sm:text-base">{labels[activePillar]} vs. municipality average</h3>
         </div>
-        <span className="text-xs text-slate-500">Avg: {average.toFixed(1)}%</span>
+        <span className="text-xs text-slate-500">Avg: {average.toFixed(1)}</span>
       </div>
       <div className="w-full overflow-x-auto">
         <div className="min-w-[280px]">
@@ -41,7 +45,7 @@ export function WardAverageChart({ municipality, pillar, selectedWardId }: { mun
               <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="4 3" />
               <Tooltip
                 cursor={{ fill: '#f1f5f9' }}
-                formatter={(_, __, item: any) => [`${item.payload.value}%`, labels[pillar]]}
+                formatter={(_, __, item: any) => [String(item.payload.value), labels[activePillar]]}
                 labelFormatter={(name) => name}
               />
               <Bar dataKey="diff" radius={[4, 4, 4, 4]}>

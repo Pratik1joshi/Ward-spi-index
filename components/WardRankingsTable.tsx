@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { getPercentByPillar, isHigherBetter } from '@/lib/data';
+import { getPercentByPillar, isHigherBetter, resolvePillar } from '@/lib/data';
 import { getPillarColor } from '@/lib/colors';
 
 interface WardRankingsTableProps {
@@ -18,16 +18,17 @@ interface WardRankingsTableProps {
 export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelect }: WardRankingsTableProps) {
   const [sortColumn, setSortColumn] = useState<'ward' | 'score'>('score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const activePillar = resolvePillar(pillar);
 
   const colorRange = (() => {
-    const values = municipality.wards.map((ward) => getPercentByPillar(ward, pillar));
+    const values = municipality.wards.map((ward) => getPercentByPillar(ward, activePillar));
     if (values.length === 0) return { min: 0, max: 100 };
     return { min: Math.min(...values), max: Math.max(...values) };
   })();
 
   let sortedWards = [...municipality.wards].sort((a, b) => {
-    const scoreA = getPercentByPillar(a, pillar);
-    const scoreB = getPercentByPillar(b, pillar);
+    const scoreA = getPercentByPillar(a, activePillar);
+    const scoreB = getPercentByPillar(b, activePillar);
     return sortDirection === 'desc' ? scoreB - scoreA : scoreA - scoreB;
   });
 
@@ -42,7 +43,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
     }
   };
 
-  const getPillarLabel = (p: Pillar) => {
+  const getPillarLabel = (p: Exclude<Pillar, 'none'>) => {
     switch (p) {
       case 'exclusion':
         return 'Exclusion Index';
@@ -56,19 +57,19 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
   };
 
   const formatScore = (percent: number) =>
-    pillar === 'overall' ? percent.toFixed(2) : `${percent.toFixed(1)}%`;
+    activePillar === 'overall' ? percent.toFixed(2) : percent.toFixed(1);
 
   return (
     <Card className="border border-slate-200 bg-white p-4 shadow-sm sm:border-0 sm:p-6">
       <h3 className="mb-3 text-base font-semibold text-gray-900 sm:mb-4 sm:text-lg">
-        Top {limit} Wards - {getPillarLabel(pillar)}
+        Top {limit} Wards - {getPillarLabel(activePillar)}
       </h3>
 
       {/* Mobile card list */}
       <div className="space-y-2 sm:hidden">
         {sortedWards.map((ward, index) => {
-          const percent = getPercentByPillar(ward, pillar);
-          const color = getPillarColor(percent, isHigherBetter(pillar), colorRange);
+          const percent = getPercentByPillar(ward, activePillar);
+          const color = getPillarColor(percent, isHigherBetter(activePillar), colorRange);
           return (
             <button
               key={ward.id}
@@ -109,15 +110,15 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
                 className="cursor-pointer text-right text-white hover:bg-slate-800"
                 onClick={() => handleSort('score')}
               >
-                {getPillarLabel(pillar)} {sortColumn === 'score' && (sortDirection === 'asc' ? '↑' : '↓')}
+                {getPillarLabel(activePillar)} {sortColumn === 'score' && (sortDirection === 'asc' ? '↑' : '↓')}
               </TableHead>
               <TableHead className="text-center text-white">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {sortedWards.map((ward, index) => {
-              const percent = getPercentByPillar(ward, pillar);
-              const color = getPillarColor(percent, isHigherBetter(pillar), colorRange);
+              const percent = getPercentByPillar(ward, activePillar);
+              const color = getPillarColor(percent, isHigherBetter(activePillar), colorRange);
               return (
                 <TableRow key={ward.id} className="border-b border-gray-200">
                   <TableCell className="font-semibold text-gray-900">{index + 1}</TableCell>

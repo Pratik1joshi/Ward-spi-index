@@ -85,7 +85,7 @@ export interface Municipality {
 // Dashboard state
 export interface DashboardState {
   selectedMunicipality: string;
-  selectedPillar: 'overall' | 'exclusion' | 'poverty' | 'vulnerability';
+  selectedPillar: Pillar;
   selectedWard?: string;
 }
 
@@ -100,5 +100,5 @@ export interface ExportData {
   vulnerabilityIndex: number;
 }
 
-// Pillar type
-export type Pillar = 'overall' | 'exclusion' | 'poverty' | 'vulnerability';
+// Pillar type — `none` shows the map without index colouring
+export type Pillar = 'overall' | 'exclusion' | 'poverty' | 'vulnerability' | 'none';

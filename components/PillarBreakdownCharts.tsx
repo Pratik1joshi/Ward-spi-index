@@ -16,13 +16,18 @@ const cardClass = 'rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:
 const headerClass = 'mb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 sm:text-xs';
 const titleClass = 'text-sm font-semibold text-slate-900';
 
+/** Component scores are on a 1–5 scale; show as 0–100 without a % symbol. */
+function toPercentScore(value: number): number {
+  return Number(((value / 5) * 100).toFixed(1));
+}
+
 export function ExclusionRadarChart({ components }: { components: ExclusionComponents }) {
   const data = [
-    { dimension: 'Socio-Economic', value: Number(components.socioEconomic.toFixed(2)) },
-    { dimension: 'Institutional', value: Number(components.institutional.toFixed(2)) },
-    { dimension: 'Political', value: Number(components.political.toFixed(2)) },
-    { dimension: 'Cultural', value: Number(components.cultural.toFixed(2)) },
-    { dimension: 'Spatial', value: Number(components.spatial.toFixed(2)) },
+    { dimension: 'Socio-Economic', value: toPercentScore(components.socioEconomic) },
+    { dimension: 'Institutional', value: toPercentScore(components.institutional) },
+    { dimension: 'Political', value: toPercentScore(components.political) },
+    { dimension: 'Cultural', value: toPercentScore(components.cultural) },
+    { dimension: 'Spatial', value: toPercentScore(components.spatial) },
   ];
 
   return (
@@ -41,9 +46,9 @@ export function ExclusionRadarChart({ components }: { components: ExclusionCompo
             angle={-20}
             textAnchor="end"
           />
-          <YAxis hide domain={[0, 'dataMax']} />
+          <YAxis hide domain={[0, 100]} />
           <Tooltip
-            formatter={(value: number) => [value.toFixed(2), 'Score']}
+            formatter={(value: number) => [value.toFixed(1), 'Score']}
             contentStyle={{ borderRadius: 8, borderColor: '#e2e8f0', fontSize: 12 }}
           />
           <Bar dataKey="value" fill="#3f6f9e" radius={[6, 6, 0, 0]}>
@@ -57,9 +62,9 @@ export function ExclusionRadarChart({ components }: { components: ExclusionCompo
 
 export function VulnerabilityRadarChart({ components }: { components: VulnerabilityComponents }) {
   const data = [
-    { dimension: 'Exposure', value: Number(components.environmental.toFixed(2)) },
-    { dimension: 'Sensitivity', value: Number(components.social.toFixed(2)) },
-    { dimension: 'Adaptive Capacity', value: Number(components.climate.toFixed(2)) },
+    { dimension: 'Exposure', value: toPercentScore(components.environmental) },
+    { dimension: 'Sensitivity', value: toPercentScore(components.social) },
+    { dimension: 'Adaptive Capacity', value: toPercentScore(components.climate) },
   ];
 
   return (
@@ -69,9 +74,9 @@ export function VulnerabilityRadarChart({ components }: { components: Vulnerabil
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 20, right: 8, left: 0, bottom: 8 }} barSize={48}>
           <XAxis dataKey="dimension" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
-          <YAxis hide domain={[0, 'dataMax']} />
+          <YAxis hide domain={[0, 100]} />
           <Tooltip
-            formatter={(value: number) => [value.toFixed(2), 'Score']}
+            formatter={(value: number) => [value.toFixed(1), 'Score']}
             contentStyle={{ borderRadius: 8, borderColor: '#e2e8f0', fontSize: 12 }}
           />
           <Bar dataKey="value" fill="#4caf50" radius={[6, 6, 0, 0]}>

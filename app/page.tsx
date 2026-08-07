@@ -50,16 +50,9 @@ export default function Dashboard() {
       <div className="mx-auto w-full max-w-[1600px]">
         <header className="mb-4 flex flex-col gap-3 sm:mb-6 sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#87604d] sm:mb-3 sm:text-xs">
-              Ward-level dashboard
-            </p>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
-              {municipality.name}{' '}
-              <span className="font-normal text-slate-400">at a glance</span>
+              Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal
             </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-              Shared Prosperity Index and household inclusion data, mapped ward by ward.
-            </p>
           </div>
           <div className="inline-flex w-fit max-w-full items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 shadow-sm sm:px-4 sm:py-2 sm:text-sm">
             <MapPinned className="mr-2 h-4 w-4 shrink-0 text-[#d66a4b]" />

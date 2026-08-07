@@ -3,7 +3,7 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'SPI & GESI Dashboard',
+  title: 'Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal',
   description: 'Municipal spatial and household insights dashboard',
   generator: 'v0.app',
   icons: {

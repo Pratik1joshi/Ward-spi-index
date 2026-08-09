@@ -14,6 +14,8 @@ import { MapSection } from '@/components/MapSection';
 import { ExclusionRadarChart, VulnerabilityRadarChart, PovertyContributionChart } from '@/components/PillarBreakdownCharts';
 import { HouseholdSex, filterHouseholds, summarizeHouseholds } from '@/lib/households';
 
+const projectTitle = 'Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal';
+
 export default function Dashboard() {
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(municipalities[0].id);
   const [selectedPillar, setSelectedPillar] = useState<Pillar>('overall');
@@ -23,7 +25,7 @@ export default function Dashboard() {
   const [selectedReligions, setSelectedReligions] = useState<string[]>([]);
   const municipality = municipalities.find((m) => m.id === selectedMunicipalityId)!;
   const ward = selectedWardId ? municipality.wards.find((item) => item.id === selectedWardId) : undefined;
-  const contextLabel = ward ? ward.name : `${municipality.name} municipality`;
+  const contextLabel = ward ? ward.name : municipality.name;
 
   const municipalityHouseholds = useMemo(
     () => households.filter((household) => household.municipalityId === municipality.id),
@@ -51,8 +53,11 @@ export default function Dashboard() {
         <header className="mb-4 flex flex-col gap-3 sm:mb-6 sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
-              Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal
+              {municipality.name}
             </h1>
+            <p className="mt-2 max-w-3xl text-sm font-medium text-slate-600 sm:text-base">
+              {projectTitle}
+            </p>
           </div>
           <div className="inline-flex w-fit max-w-full items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 shadow-sm sm:px-4 sm:py-2 sm:text-sm">
             <MapPinned className="mr-2 h-4 w-4 shrink-0 text-[#d66a4b]" />
@@ -175,8 +180,7 @@ export default function Dashboard() {
         ) : null}
 
         <footer className="mt-4 flex flex-col gap-2 border-t border-slate-200 py-4 text-xs text-slate-500 sm:mt-6 sm:flex-row sm:justify-between sm:py-5">
-          <span>SPI identifies geographic outcomes; GESI provides the household inclusion context.</span>
-          <span>Tap any ward to explore its combined profile.</span>
+          <span>Prepared by Innovative Engineering Services Pvt. Ltd.</span>
         </footer>
       </div>
     </main>

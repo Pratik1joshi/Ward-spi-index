@@ -2,7 +2,7 @@
   "municipalities": [
     {
       "id": "kepilasagadhi",
-      "name": "Kepilasagadhi",
+      "name": "Kepilasgadhi Rural Municipality",
       "mapPalika": "Kepilasagadhi",
       "district": "KHOTANG",
       "overallSpi": 60.82,
@@ -597,7 +597,7 @@
     },
     {
       "id": "halesituwachung",
-      "name": "Halesi Tuwachung",
+      "name": "Halesi Tuwachung Municipality",
       "mapPalika": "Halesi Tuwachung",
       "district": "KHOTANG",
       "overallSpi": 77.67,
@@ -1488,7 +1488,7 @@
     },
     {
       "id": "belaka",
-      "name": "Belaka",
+      "name": "Belaka Municipality",
       "mapPalika": "Belaka",
       "district": "UDAYAPUR",
       "overallSpi": 69.03,
@@ -2231,7 +2231,7 @@
     },
     {
       "id": "hanumannagarkankalani",
-      "name": "Hanumannagar Kankalani",
+      "name": "Hanumannagar Kankalini Municipality",
       "mapPalika": "Hanumannagar Kankalani",
       "district": "SAPTARI",
       "overallSpi": 62.31,
@@ -3344,7 +3344,7 @@
     },
     {
       "id": "gadhi",
-      "name": "Gadhi",
+      "name": "Gadhi Rural Municipality",
       "mapPalika": "Gadhi",
       "district": "SUNSARI",
       "overallSpi": 61.92,
@@ -3865,7 +3865,7 @@
     },
     {
       "id": "sunkoshi",
-      "name": "Sunkoshi",
+      "name": "Sunkoshi Rural Municipality",
       "mapPalika": "Sunkoshi",
       "district": "SINDHULI",
       "overallSpi": 73.21,

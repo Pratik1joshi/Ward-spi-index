@@ -59,12 +59,12 @@ export default function Dashboard() {
               {projectTitle}
             </p>
           </div>
-          <div className="inline-flex w-fit max-w-full items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 shadow-sm sm:px-4 sm:py-2 sm:text-sm">
+          {/* <div className="inline-flex w-fit max-w-full items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 shadow-sm sm:px-4 sm:py-2 sm:text-sm">
             <MapPinned className="mr-2 h-4 w-4 shrink-0 text-[#d66a4b]" />
             <span className="truncate">
               {municipality.name}, {municipality.district}
             </span>
-          </div>
+          </div> */}
         </header>
 
         <div className="grid gap-4 sm:gap-6 xl:grid-cols-12">

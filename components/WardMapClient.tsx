@@ -525,18 +525,6 @@ export function WardMapClient({
 
   return (
     <Card className="border border-slate-200 bg-white p-3 text-slate-900 shadow-sm sm:p-5">
-      <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
-        <div className="min-w-0">
-          <h2 className="text-base font-semibold sm:text-lg">Ward map of {municipality.name}</h2>
-          <p className="text-xs text-slate-500 sm:text-sm">
-            {municipality.district} district, {municipality.wards.length} dashboard wards
-          </p>
-        </div>
-        <div className="w-fit rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-600">
-          {pillar === 'none' ? 'No colour' : pillar === 'overall' ? 'Overall SPI' : `${pillar[0].toUpperCase()}${pillar.slice(1)} index`}
-        </div>
-      </div>
-
       <div className="mb-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-2 sm:mb-0 sm:p-3">
         {(municipalities || setSelectedPillar) && (
           <div className="relative z-20 mb-2 rounded-md border border-slate-200 bg-white p-2.5 shadow-sm sm:mb-3 sm:p-3">

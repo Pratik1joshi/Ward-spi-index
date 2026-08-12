@@ -40,6 +40,7 @@ export function MunicipalitySelector({
           <SelectValue placeholder="Select municipality" />
         </SelectTrigger>
         <SelectContent className="bg-white">
+          <SelectItem value="all">All Municipalities</SelectItem>
           {municipalities.map((municipality) => (
             <SelectItem key={municipality.id} value={municipality.id}>
               {municipality.name} ({municipality.district})

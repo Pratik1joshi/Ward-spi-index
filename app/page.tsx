@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { MapPinned } from 'lucide-react';
 import { municipalities, households } from '@/lib/data';
-import { Pillar } from '@/lib/types';
+import { Municipality, Pillar } from '@/lib/types';
 import { KPICards } from '@/components/KPICards';
 import { SPIGaugeChart } from '@/components/SPIGaugeChart';
 import { GesiProfileChart } from '@/components/GesiProfileChart';
@@ -15,33 +15,57 @@ import { ExclusionRadarChart, VulnerabilityRadarChart, PovertyContributionChart 
 import { HouseholdSex, filterHouseholds, summarizeHouseholds } from '@/lib/households';
 
 const projectTitle = 'Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal';
+const ALL_MUNICIPALITIES_ID = 'all';
+
+function buildAllMunicipalitiesView(): Municipality {
+  const wards = municipalities.flatMap((municipality) =>
+    municipality.wards.map((ward) => ({ ...ward, name: `${municipality.name} · ${ward.name}` }))
+  );
+  const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / (values.length || 1);
+  return {
+    id: ALL_MUNICIPALITIES_ID,
+    name: 'All Municipalities',
+    district: 'Koshi River Basin',
+    overallSpi: average(municipalities.map((item) => item.overallSpi)),
+    exclusionIndex: average(municipalities.map((item) => item.exclusionIndex)),
+    povertyIndex: average(municipalities.map((item) => item.povertyIndex)),
+    vulnerabilityIndex: average(municipalities.map((item) => item.vulnerabilityIndex)),
+    wards,
+  };
+}
+
+const allMunicipalitiesView = buildAllMunicipalitiesView();
 
 export default function Dashboard() {
-  const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(municipalities[0].id);
+  const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(ALL_MUNICIPALITIES_ID);
   const [selectedPillar, setSelectedPillar] = useState<Pillar>('overall');
   const [selectedWardId, setSelectedWardId] = useState<string | undefined>();
   const [selectedSex, setSelectedSex] = useState<HouseholdSex>('all');
   const [selectedHouseholdTypes, setSelectedHouseholdTypes] = useState<string[]>([]);
   const [selectedReligions, setSelectedReligions] = useState<string[]>([]);
-  const municipality = municipalities.find((m) => m.id === selectedMunicipalityId)!;
+  const municipality = selectedMunicipalityId === ALL_MUNICIPALITIES_ID
+    ? allMunicipalitiesView
+    : municipalities.find((m) => m.id === selectedMunicipalityId) ?? allMunicipalitiesView;
   const ward = selectedWardId ? municipality.wards.find((item) => item.id === selectedWardId) : undefined;
   const contextLabel = ward ? ward.name : municipality.name;
 
   const municipalityHouseholds = useMemo(
-    () => households.filter((household) => household.municipalityId === municipality.id),
-    [municipality.id]
+    () => selectedMunicipalityId === ALL_MUNICIPALITIES_ID
+      ? households
+      : households.filter((household) => household.municipalityId === municipality.id),
+    [municipality.id, selectedMunicipalityId]
   );
 
   const filteredHouseholds = useMemo(
     () =>
       filterHouseholds(households, {
-        municipalityId: municipality.id,
+        municipalityId: selectedMunicipalityId,
         wardId: selectedWardId,
         sex: selectedSex,
         householdTypes: selectedHouseholdTypes,
         religions: selectedReligions,
       }),
-    [municipality.id, selectedWardId, selectedSex, selectedHouseholdTypes, selectedReligions]
+    [municipality.id, selectedMunicipalityId, selectedWardId, selectedSex, selectedHouseholdTypes, selectedReligions]
   );
 
   const summary = useMemo(() => summarizeHouseholds(filteredHouseholds), [filteredHouseholds]);
@@ -95,7 +119,12 @@ export default function Dashboard() {
               filteredHouseholds={filteredHouseholds}
               municipalityHouseholds={municipalityHouseholds}
             />
-            <WardAverageChart municipality={municipality} pillar={selectedPillar} selectedWardId={selectedWardId} />
+            <WardAverageChart
+              municipality={municipality}
+              municipalities={municipalities}
+              pillar={selectedPillar}
+              selectedWardId={selectedWardId}
+            />
           </section>
 
           <aside className="min-w-0 space-y-4 sm:space-y-5 xl:col-span-5">

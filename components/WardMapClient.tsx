@@ -10,7 +10,7 @@ import { MunicipalitySelector, PillarSelector, WardFilterSelector, GesiCategoryS
 import { getGesiCategoryColor, buildGesiConicGradient, getPillarColor } from '@/lib/colors';
 import { getPercentByPillar, isHigherBetter } from '@/lib/data';
 import { HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds, uniqueCollapsedLabels } from '@/lib/households';
-import { Household, Municipality, Pillar } from '@/lib/types';
+import { Household, Municipality, Pillar, Ward } from '@/lib/types';
 
 function pillarPercent(summary: HouseholdSummary, pillar: Pillar): number {
   if (pillar === 'exclusion') return summary.exclusionPercent;
@@ -140,15 +140,14 @@ function wardTooltipHtml({
 }): string {
   const areaLabel = formatWardArea(area);
   if (!summary) {
-    return `${title}<br />No households match the selected filters.${areaLabel ? `<br />Area: ${areaLabel}` : ''}`;
+    return `${title}${areaLabel ? `<br />Area: ${areaLabel}` : ''}`;
   }
   return (
     `${title}<br />` +
     `SPI: ${summary.spi.toFixed(1)}<br />` +
     `Exclusion: ${summary.exclusionPercent.toFixed(1)}<br />` +
     `Poverty: ${summary.povertyPercent.toFixed(1)}<br />` +
-    `Vulnerability: ${summary.vulnerabilityPercent.toFixed(1)}<br />` +
-    `Households: ${summary.totalHouseholds.toLocaleString()}` +
+    `Vulnerability: ${summary.vulnerabilityPercent.toFixed(1)}` +
     (areaLabel ? `<br />Area: ${areaLabel}` : '')
   );
 }
@@ -156,6 +155,7 @@ function wardTooltipHtml({
 function WardGeoJSONLayer({
   data,
   municipality,
+  findWard,
   wardSummaries,
   pillar,
   selectedWardId,
@@ -165,6 +165,7 @@ function WardGeoJSONLayer({
 }: {
   data: FeatureCollection<Geometry, ShapefileProperties>;
   municipality: Municipality;
+  findWard: (properties?: ShapefileProperties) => Ward | undefined;
   wardSummaries: Map<string, HouseholdSummary>;
   pillar: Pillar;
   selectedWardId: string | null | undefined;
@@ -178,8 +179,7 @@ function WardGeoJSONLayer({
 
   const getStyle = useCallback(
     (feature?: Feature<Geometry, ShapefileProperties>) => {
-      const wardNumber = String(feature?.properties?.WARD || '');
-      const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+      const ward = findWard(feature?.properties);
       const summary = ward ? wardSummaries.get(ward.id) : undefined;
       const isSelected = selectedWardNumber !== null && wardNumber === selectedWardNumber;
       const fillColor = !ward
@@ -197,7 +197,7 @@ function WardGeoJSONLayer({
         fillOpacity: isSelected ? 0.92 : dimmed ? 0.25 : uncoloured ? 0.45 : 0.72,
       };
     },
-    [colorRange, dimmed, municipality.wards, pillar, selectedWardNumber, uncoloured, wardSummaries]
+    [colorRange, dimmed, findWard, pillar, selectedWardNumber, uncoloured, wardSummaries]
   );
 
   useEffect(() => {
@@ -208,7 +208,7 @@ function WardGeoJSONLayer({
       (leafletLayer as L.Path).setStyle(getStyle(feature));
 
       const wardNumber = String(feature?.properties?.WARD || '');
-      const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+      const ward = findWard(feature?.properties);
       const summary = ward ? wardSummaries.get(ward.id) : undefined;
       const title = `${feature?.properties?.PALIKA || municipality.name} Ward ${wardNumber}`;
       (leafletLayer as L.Layer).bindTooltip(
@@ -216,7 +216,7 @@ function WardGeoJSONLayer({
         { sticky: true }
       );
     });
-  }, [getStyle, municipality.name, municipality.wards, wardSummaries]);
+  }, [findWard, getStyle, municipality.name, wardSummaries]);
 
   return (
     <GeoJSON
@@ -225,7 +225,7 @@ function WardGeoJSONLayer({
       style={(feature) => getStyle(feature as Feature<Geometry, ShapefileProperties>)}
       onEachFeature={(feature, layer) => {
         const wardNumber = String(feature.properties?.WARD || '');
-        const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+        const ward = findWard(feature.properties);
         const summary = ward ? wardSummaries.get(ward.id) : undefined;
         const title = `${feature.properties?.PALIKA || municipality.name} Ward ${wardNumber}`;
 
@@ -306,11 +306,8 @@ function FallbackWardMarkers({
                     <p>Exclusion: {summary.exclusionPercent.toFixed(1)}</p>
                     <p>Poverty: {summary.povertyPercent.toFixed(1)}</p>
                     <p>Vulnerability: {summary.vulnerabilityPercent.toFixed(1)}</p>
-                    <p>Households: {summary.totalHouseholds.toLocaleString()}</p>
                   </>
-                ) : (
-                  <p>No households match the selected filters.</p>
-                )}
+                ) : null}
               </div>
             </Popup>
           </CircleMarker>
@@ -463,21 +460,33 @@ export function WardMapClient({
     };
   }, []);
 
+  const displayedMunicipalities = useMemo(
+    () => municipality.id === 'all' ? (municipalities ?? []) : [municipality],
+    [municipalities, municipality]
+  );
+
+  const findWardForFeature = useCallback((properties?: ShapefileProperties): Ward | undefined => {
+    const wardNumber = String(properties?.WARD || '');
+    const featureMunicipality = displayedMunicipalities.find((item) =>
+      normalizeText(item.district) === normalizeText(properties?.DISTRICT) &&
+      normalizeText(item.mapPalika || item.name) === normalizeText(properties?.PALIKA)
+    );
+    return featureMunicipality?.wards.find((ward) => String(ward.wardNumber) === wardNumber);
+  }, [displayedMunicipalities]);
+
   const municipalityFeatures = useMemo(() => {
     if (!geoJsonData) {
       return [];
     }
 
-    const normalizedDistrict = normalizeText(municipality.district);
-    const normalizedPalika = normalizeText(municipality.mapPalika || municipality.name);
-
     return geoJsonData.features.filter((feature) => {
       const properties = feature.properties || {};
-      const featureDistrict = normalizeText(properties.DISTRICT);
-      const featurePalika = normalizeText(properties.PALIKA);
-      return featureDistrict === normalizedDistrict && featurePalika === normalizedPalika;
+      return displayedMunicipalities.some((item) =>
+        normalizeText(properties.DISTRICT) === normalizeText(item.district) &&
+        normalizeText(properties.PALIKA) === normalizeText(item.mapPalika || item.name)
+      );
     });
-  }, [geoJsonData, municipality]);
+  }, [displayedMunicipalities, geoJsonData]);
 
   const wardFeatureCollection = useMemo<FeatureCollection<Geometry, ShapefileProperties>>(
     () => ({
@@ -501,8 +510,7 @@ export function WardMapClient({
 
     return municipalityFeatures
       .map((feature: Feature<Geometry, ShapefileProperties>): GesiMarker | null => {
-        const wardNumber = String(feature.properties?.WARD || '');
-        const ward = municipality.wards.find((item) => String(item.wardNumber) === wardNumber);
+        const ward = findWardForFeature(feature.properties);
         const summary = ward ? wardSummaries.get(ward.id) : undefined;
         if (!ward || !summary) return null;
 
@@ -521,7 +529,7 @@ export function WardMapClient({
         return { ward, center, segments, householdCount: summary.totalHouseholds };
       })
       .filter((item: GesiMarker | null): item is GesiMarker => item !== null);
-  }, [municipalityFeatures, municipality, selectedGesiCategories, selectedReligions, wardSummaries]);
+  }, [findWardForFeature, municipalityFeatures, selectedGesiCategories, selectedReligions, wardSummaries]);
 
   return (
     <Card className="border border-slate-200 bg-white p-3 text-slate-900 shadow-sm sm:p-5">
@@ -596,6 +604,7 @@ export function WardMapClient({
                   key={municipality.id}
                   data={wardFeatureCollection}
                   municipality={municipality}
+                  findWard={findWardForFeature}
                   wardSummaries={wardSummaries}
                   pillar={pillar}
                   selectedWardId={effectiveSelectedWardId}
@@ -625,7 +634,6 @@ export function WardMapClient({
                       <Popup>
                         <div className="text-xs">
                           <p className="mb-1 font-bold">{ward.name}</p>
-                          <p className="mb-1 text-slate-500">{householdCount.toLocaleString()} households match{selectedSex !== 'all' ? ` · ${selectedSex === 'female' ? 'female-headed' : 'male-headed'}` : ''}</p>
                           {segments.map((segment: { name: string; value: number }) => (
                             <p key={segment.name} className="flex items-center gap-1.5">
                               <span

@@ -26,7 +26,7 @@ export function groupByWard(households: Household[]): Map<string, Household[]> {
 // OR within the household type / religion multi-selects.
 export function filterHouseholds(households: Household[], filters: HouseholdFilters): Household[] {
   return households.filter((household) => {
-    if (household.municipalityId !== filters.municipalityId) return false;
+    if (filters.municipalityId !== 'all' && household.municipalityId !== filters.municipalityId) return false;
     if (filters.wardId && household.wardId !== filters.wardId) return false;
     if (filters.sex !== 'all' && household.headSex !== filters.sex) return false;
     if (filters.householdTypes.length > 0) {

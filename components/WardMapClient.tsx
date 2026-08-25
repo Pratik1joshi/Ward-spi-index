@@ -174,14 +174,13 @@ function WardGeoJSONLayer({
   onWardClick: (wardId: string) => void;
 }) {
   const layerRef = useRef<L.GeoJSON | null>(null);
-  const selectedWardNumber = selectedWardId ? String(selectedWardId).split('-').pop() : null;
   const uncoloured = pillar === 'none';
 
   const getStyle = useCallback(
     (feature?: Feature<Geometry, ShapefileProperties>) => {
       const ward = findWard(feature?.properties);
       const summary = ward ? wardSummaries.get(ward.id) : undefined;
-      const isSelected = selectedWardNumber !== null && wardNumber === selectedWardNumber;
+      const isSelected = Boolean(selectedWardId && ward && ward.id === selectedWardId);
       const fillColor = !ward
         ? '#e2e8f0'
         : !summary
@@ -197,7 +196,7 @@ function WardGeoJSONLayer({
         fillOpacity: isSelected ? 0.92 : dimmed ? 0.25 : uncoloured ? 0.45 : 0.72,
       };
     },
-    [colorRange, dimmed, findWard, pillar, selectedWardNumber, uncoloured, wardSummaries]
+    [colorRange, dimmed, findWard, pillar, selectedWardId, uncoloured, wardSummaries]
   );
 
   useEffect(() => {
@@ -409,6 +408,10 @@ export function WardMapClient({
   ]);
 
   const handleWardClick = (wardId: string) => {
+    if (setSelectedMunicipalityId && municipality.id === 'all' && municipalities) {
+      const owner = municipalities.find((item) => item.wards.some((ward) => ward.id === wardId));
+      if (owner) setSelectedMunicipalityId(owner.id);
+    }
     setSelectedWardLocalId(wardId);
     setSelectedWardId?.(wardId);
     onWardSelect?.(wardId);

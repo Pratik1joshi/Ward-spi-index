@@ -36,6 +36,10 @@ function buildAllMunicipalitiesView(): Municipality {
 
 const allMunicipalitiesView = buildAllMunicipalitiesView();
 
+function findMunicipalityIdForWard(wardId: string): string | undefined {
+  return municipalities.find((item) => item.wards.some((ward) => ward.id === wardId))?.id;
+}
+
 export default function Dashboard() {
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(ALL_MUNICIPALITIES_ID);
   const [selectedPillar, setSelectedPillar] = useState<Pillar>('overall');
@@ -185,6 +189,10 @@ export default function Dashboard() {
               pillar={selectedPillar}
               limit={5}
               onWardSelect={(id) => {
+                if (selectedMunicipalityId === ALL_MUNICIPALITIES_ID) {
+                  const ownerId = findMunicipalityIdForWard(id);
+                  if (ownerId) setSelectedMunicipalityId(ownerId);
+                }
                 setSelectedWardId(id);
                 document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}

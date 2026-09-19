@@ -8,16 +8,9 @@ import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { Card } from '@/components/ui/card';
 import { MunicipalitySelector, PillarSelector, WardFilterSelector, GesiCategorySelector, HouseholdSexSelector } from '@/components/Selectors';
 import { getGesiCategoryColor, buildGesiConicGradient, getPillarColor } from '@/lib/colors';
-import { getPercentByPillar, isHigherBetter } from '@/lib/data';
-import { HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds, uniqueCollapsedLabels } from '@/lib/households';
+import { isHigherBetter } from '@/lib/data';
+import { getSummaryValue, HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds, uniqueCollapsedLabels } from '@/lib/households';
 import { Household, Municipality, Pillar, Ward } from '@/lib/types';
-
-function pillarPercent(summary: HouseholdSummary, pillar: Pillar): number {
-  if (pillar === 'exclusion') return summary.exclusionPercent;
-  if (pillar === 'poverty') return summary.povertyPercent;
-  if (pillar === 'vulnerability') return summary.vulnerabilityPercent;
-  return summary.spi;
-}
 
 interface WardMapClientProps {
   municipality: Municipality;
@@ -187,7 +180,7 @@ function WardGeoJSONLayer({
           ? '#e2e8f0'
           : uncoloured
             ? '#94a3b8'
-            : getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange);
+            : getPillarColor(getSummaryValue(summary, pillar), isHigherBetter(pillar), colorRange);
 
       return {
         color: isSelected ? '#254a36' : '#ffffff',
@@ -281,7 +274,7 @@ function FallbackWardMarkers({
       {wards.map(({ ward, lat, lng }) => {
         const summary = wardSummaries.get(ward.id);
         const color =
-          !summary ? '#e2e8f0' : pillar === 'none' ? '#94a3b8' : getPillarColor(getPercentByPillar(ward, pillar), isHigherBetter(pillar), colorRange);
+          !summary ? '#e2e8f0' : pillar === 'none' ? '#94a3b8' : getPillarColor(getSummaryValue(summary, pillar), isHigherBetter(pillar), colorRange);
         return (
           <CircleMarker
             key={ward.id}
@@ -377,10 +370,10 @@ export function WardMapClient({
 
   // Municipality-level range only — never shrink to a single selected ward.
   const colorRange = useMemo(() => {
-    const values = municipality.wards.map((ward) => getPercentByPillar(ward, pillar));
+    const values = [...wardSummaries.values()].map((summary) => getSummaryValue(summary, pillar));
     if (values.length === 0) return { min: 0, max: 100 };
     return { min: Math.min(...values), max: Math.max(...values) };
-  }, [municipality.wards, pillar]);
+  }, [pillar, wardSummaries]);
 
   const hasGesiOverlay = selectedGesiCategories.length > 0 || selectedReligions.length > 0;
 

@@ -5,30 +5,32 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { getPercentByPillar, isHigherBetter, resolvePillar } from '@/lib/data';
+import { isHigherBetter, resolvePillar } from '@/lib/data';
 import { getPillarColor } from '@/lib/colors';
+import { getSummaryValue, HouseholdSummary } from '@/lib/households';
 
 interface WardRankingsTableProps {
   municipality: Municipality;
   pillar: Pillar;
   limit?: number;
   onWardSelect?: (wardId: string) => void;
+  wardSummaries: Map<string, HouseholdSummary>;
 }
 
-export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelect }: WardRankingsTableProps) {
+export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelect, wardSummaries }: WardRankingsTableProps) {
   const [sortColumn, setSortColumn] = useState<'ward' | 'score'>('score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const activePillar = resolvePillar(pillar);
 
   const colorRange = (() => {
-    const values = municipality.wards.map((ward) => getPercentByPillar(ward, activePillar));
+    const values = [...wardSummaries.values()].map((summary) => getSummaryValue(summary, activePillar));
     if (values.length === 0) return { min: 0, max: 100 };
     return { min: Math.min(...values), max: Math.max(...values) };
   })();
 
-  let sortedWards = [...municipality.wards].sort((a, b) => {
-    const scoreA = getPercentByPillar(a, activePillar);
-    const scoreB = getPercentByPillar(b, activePillar);
+  let sortedWards = municipality.wards.filter((ward) => wardSummaries.has(ward.id)).sort((a, b) => {
+    const scoreA = getSummaryValue(wardSummaries.get(a.id)!, activePillar);
+    const scoreB = getSummaryValue(wardSummaries.get(b.id)!, activePillar);
     return sortDirection === 'desc' ? scoreB - scoreA : scoreA - scoreB;
   });
 
@@ -68,7 +70,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
       {/* Mobile card list */}
       <div className="space-y-2 sm:hidden">
         {sortedWards.map((ward, index) => {
-          const percent = getPercentByPillar(ward, activePillar);
+          const percent = getSummaryValue(wardSummaries.get(ward.id)!, activePillar);
           const color = getPillarColor(percent, isHigherBetter(activePillar), colorRange);
           return (
             <button
@@ -117,7 +119,7 @@ export function WardRankingsTable({ municipality, pillar, limit = 5, onWardSelec
           </TableHeader>
           <TableBody>
             {sortedWards.map((ward, index) => {
-              const percent = getPercentByPillar(ward, activePillar);
+              const percent = getSummaryValue(wardSummaries.get(ward.id)!, activePillar);
               const color = getPillarColor(percent, isHigherBetter(activePillar), colorRange);
               return (
                 <TableRow key={ward.id} className="border-b border-gray-200">

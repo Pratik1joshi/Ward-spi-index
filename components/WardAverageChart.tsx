@@ -1,8 +1,9 @@
 'use client';
 
-import { Bar, BarChart, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Cell, LabelList, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Municipality, Pillar } from '@/lib/types';
-import { getPercentByPillar, isHigherBetter, resolvePillar } from '@/lib/data';
+import { isHigherBetter, resolvePillar } from '@/lib/data';
+import { getSummaryValue, HouseholdSummary } from '@/lib/households';
 
 const labels: Record<Exclude<Pillar, 'none'>, string> = {
   overall: 'SPI',
@@ -16,35 +17,42 @@ export function WardAverageChart({
   municipalities,
   pillar,
   selectedWardId,
+  wardSummaries,
+  municipalitySummaries,
+  comparisonSummary,
 }: {
   municipality: Municipality;
   municipalities?: Municipality[];
   pillar: Pillar;
   selectedWardId?: string;
+  wardSummaries: Map<string, HouseholdSummary>;
+  municipalitySummaries: Map<string, HouseholdSummary>;
+  comparisonSummary: HouseholdSummary | null;
 }) {
   const activePillar = resolvePillar(pillar);
   const isAllMunicipalities = municipality.id === 'all';
-  const municipalityValue = (item: Municipality) => {
-    if (activePillar === 'exclusion') return item.exclusionPercent ?? item.exclusionIndex * 100;
-    if (activePillar === 'poverty') return item.povertyPercent ?? item.povertyIndex * 100;
-    if (activePillar === 'vulnerability') return item.vulnerabilityPercent ?? item.vulnerabilityIndex * 100;
-    return item.overallSpi;
-  };
   const scores = isAllMunicipalities
-    ? (municipalities ?? []).map((item) => ({ id: item.id, name: item.name, value: municipalityValue(item) }))
-    : municipality.wards.map((ward) => ({ id: ward.id, name: `Ward ${ward.wardNumber}`, value: getPercentByPillar(ward, activePillar) }));
-  const average = scores.reduce((sum, item) => sum + item.value, 0) / (scores.length || 1);
+    ? (municipalities ?? []).flatMap((item) => {
+        const itemSummary = municipalitySummaries.get(item.id);
+        return itemSummary ? [{ id: item.id, name: item.name, value: getSummaryValue(itemSummary, activePillar) }] : [];
+      })
+    : municipality.wards.flatMap((ward) => {
+        const wardSummary = wardSummaries.get(ward.id);
+        return wardSummary ? [{ id: ward.id, name: `Ward ${ward.wardNumber}`, value: getSummaryValue(wardSummary, activePillar) }] : [];
+      });
+  // This is the household-weighted result for the current municipality/filter context,
+  // not an unweighted mean of ward means.
+  const average = comparisonSummary ? getSummaryValue(comparisonSummary, activePillar) : 0;
   const higherIsBetter = isHigherBetter(activePillar);
 
   const data = scores
     .map(({ id, name, value }) => ({
       name,
       id,
-      diff: Number((value - average).toFixed(1)),
       value: Number(value.toFixed(1)),
       aboveAverage: value >= average,
     }))
-    .sort((a, b) => a.diff - b.diff);
+    .sort((a, b) => a.value - b.value);
 
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
@@ -60,22 +68,23 @@ export function WardAverageChart({
       <div className="w-full overflow-x-auto">
         <div className="min-w-[280px]">
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={data} margin={{ left: 0, right: 4, top: 8, bottom: 0 }} barSize={18}>
+            <BarChart data={data} margin={{ left: 0, right: 4, top: 20, bottom: 0 }} barSize={18}>
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} interval={0} angle={-35} textAnchor="end" height={48} />
-              <YAxis hide />
-              <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="4 3" />
+              <YAxis hide domain={[0, 100]} />
+              <ReferenceLine y={average} stroke="#94a3b8" strokeDasharray="4 3" />
               <Tooltip
                 cursor={{ fill: '#f1f5f9' }}
                 formatter={(_, __, item: any) => [String(item.payload.value), labels[activePillar]]}
                 labelFormatter={(name) => name}
               />
-              <Bar dataKey="diff" radius={[4, 4, 4, 4]}>
+              <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                 {data.map((entry) => (
                   <Cell
                     key={entry.id}
                     fill={!isAllMunicipalities && entry.id === selectedWardId ? '#d66a4b' : entry.aboveAverage === higherIsBetter ? '#2f9e6f' : '#c0483a'}
                   />
                 ))}
+                <LabelList dataKey="value" position="top" fill="#475569" fontSize={10} formatter={(value: number) => value.toFixed(1)} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>

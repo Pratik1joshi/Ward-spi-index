@@ -1,5 +1,5 @@
 ﻿param(
-  [string]$SpiWorkbook = 'public/EI VI MPI with components.xlsx',
+  [string]$SpiWorkbook = 'EI VI MPI with components (2).xlsx',
   [string]$GesiWorkbook = 'public/All combined for power bi gesi lens with ei vi mpi v2.xlsx',
   [string]$ShapefileCsv = 'public/shp/ward_shp/output.csv',
   [string]$Output = 'lib/dashboard-data.json'
@@ -8,7 +8,13 @@
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 function Get-CellColumn([string]$reference) { ([regex]::Match($reference, '^[A-Z]+')).Value }
-function Get-Key([string]$value) { (($value -replace '\s*\(.*?\)', '') -replace '[^a-zA-Z0-9]+', '').ToLowerInvariant() }
+function Get-Key([string]$value) {
+  $withoutAdminSuffix = ($value -replace '\s*\(.*?\)', '') -replace '\s+(Rural\s+)?Municipality\s*$', ''
+  $key = ($withoutAdminSuffix -replace '[^a-zA-Z0-9]+', '').ToLowerInvariant()
+  if ($key -eq 'kepilasgadhi') { return 'kepilasagadhi' }
+  if ($key -eq 'hanumannagarkankalini') { return 'hanumannagarkankalani' }
+  return $key
+}
 $HouseholdCategories = @(
   @{ label = 'Janajati'; pattern = 'Janajati' }, @{ label = 'Chhetri'; pattern = 'Chhetri' },
   @{ label = 'Madhesi'; pattern = 'Madhesi' }, @{ label = 'Dalit'; pattern = 'Dalit' },
@@ -18,12 +24,12 @@ $HouseholdCategories = @(
 )
 function Get-CanonicalMunicipalityName([string]$value) {
   $canonicalNames = @{
-    'gadhi' = 'Gadhi'; 'sunkoshi' = 'Sunkoshi'; 'belaka' = 'Belaka'
-    'hanumanangarkankalani' = 'Hanumannagar Kankalani'; 'hanumanangar' = 'Hanumannagar Kankalani'
-    'hanumannagarkankalini' = 'Hanumannagar Kankalani'
-    'hanumannagarkankalinisaptari' = 'Hanumannagar Kankalani'
-    'kepilasagadhi' = 'Kepilasagadhi'; 'kepilasgadhi' = 'Kepilasagadhi'
-    'halesituwachung' = 'Halesi Tuwachung'; 'halesi' = 'Halesi Tuwachung'
+    'gadhi' = 'Gadhi Rural Municipality'; 'sunkoshi' = 'Sunkoshi Rural Municipality'; 'belaka' = 'Belaka Municipality'
+    'hanumanangarkankalani' = 'Hanumannagar Kankalini Municipality'; 'hanumanangar' = 'Hanumannagar Kankalini Municipality'
+    'hanumannagarkankalini' = 'Hanumannagar Kankalini Municipality'
+    'hanumannagarkankalinisaptari' = 'Hanumannagar Kankalini Municipality'
+    'kepilasagadhi' = 'Kepilasgadhi Rural Municipality'; 'kepilasgadhi' = 'Kepilasgadhi Rural Municipality'
+    'halesituwachung' = 'Halesi Tuwachung Municipality'; 'halesi' = 'Halesi Tuwachung Municipality'
   }
   $key = Get-Key $value
   if ($canonicalNames.ContainsKey($key)) { return $canonicalNames[$key] }
@@ -207,7 +213,10 @@ $gesiFields = @(
   'W1.1', 'W1.2', 'W2.1', 'W2.2', 'W3.1', 'W3.2', 'W3.3', 'W3.4', 'W3.5', 'W3.6',
   'E', 'S', 'C', 'VI%'
 )
-$gesiRows = Read-XlsxColumns $GesiWorkbook $gesiFields
+$gesiRows = @(Read-XlsxColumns $GesiWorkbook $gesiFields | Where-Object {
+  -not [string]::IsNullOrWhiteSpace([string]$_.hh_municipality) -and
+  -not [string]::IsNullOrWhiteSpace([string]$_.hh_ward)
+})
 $shapefileRows = Import-Csv $ShapefileCsv
 $spiRows | ForEach-Object { $_.Municipality = Get-CanonicalMunicipalityName $_.Municipality }
 $gesiRows | ForEach-Object { $_.hh_municipality = Get-CanonicalMunicipalityName $_.hh_municipality }

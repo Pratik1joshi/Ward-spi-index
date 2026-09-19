@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { MapPinned } from 'lucide-react';
 import { municipalities, households } from '@/lib/data';
-import { Municipality, Pillar } from '@/lib/types';
+import { Municipality, Pillar, Ward } from '@/lib/types';
 import { KPICards } from '@/components/KPICards';
 import { SPIGaugeChart } from '@/components/SPIGaugeChart';
 import { GesiProfileChart } from '@/components/GesiProfileChart';
@@ -12,10 +12,28 @@ import { WardAverageChart } from '@/components/WardAverageChart';
 import { WardRankingsTable } from '@/components/WardRankingsTable';
 import { MapSection } from '@/components/MapSection';
 import { ExclusionRadarChart, VulnerabilityRadarChart, PovertyContributionChart } from '@/components/PillarBreakdownCharts';
-import { HouseholdSex, filterHouseholds, summarizeHouseholds } from '@/lib/households';
+import { groupByWard, HouseholdSex, HouseholdSummary, filterHouseholds, summarizeHouseholds } from '@/lib/households';
 
 const projectTitle = 'Shared Prosperity Mapping in six municipalities in Koshi River Basin, Nepal';
 const ALL_MUNICIPALITIES_ID = 'all';
+
+function applyAggregateMetrics(
+  summary: HouseholdSummary | null,
+  aggregate: Municipality | Ward | undefined,
+  enabled: boolean
+): HouseholdSummary | null {
+  if (!summary || !aggregate || !enabled) return summary;
+  return {
+    ...summary,
+    spi: 'spiScore' in aggregate ? aggregate.spiScore : aggregate.overallSpi,
+    exclusionPercent: aggregate.exclusionPercent ?? aggregate.exclusionIndex * 100,
+    povertyPercent: aggregate.povertyPercent ?? aggregate.povertyIndex * 100,
+    vulnerabilityPercent: aggregate.vulnerabilityPercent ?? aggregate.vulnerabilityIndex * 100,
+    exclusionComponents: aggregate.exclusionComponents ?? summary.exclusionComponents,
+    povertyComponents: aggregate.povertyComponents ?? summary.povertyComponents,
+    vulnerabilityComponents: aggregate.vulnerabilityComponents ?? summary.vulnerabilityComponents,
+  };
+}
 
 function buildAllMunicipalitiesView(): Municipality {
   const wards = municipalities.flatMap((municipality) =>
@@ -72,7 +90,63 @@ export default function Dashboard() {
     [municipality.id, selectedMunicipalityId, selectedWardId, selectedSex, selectedHouseholdTypes, selectedReligions]
   );
 
-  const summary = useMemo(() => summarizeHouseholds(filteredHouseholds), [filteredHouseholds]);
+  // Keep the comparison universe intact when one ward is selected. Demographic
+  // filters still apply, so every map/chart value describes the same population.
+  const comparisonHouseholds = useMemo(
+    () =>
+      filterHouseholds(households, {
+        municipalityId: selectedMunicipalityId,
+        sex: selectedSex,
+        householdTypes: selectedHouseholdTypes,
+        religions: selectedReligions,
+      }),
+    [selectedMunicipalityId, selectedSex, selectedHouseholdTypes, selectedReligions]
+  );
+
+  const useAggregateMetrics = selectedSex === 'all' && selectedHouseholdTypes.length === 0 && selectedReligions.length === 0;
+
+  const comparisonSummary = useMemo(
+    () => applyAggregateMetrics(
+      summarizeHouseholds(comparisonHouseholds),
+      municipality.id === ALL_MUNICIPALITIES_ID ? undefined : municipality,
+      useAggregateMetrics
+    ),
+    [comparisonHouseholds, municipality, useAggregateMetrics]
+  );
+
+  const wardSummaries = useMemo(() => {
+    const result = new Map<string, HouseholdSummary>();
+    for (const [wardId, group] of groupByWard(comparisonHouseholds)) {
+      const wardSummary = summarizeHouseholds(group);
+      const aggregateWard = municipality.wards.find((item) => item.id === wardId);
+      const displaySummary = applyAggregateMetrics(wardSummary, aggregateWard, useAggregateMetrics);
+      if (displaySummary) result.set(wardId, displaySummary);
+    }
+    return result;
+  }, [comparisonHouseholds, municipality.wards, useAggregateMetrics]);
+
+  const municipalitySummaries = useMemo(() => {
+    const groups = new Map<string, typeof comparisonHouseholds>();
+    for (const household of comparisonHouseholds) {
+      const group = groups.get(household.municipalityId);
+      if (group) group.push(household);
+      else groups.set(household.municipalityId, [household]);
+    }
+    const result = new Map<string, HouseholdSummary>();
+    for (const [municipalityId, group] of groups) {
+      const municipalitySummary = summarizeHouseholds(group);
+      const aggregateMunicipality = municipalities.find((item) => item.id === municipalityId);
+      const displaySummary = applyAggregateMetrics(municipalitySummary, aggregateMunicipality, useAggregateMetrics);
+      if (displaySummary) result.set(municipalityId, displaySummary);
+    }
+    return result;
+  }, [comparisonHouseholds, useAggregateMetrics]);
+
+  const summary = useMemo(() => {
+    const rawSummary = summarizeHouseholds(filteredHouseholds);
+    const aggregate = ward ?? (municipality.id === ALL_MUNICIPALITIES_ID ? undefined : municipality);
+    return applyAggregateMetrics(rawSummary, aggregate, useAggregateMetrics);
+  }, [filteredHouseholds, municipality, useAggregateMetrics, ward]);
   const showPoverty = Boolean(summary && summary.povertyComponents.headcountRatio > 0);
 
   return (
@@ -120,7 +194,7 @@ export default function Dashboard() {
               setSelectedHouseholdTypes={setSelectedHouseholdTypes}
               selectedReligions={selectedReligions}
               setSelectedReligions={setSelectedReligions}
-              filteredHouseholds={filteredHouseholds}
+              filteredHouseholds={comparisonHouseholds}
               municipalityHouseholds={municipalityHouseholds}
             />
             <WardAverageChart
@@ -128,6 +202,9 @@ export default function Dashboard() {
               municipalities={municipalities}
               pillar={selectedPillar}
               selectedWardId={selectedWardId}
+              wardSummaries={wardSummaries}
+              municipalitySummaries={municipalitySummaries}
+              comparisonSummary={comparisonSummary}
             />
           </section>
 
@@ -196,6 +273,7 @@ export default function Dashboard() {
                 setSelectedWardId(id);
                 document.getElementById('ward-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}
+              wardSummaries={wardSummaries}
             />
           </div>
           {summary && showPoverty ? (

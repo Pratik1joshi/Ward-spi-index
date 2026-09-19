@@ -1,4 +1,4 @@
-import { ExclusionComponents, Household, PovertyComponents, VulnerabilityComponents } from './types';
+import { ExclusionComponents, Household, Pillar, PovertyComponents, VulnerabilityComponents } from './types';
 
 export type HouseholdSex = 'all' | 'female' | 'male';
 
@@ -140,6 +140,14 @@ export interface HouseholdSummary {
   exclusionComponents: ExclusionComponents;
   povertyComponents: PovertyComponents;
   vulnerabilityComponents: VulnerabilityComponents;
+}
+
+/** Return the displayed 0-100 value for a summary using the selected pillar. */
+export function getSummaryValue(summary: HouseholdSummary, pillar: Pillar): number {
+  if (pillar === 'exclusion') return summary.exclusionPercent;
+  if (pillar === 'poverty') return summary.povertyPercent;
+  if (pillar === 'vulnerability') return summary.vulnerabilityPercent;
+  return summary.spi;
 }
 
 // Single source of truth for every derived number in the dashboard.

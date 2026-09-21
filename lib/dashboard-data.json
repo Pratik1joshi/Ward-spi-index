@@ -3347,95 +3347,95 @@
                                "name":  "Gadhi Rural Municipality",
                                "mapPalika":  "Gadhi",
                                "district":  "SUNSARI",
-                               "overallSpi":  61.92,
-                               "exclusionIndex":  2.91,
-                               "exclusionPercent":  47.65,
+                               "overallSpi":  61.06,
+                               "exclusionIndex":  3.15,
+                               "exclusionPercent":  53.78,
                                "exclusionComponents":  {
-                                                           "socioEconomic":  3.06,
-                                                           "institutional":  3.04,
-                                                           "political":  3.21,
-                                                           "cultural":  2.54,
-                                                           "spatial":  2.68
+                                                           "socioEconomic":  3.29,
+                                                           "institutional":  3.23,
+                                                           "political":  3.54,
+                                                           "cultural":  2.86,
+                                                           "spatial":  2.84
                                                        },
-                               "povertyIndex":  0.206,
-                               "povertyPercent":  20.54,
+                               "povertyIndex":  0.17,
+                               "povertyPercent":  17.04,
                                "povertyComponents":  {
-                                                         "headcountRatio":  0.472,
-                                                         "intensity":  0.424,
+                                                         "headcountRatio":  0.407,
+                                                         "intensity":  0.41,
                                                          "health":  [
                                                                         {
                                                                             "name":  "Nutrition",
-                                                                            "value":  5.08
+                                                                            "value":  5.04
                                                                         },
                                                                         {
                                                                             "name":  "Child mortality",
-                                                                            "value":  2.16
+                                                                            "value":  2.85
                                                                         }
                                                                     ],
                                                          "education":  [
                                                                            {
                                                                                "name":  "Years of schooling",
-                                                                               "value":  39.27
+                                                                               "value":  40.64
                                                                            },
                                                                            {
                                                                                "name":  "School attendance",
-                                                                               "value":  19.43
+                                                                               "value":  14.21
                                                                            }
                                                                        ],
                                                          "livingStandards":  [
                                                                                  {
                                                                                      "name":  "Cooking fuel",
-                                                                                     "value":  10.74
+                                                                                     "value":  11.68
                                                                                  },
                                                                                  {
                                                                                      "name":  "Sanitation",
-                                                                                     "value":  8.29
+                                                                                     "value":  9.22
                                                                                  },
                                                                                  {
                                                                                      "name":  "Drinking water",
-                                                                                     "value":  0.36
+                                                                                     "value":  0.34
                                                                                  },
                                                                                  {
                                                                                      "name":  "Electricity",
-                                                                                     "value":  0.7
+                                                                                     "value":  1.01
                                                                                  },
                                                                                  {
                                                                                      "name":  "Housing",
-                                                                                     "value":  12.16
+                                                                                     "value":  13.02
                                                                                  },
                                                                                  {
                                                                                      "name":  "Assets",
-                                                                                     "value":  1.82
+                                                                                     "value":  1.97
                                                                                  }
                                                                              ]
                                                      },
                                "vulnerabilityIndex":  2.84,
-                               "vulnerabilityPercent":  46.04,
+                               "vulnerabilityPercent":  46,
                                "vulnerabilityComponents":  {
-                                                               "environmental":  2.27,
-                                                               "social":  3.07,
-                                                               "climate":  3.19
+                                                               "environmental":  2.24,
+                                                               "social":  3.08,
+                                                               "climate":  3.2
                                                            },
                                "wards":  [
                                              {
                                                  "id":  "gadhi-ward-1",
                                                  "name":  "Ward 1",
                                                  "wardNumber":  1,
-                                                 "spiScore":  61.68,
-                                                 "exclusionIndex":  3.36,
-                                                 "exclusionPercent":  59.03,
+                                                 "spiScore":  64.61,
+                                                 "exclusionIndex":  3.16,
+                                                 "exclusionPercent":  54.01,
                                                  "exclusionComponents":  {
-                                                                             "socioEconomic":  3.23,
-                                                                             "institutional":  3.37,
-                                                                             "political":  3.67,
-                                                                             "cultural":  3.24,
-                                                                             "spatial":  3.3
+                                                                             "socioEconomic":  3.02,
+                                                                             "institutional":  3.14,
+                                                                             "political":  3.44,
+                                                                             "cultural":  3.06,
+                                                                             "spatial":  3.14
                                                                          },
                                                  "povertyIndex":  0.052,
-                                                 "povertyPercent":  5.22,
+                                                 "povertyPercent":  5.21,
                                                  "povertyComponents":  {
-                                                                           "headcountRatio":  0.155,
-                                                                           "intensity":  0.338,
+                                                                           "headcountRatio":  0.154,
+                                                                           "intensity":  0.339,
                                                                            "health":  [
                                                                                           {
                                                                                               "name":  "Nutrition",
@@ -3449,7 +3449,7 @@
                                                                            "education":  [
                                                                                              {
                                                                                                  "name":  "Years of Schooling",
-                                                                                                 "value":  49.37
+                                                                                                 "value":  49.18
                                                                                              },
                                                                                              {
                                                                                                  "name":  "School Attendance",
@@ -3459,15 +3459,15 @@
                                                                            "livingStandards":  [
                                                                                                    {
                                                                                                        "name":  "Cooking Fuel",
-                                                                                                       "value":  16.46
+                                                                                                       "value":  16.39
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Sanitation",
-                                                                                                       "value":  16.46
+                                                                                                       "value":  16.39
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Drinking Water",
-                                                                                                       "value":  1.27
+                                                                                                       "value":  1.64
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Electricity",
@@ -3475,7 +3475,7 @@
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Housing",
-                                                                                                       "value":  16.46
+                                                                                                       "value":  16.39
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Assets",
@@ -3483,135 +3483,61 @@
                                                                                                    }
                                                                                                ]
                                                                        },
-                                                 "vulnerabilityIndex":  3.03,
-                                                 "vulnerabilityPercent":  50.69,
+                                                 "vulnerabilityIndex":  2.88,
+                                                 "vulnerabilityPercent":  46.94,
                                                  "vulnerabilityComponents":  {
-                                                                                 "environmental":  2.04,
-                                                                                 "social":  3.45,
-                                                                                 "climate":  3.6
+                                                                                 "environmental":  1.73,
+                                                                                 "social":  3.41,
+                                                                                 "climate":  3.49
                                                                              }
                                              },
                                              {
                                                  "id":  "gadhi-ward-2",
                                                  "name":  "Ward 2",
                                                  "wardNumber":  2,
-                                                 "spiScore":  59.86,
-                                                 "exclusionIndex":  3.16,
-                                                 "exclusionPercent":  53.93,
+                                                 "spiScore":  62.74,
+                                                 "exclusionIndex":  3,
+                                                 "exclusionPercent":  49.88,
                                                  "exclusionComponents":  {
-                                                                             "socioEconomic":  3.19,
-                                                                             "institutional":  3.13,
-                                                                             "political":  3.34,
-                                                                             "cultural":  3.03,
-                                                                             "spatial":  3.11
+                                                                             "socioEconomic":  3.12,
+                                                                             "institutional":  2.9,
+                                                                             "political":  3.09,
+                                                                             "cultural":  2.97,
+                                                                             "spatial":  2.9
                                                                          },
-                                                 "povertyIndex":  0.188,
-                                                 "povertyPercent":  18.85,
+                                                 "povertyIndex":  0.16,
+                                                 "povertyPercent":  15.99,
                                                  "povertyComponents":  {
-                                                                           "headcountRatio":  0.495,
-                                                                           "intensity":  0.381,
+                                                                           "headcountRatio":  0.459,
+                                                                           "intensity":  0.348,
                                                                            "health":  [
                                                                                           {
                                                                                               "name":  "Nutrition",
-                                                                                              "value":  4.13
+                                                                                              "value":  1.06
                                                                                           },
                                                                                           {
                                                                                               "name":  "Child Mortality",
-                                                                                              "value":  3.31
+                                                                                              "value":  1.06
                                                                                           }
                                                                                       ],
                                                                            "education":  [
                                                                                              {
                                                                                                  "name":  "Years of Schooling",
-                                                                                                 "value":  40.5
+                                                                                                 "value":  45.74
                                                                                              },
                                                                                              {
                                                                                                  "name":  "School Attendance",
-                                                                                                 "value":  4.96
+                                                                                                 "value":  2.13
                                                                                              }
                                                                                          ],
                                                                            "livingStandards":  [
                                                                                                    {
                                                                                                        "name":  "Cooking Fuel",
-                                                                                                       "value":  14.05
+                                                                                                       "value":  15.25
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Sanitation",
-                                                                                                       "value":  14.05
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Drinking Water",
-                                                                                                       "value":  0.55
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Electricity",
-                                                                                                       "value":  1.1
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Housing",
-                                                                                                       "value":  13.5
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Assets",
-                                                                                                       "value":  3.86
-                                                                                                   }
-                                                                                               ]
-                                                                       },
-                                                 "vulnerabilityIndex":  2.91,
-                                                 "vulnerabilityPercent":  47.63,
-                                                 "vulnerabilityComponents":  {
-                                                                                 "environmental":  1.6,
-                                                                                 "social":  3.49,
-                                                                                 "climate":  3.62
-                                                                             }
-                                             },
-                                             {
-                                                 "id":  "gadhi-ward-3",
-                                                 "name":  "Ward 3",
-                                                 "wardNumber":  3,
-                                                 "spiScore":  64.02,
-                                                 "exclusionIndex":  2.83,
-                                                 "exclusionPercent":  45.71,
-                                                 "exclusionComponents":  {
-                                                                             "socioEconomic":  2.83,
-                                                                             "institutional":  2.87,
-                                                                             "political":  3.49,
-                                                                             "cultural":  2.75,
-                                                                             "spatial":  2.21
-                                                                         },
-                                                 "povertyIndex":  0.193,
-                                                 "povertyPercent":  19.3,
-                                                 "povertyComponents":  {
-                                                                           "headcountRatio":  0.407,
-                                                                           "intensity":  0.475,
-                                                                           "health":  [
-                                                                                          {
-                                                                                              "name":  "Nutrition",
-                                                                                              "value":  14.63
-                                                                                          },
-                                                                                          {
-                                                                                              "name":  "Child Mortality",
-                                                                                              "value":  1.46
-                                                                                          }
-                                                                                      ],
-                                                                           "education":  [
-                                                                                             {
-                                                                                                 "name":  "Years of Schooling",
-                                                                                                 "value":  35.12
-                                                                                             },
-                                                                                             {
-                                                                                                 "name":  "School Attendance",
-                                                                                                 "value":  20.49
-                                                                                             }
-                                                                                         ],
-                                                                           "livingStandards":  [
-                                                                                                   {
-                                                                                                       "name":  "Cooking Fuel",
-                                                                                                       "value":  9.76
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Sanitation",
-                                                                                                       "value":  4.88
+                                                                                                       "value":  15.25
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Drinking Water",
@@ -3619,147 +3545,73 @@
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Electricity",
-                                                                                                       "value":  0.49
+                                                                                                       "value":  0.71
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Housing",
-                                                                                                       "value":  10.24
+                                                                                                       "value":  15.25
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Assets",
-                                                                                                       "value":  2.93
-                                                                                                   }
-                                                                                               ]
-                                                                       },
-                                                 "vulnerabilityIndex":  2.72,
-                                                 "vulnerabilityPercent":  42.92,
-                                                 "vulnerabilityComponents":  {
-                                                                                 "environmental":  2.04,
-                                                                                 "social":  3,
-                                                                                 "climate":  3.11
-                                                                             }
-                                             },
-                                             {
-                                                 "id":  "gadhi-ward-4",
-                                                 "name":  "Ward 4",
-                                                 "wardNumber":  4,
-                                                 "spiScore":  57.37,
-                                                 "exclusionIndex":  3.11,
-                                                 "exclusionPercent":  52.71,
-                                                 "exclusionComponents":  {
-                                                                             "socioEconomic":  3.86,
-                                                                             "institutional":  3.03,
-                                                                             "political":  3.88,
-                                                                             "cultural":  2.62,
-                                                                             "spatial":  2.15
-                                                                         },
-                                                 "povertyIndex":  0.293,
-                                                 "povertyPercent":  29.26,
-                                                 "povertyComponents":  {
-                                                                           "headcountRatio":  0.6,
-                                                                           "intensity":  0.488,
-                                                                           "health":  [
-                                                                                          {
-                                                                                              "name":  "Nutrition",
-                                                                                              "value":  9.49
-                                                                                          },
-                                                                                          {
-                                                                                              "name":  "Child Mortality",
-                                                                                              "value":  2.85
-                                                                                          }
-                                                                                      ],
-                                                                           "education":  [
-                                                                                             {
-                                                                                                 "name":  "Years of Schooling",
-                                                                                                 "value":  34.18
-                                                                                             },
-                                                                                             {
-                                                                                                 "name":  "School Attendance",
-                                                                                                 "value":  18.99
-                                                                                             }
-                                                                                         ],
-                                                                           "livingStandards":  [
-                                                                                                   {
-                                                                                                       "name":  "Cooking Fuel",
-                                                                                                       "value":  10.76
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Sanitation",
-                                                                                                       "value":  6.96
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Drinking Water",
-                                                                                                       "value":  0.32
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Electricity",
-                                                                                                       "value":  1.9
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Housing",
-                                                                                                       "value":  10.44
-                                                                                                   },
-                                                                                                   {
-                                                                                                       "name":  "Assets",
-                                                                                                       "value":  4.11
+                                                                                                       "value":  3.55
                                                                                                    }
                                                                                                ]
                                                                        },
                                                  "vulnerabilityIndex":  2.84,
                                                  "vulnerabilityPercent":  45.93,
                                                  "vulnerabilityComponents":  {
-                                                                                 "environmental":  2.02,
-                                                                                 "social":  3.21,
-                                                                                 "climate":  3.29
+                                                                                 "environmental":  1.52,
+                                                                                 "social":  3.44,
+                                                                                 "climate":  3.55
                                                                              }
                                              },
                                              {
-                                                 "id":  "gadhi-ward-5",
-                                                 "name":  "Ward 5",
-                                                 "wardNumber":  5,
-                                                 "spiScore":  62.78,
-                                                 "exclusionIndex":  2.71,
-                                                 "exclusionPercent":  42.69,
+                                                 "id":  "gadhi-ward-3",
+                                                 "name":  "Ward 3",
+                                                 "wardNumber":  3,
+                                                 "spiScore":  64.49,
+                                                 "exclusionIndex":  2.97,
+                                                 "exclusionPercent":  49.21,
                                                  "exclusionComponents":  {
-                                                                             "socioEconomic":  2.85,
-                                                                             "institutional":  3.03,
-                                                                             "political":  2.72,
-                                                                             "cultural":  2.13,
-                                                                             "spatial":  2.81
+                                                                             "socioEconomic":  2.84,
+                                                                             "institutional":  2.87,
+                                                                             "political":  4.04,
+                                                                             "cultural":  3.01,
+                                                                             "spatial":  2.08
                                                                          },
-                                                 "povertyIndex":  0.245,
-                                                 "povertyPercent":  24.46,
+                                                 "povertyIndex":  0.117,
+                                                 "povertyPercent":  11.73,
                                                  "povertyComponents":  {
-                                                                           "headcountRatio":  0.581,
-                                                                           "intensity":  0.421,
+                                                                           "headcountRatio":  0.259,
+                                                                           "intensity":  0.452,
                                                                            "health":  [
                                                                                           {
                                                                                               "name":  "Nutrition",
-                                                                                              "value":  2.2
+                                                                                              "value":  15.79
                                                                                           },
                                                                                           {
                                                                                               "name":  "Child Mortality",
-                                                                                              "value":  3.3
+                                                                                              "value":  5.26
                                                                                           }
                                                                                       ],
                                                                            "education":  [
                                                                                              {
                                                                                                  "name":  "Years of Schooling",
-                                                                                                 "value":  38.46
+                                                                                                 "value":  36.84
                                                                                              },
                                                                                              {
                                                                                                  "name":  "School Attendance",
-                                                                                                 "value":  35.16
+                                                                                                 "value":  5.26
                                                                                              }
                                                                                          ],
                                                                            "livingStandards":  [
                                                                                                    {
                                                                                                        "name":  "Cooking Fuel",
-                                                                                                       "value":  5.86
+                                                                                                       "value":  12.28
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Sanitation",
-                                                                                                       "value":  3.3
+                                                                                                       "value":  7.02
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Drinking Water",
@@ -3767,11 +3619,159 @@
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Electricity",
-                                                                                                       "value":  0.73
+                                                                                                       "value":  1.75
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Housing",
-                                                                                                       "value":  10.99
+                                                                                                       "value":  12.28
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Assets",
+                                                                                                       "value":  3.51
+                                                                                                   }
+                                                                                               ]
+                                                                       },
+                                                 "vulnerabilityIndex":  2.82,
+                                                 "vulnerabilityPercent":  45.59,
+                                                 "vulnerabilityComponents":  {
+                                                                                 "environmental":  2.19,
+                                                                                 "social":  3.08,
+                                                                                 "climate":  3.2
+                                                                             }
+                                             },
+                                             {
+                                                 "id":  "gadhi-ward-4",
+                                                 "name":  "Ward 4",
+                                                 "wardNumber":  4,
+                                                 "spiScore":  56.95,
+                                                 "exclusionIndex":  3.17,
+                                                 "exclusionPercent":  54.28,
+                                                 "exclusionComponents":  {
+                                                                             "socioEconomic":  3.86,
+                                                                             "institutional":  3.13,
+                                                                             "political":  4.04,
+                                                                             "cultural":  2.66,
+                                                                             "spatial":  2.17
+                                                                         },
+                                                 "povertyIndex":  0.272,
+                                                 "povertyPercent":  27.19,
+                                                 "povertyComponents":  {
+                                                                           "headcountRatio":  0.596,
+                                                                           "intensity":  0.456,
+                                                                           "health":  [
+                                                                                          {
+                                                                                              "name":  "Nutrition",
+                                                                                              "value":  10.43
+                                                                                          },
+                                                                                          {
+                                                                                              "name":  "Child Mortality",
+                                                                                              "value":  3.91
+                                                                                          }
+                                                                                      ],
+                                                                           "education":  [
+                                                                                             {
+                                                                                                 "name":  "Years of Schooling",
+                                                                                                 "value":  36.52
+                                                                                             },
+                                                                                             {
+                                                                                                 "name":  "School Attendance",
+                                                                                                 "value":  10.43
+                                                                                             }
+                                                                                         ],
+                                                                           "livingStandards":  [
+                                                                                                   {
+                                                                                                       "name":  "Cooking Fuel",
+                                                                                                       "value":  11.74
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Sanitation",
+                                                                                                       "value":  7.39
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Drinking Water",
+                                                                                                       "value":  0.43
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Electricity",
+                                                                                                       "value":  2.61
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Housing",
+                                                                                                       "value":  11.74
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Assets",
+                                                                                                       "value":  4.78
+                                                                                                   }
+                                                                                               ]
+                                                                       },
+                                                 "vulnerabilityIndex":  2.91,
+                                                 "vulnerabilityPercent":  47.69,
+                                                 "vulnerabilityComponents":  {
+                                                                                 "environmental":  2.01,
+                                                                                 "social":  3.3,
+                                                                                 "climate":  3.41
+                                                                             }
+                                             },
+                                             {
+                                                 "id":  "gadhi-ward-5",
+                                                 "name":  "Ward 5",
+                                                 "wardNumber":  5,
+                                                 "spiScore":  58.66,
+                                                 "exclusionIndex":  3.36,
+                                                 "exclusionPercent":  59,
+                                                 "exclusionComponents":  {
+                                                                             "socioEconomic":  3.49,
+                                                                             "institutional":  3.54,
+                                                                             "political":  3.46,
+                                                                             "cultural":  2.96,
+                                                                             "spatial":  3.36
+                                                                         },
+                                                 "povertyIndex":  0.197,
+                                                 "povertyPercent":  19.69,
+                                                 "povertyComponents":  {
+                                                                           "headcountRatio":  0.456,
+                                                                           "intensity":  0.432,
+                                                                           "health":  [
+                                                                                          {
+                                                                                              "name":  "Nutrition",
+                                                                                              "value":  2.97
+                                                                                          },
+                                                                                          {
+                                                                                              "name":  "Child Mortality",
+                                                                                              "value":  4.46
+                                                                                          }
+                                                                                      ],
+                                                                           "education":  [
+                                                                                             {
+                                                                                                 "name":  "Years of Schooling",
+                                                                                                 "value":  37.13
+                                                                                             },
+                                                                                             {
+                                                                                                 "name":  "School Attendance",
+                                                                                                 "value":  32.67
+                                                                                             }
+                                                                                         ],
+                                                                           "livingStandards":  [
+                                                                                                   {
+                                                                                                       "name":  "Cooking Fuel",
+                                                                                                       "value":  6.44
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Sanitation",
+                                                                                                       "value":  4.46
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Drinking Water",
+                                                                                                       "value":  0
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Electricity",
+                                                                                                       "value":  0.99
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "name":  "Housing",
+                                                                                                       "value":  10.89
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Assets",
@@ -3779,33 +3779,33 @@
                                                                                                    }
                                                                                                ]
                                                                        },
-                                                 "vulnerabilityIndex":  2.78,
-                                                 "vulnerabilityPercent":  44.5,
+                                                 "vulnerabilityIndex":  2.81,
+                                                 "vulnerabilityPercent":  45.32,
                                                  "vulnerabilityComponents":  {
-                                                                                 "environmental":  2.89,
-                                                                                 "social":  2.64,
-                                                                                 "climate":  2.81
+                                                                                 "environmental":  2.95,
+                                                                                 "social":  2.67,
+                                                                                 "climate":  2.82
                                                                              }
                                              },
                                              {
                                                  "id":  "gadhi-ward-6",
                                                  "name":  "Ward 6",
                                                  "wardNumber":  6,
-                                                 "spiScore":  65.82,
-                                                 "exclusionIndex":  2.27,
-                                                 "exclusionPercent":  31.84,
+                                                 "spiScore":  58.92,
+                                                 "exclusionIndex":  3.25,
+                                                 "exclusionPercent":  56.29,
                                                  "exclusionComponents":  {
-                                                                             "socioEconomic":  2.41,
-                                                                             "institutional":  2.84,
-                                                                             "political":  2.17,
-                                                                             "cultural":  1.48,
-                                                                             "spatial":  2.48
+                                                                             "socioEconomic":  3.41,
+                                                                             "institutional":  3.8,
+                                                                             "political":  3.16,
+                                                                             "cultural":  2.48,
+                                                                             "spatial":  3.41
                                                                          },
-                                                 "povertyIndex":  0.262,
-                                                 "povertyPercent":  26.16,
+                                                 "povertyIndex":  0.224,
+                                                 "povertyPercent":  22.4,
                                                  "povertyComponents":  {
-                                                                           "headcountRatio":  0.597,
-                                                                           "intensity":  0.438,
+                                                                           "headcountRatio":  0.516,
+                                                                           "intensity":  0.434,
                                                                            "health":  [
                                                                                           {
                                                                                               "name":  "Nutrition",
@@ -3813,27 +3813,27 @@
                                                                                           },
                                                                                           {
                                                                                               "name":  "Child Mortality",
-                                                                                              "value":  2.05
+                                                                                              "value":  2.4
                                                                                           }
                                                                                       ],
                                                                            "education":  [
                                                                                              {
                                                                                                  "name":  "Years of Schooling",
-                                                                                                 "value":  38.01
+                                                                                                 "value":  38.4
                                                                                              },
                                                                                              {
                                                                                                  "name":  "School Attendance",
-                                                                                                 "value":  36.99
+                                                                                                 "value":  34.8
                                                                                              }
                                                                                          ],
                                                                            "livingStandards":  [
                                                                                                    {
                                                                                                        "name":  "Cooking Fuel",
-                                                                                                       "value":  7.53
+                                                                                                       "value":  8
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Sanitation",
-                                                                                                       "value":  4.11
+                                                                                                       "value":  4.8
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Drinking Water",
@@ -3845,7 +3845,7 @@
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Housing",
-                                                                                                       "value":  11.3
+                                                                                                       "value":  11.6
                                                                                                    },
                                                                                                    {
                                                                                                        "name":  "Assets",

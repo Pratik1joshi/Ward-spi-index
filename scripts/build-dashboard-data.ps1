@@ -1,5 +1,5 @@
 ﻿param(
-  [string]$SpiWorkbook = 'EI VI MPI with components (4).xlsx',
+  [string]$SpiWorkbook = 'EI VI MPI with components v2.xlsx',
   [string]$GesiWorkbook = 'public/All combined for power bi gesi lens with ei vi mpi v2.xlsx',
   [string]$ShapefileCsv = 'public/shp/ward_shp/output.csv',
   [string]$Output = 'lib/dashboard-data.json'

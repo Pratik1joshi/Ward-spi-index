@@ -194,8 +194,8 @@ export default function Dashboard() {
               setSelectedHouseholdTypes={setSelectedHouseholdTypes}
               selectedReligions={selectedReligions}
               setSelectedReligions={setSelectedReligions}
-              filteredHouseholds={comparisonHouseholds}
               municipalityHouseholds={municipalityHouseholds}
+              wardSummaries={wardSummaries}
             />
             <WardAverageChart
               municipality={municipality}

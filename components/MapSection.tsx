@@ -3,7 +3,7 @@
 
 import dynamic from 'next/dynamic';
 import { Household, Municipality, Pillar } from '@/lib/types';
-import { HouseholdSex } from '@/lib/households';
+import { HouseholdSex, HouseholdSummary } from '@/lib/households';
 
 const WardMapClient = dynamic(
   () => import('@/components/WardMapClient').then((module) => module.WardMapClient),
@@ -38,8 +38,8 @@ interface MapSectionProps {
   selectedReligions?: string[];
   setSelectedReligions?: (categories: string[]) => void;
 
-  filteredHouseholds: Household[];
   municipalityHouseholds: Household[];
+  wardSummaries: Map<string, HouseholdSummary>;
 }
 
 export function MapSection({
@@ -59,8 +59,8 @@ export function MapSection({
   setSelectedHouseholdTypes,
   selectedReligions,
   setSelectedReligions,
-  filteredHouseholds,
   municipalityHouseholds,
+  wardSummaries,
 }: MapSectionProps) {
   return (
     <WardMapClient
@@ -80,8 +80,8 @@ export function MapSection({
       setSelectedHouseholdTypes={setSelectedHouseholdTypes}
       selectedReligions={selectedReligions}
       setSelectedReligions={setSelectedReligions}
-      filteredHouseholds={filteredHouseholds}
       municipalityHouseholds={municipalityHouseholds}
+      wardSummaries={wardSummaries}
     />
   );
 }

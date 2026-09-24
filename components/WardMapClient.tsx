@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { MunicipalitySelector, PillarSelector, WardFilterSelector, GesiCategorySelector, HouseholdSexSelector } from '@/components/Selectors';
 import { getGesiCategoryColor, buildGesiConicGradient, getPillarColor } from '@/lib/colors';
 import { isHigherBetter } from '@/lib/data';
-import { getSummaryValue, HouseholdSex, HouseholdSummary, groupByWard, summarizeHouseholds, uniqueCollapsedLabels } from '@/lib/households';
+import { getSummaryValue, HouseholdSex, HouseholdSummary, uniqueCollapsedLabels } from '@/lib/households';
 import { Household, Municipality, Pillar, Ward } from '@/lib/types';
 
 interface WardMapClientProps {
@@ -33,8 +33,9 @@ interface WardMapClientProps {
   selectedReligions?: string[];
   setSelectedReligions?: (categories: string[]) => void;
 
-  filteredHouseholds: Household[];
   municipalityHouseholds: Household[];
+  /** Same ward summaries the charts/table use, so map colours match them. */
+  wardSummaries: Map<string, HouseholdSummary>;
 }
 
 type ShapefileProperties = {
@@ -326,8 +327,8 @@ export function WardMapClient({
   setSelectedHouseholdTypes,
   selectedReligions: selectedReligionsProp,
   setSelectedReligions,
-  filteredHouseholds,
   municipalityHouseholds,
+  wardSummaries,
 }: WardMapClientProps) {
   const [selectedWardLocalId, setSelectedWardLocalId] = useState<string | null>(null);
   const [geoJsonData, setGeoJsonData] = useState<FeatureCollection<Geometry, ShapefileProperties> | null>(null);
@@ -352,16 +353,6 @@ export function WardMapClient({
     () => uniqueCollapsedLabels(municipalityHouseholds.map((household) => household.religion)),
     [municipalityHouseholds]
   );
-
-  const wardSummaries = useMemo(() => {
-    const groups = groupByWard(filteredHouseholds);
-    const summaries = new Map<string, HouseholdSummary>();
-    for (const [wardId, group] of groups) {
-      const summary = summarizeHouseholds(group);
-      if (summary) summaries.set(wardId, summary);
-    }
-    return summaries;
-  }, [filteredHouseholds]);
 
   const maxWardHouseholds = useMemo(
     () => Math.max(1, ...[...wardSummaries.values()].map((summary) => summary.totalHouseholds)),
